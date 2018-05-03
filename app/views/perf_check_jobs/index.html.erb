@@ -1,0 +1,23 @@
+<div class="job">
+  <header class="job-header">
+    <%= link_to "#{fa_icon 'refresh'} Re-Run PerfCheck".html_safe, '#', class: 'styled-button re-run pull-right' %>
+    <%= link_to "#{fa_icon 'plus'} New PerfCheck".html_safe, '#', class: 'styled-button re-run pull-right' %>
+    <%= link_to "#{fa_icon 'github'} View #1234567".html_safe, '#', class: 'styled-button re-run pull-right' %>
+    <h2>This is the title of the PR or perf-check number</h2>
+    <hr style="background-color: #EEE;" />
+    <h3>this-is-the-name-of-my-long-branch-being-tested</h3>
+    <div class="created-by">
+        <span><a title=" 8:45AM May  1, 2018">5h 29m ago</a></span>
+      by
+      <span><strong>nathanbertram</strong></span>
+    </div>
+    <pre class="command">-n20 --deployment --super /url/that/is/being-perf-checked?eh=1</pre>
+  </header>
+  <div class="details">
+    <p><strong>/url/that/is/being-perf-checked?eh=1</strong><br>
+    <i class="fa fa-times-circle" aria-hidden="true"></i> Encountered HTTP errors (500)<br>
+    <i class="fa fa-search" aria-hidden="true"></i> No backtrace captured, indicating a low level boot issue. Ensure that the app boots happily on the perf check server.</p>
+    <p><%= link_to 'See more details', '#' %>.</p>
+  </div>
+  <pre id="log">Loading Log File ...</pre>
+</div>
