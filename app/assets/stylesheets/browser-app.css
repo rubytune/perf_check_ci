@@ -1,0 +1,336 @@
+
+/* Box layouts */
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
+}
+
+a {
+  text-decoration: none;
+}
+
+.browser-app {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+}
+
+.browser-app-filter {
+  flex: 0 0 330px;
+}
+
+.browser-app-divider {
+  width: 10px;
+  /*background-color: #eee;*/
+}
+
+.browser-app-viewport {
+  flex: 1 0;
+  padding-right: 10px; /* leave room for actions */
+}
+
+.browser-app-viewport-content {
+  position: relative;
+  height: 100%;
+}
+
+.browser-app-viewport-content h2 {
+  margin: 0;
+}
+
+/* Filter box layout */
+.browser-app-filter {
+  display: flex;
+  flex-direction: column;
+}
+
+.browser-app-filter form {
+  flex: 0 0 40px;
+}
+
+.browser-app-filter ul {
+  flex: 1;
+  overflow-y: auto;
+}
+
+/* Viewport box layout */
+.browser-app-viewport {
+  overflow-y: auto;
+  padding-left: 15px;
+}
+
+/* Actions box layout */
+.browser-app-actions {
+  position: fixed;
+  top: 12px;
+  right: 12px;
+}
+
+.browser-app-action {
+  position: relative;
+  height: 40px;
+  width: 40px;
+  margin-bottom: 8px;
+  font-size: 40px;
+}
+
+.browser-app-action > form > button[type=submit] {
+  font-size: 40px;
+}
+
+/* Results filter form */
+.browser-app-filter-container {
+  position: relative;
+  width: 100%;
+  margin: 0px auto 10px auto;
+  padding-left: 10px;
+  box-sizing: border-box;
+
+}
+
+.browser-app-filter input[type=search] {
+  display: block;
+  width: 100%;
+  height: 30px;
+  font-size: 0.8em;
+  padding-left: 8px;
+  padding-right: 8px;
+  -webkit-appearance: none;
+  border: 1px solid #EEE;
+  outline: 0;
+  box-shadow: none;
+  /*border-radius: 4px;*/
+}
+
+
+
+.browser-app-filter input[type=text]::-ms-clear,
+.browser-app-filter input[type=text]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.browser-app-filter input[type="search"]::-webkit-search-decoration,
+.browser-app-filter input[type="search"]::-webkit-search-cancel-button,
+.browser-app-filter input[type="search"]::-webkit-search-results-button,
+.browser-app-filter input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+
+.browser-app-filter-container .browser-app-filter-clear {
+  position: absolute;
+  right: 10px;
+  margin-top: 7px;
+  opacity: 0.3;
+}
+
+.browser-app-filter-container .browser-app-filter-clear a {
+  position: relative;
+  top: -4px;
+  color: #555;
+}
+
+
+/* Font styling */
+.browser-app {
+  color: #333;
+}
+
+.browser-app-viewport {
+  font-family: 'Lato', sans-serif;
+  font-size: 12pt;
+  line-height: 150%;
+}
+
+.browser-app-viewport h1,
+.browser-app-viewport h2,
+.browser-app-viewport h3,
+.browser-app-filter-container {
+  line-height: 150%;
+  font-family: "Lato", "Georgia", "Times New Roman", Serif;
+}
+
+.browser-app-viewport h1,
+.browser-app-viewport h2,
+.browser-app-viewport h3,
+.browser-app-viewport h4 {
+  font-weight: bold;
+  line-height: 30px; /* this puts the first header level with the search box */
+  margin-bottom: 0.3em;
+}
+
+.browser-app-viewport h1 + p,
+.browser-app-viewport h2 + p,
+.browser-app-viewport h3 + p,
+.browser-app-viewport h4 + p {
+  margin-top: 0px;
+}
+
+.browser-app-viewport h1 {
+  font-size: 1.8em;
+}
+
+.browser-app-viewport h2 {
+  font-size: 1.5em;
+}
+
+.browser-app-viewport h3 {
+  font-size: 1.2em;
+}
+
+.browser-app-viewport h4 {
+  font-weight: bold;
+  font-size: 100%;
+  margin-bottom: 0px;
+}
+
+.browser-app-results {
+  font-family: "Lato", Sans-Serif;
+  font-size: 11pt;
+  line-height: normal;
+}
+
+/* Results list */
+.browser-app-results {
+  list-style-type: none;
+  margin: 0px;
+  margin-bottom: 15px;
+  padding: 0px;
+}
+
+.browser-app-results li {
+  border-top: 1px solid #eee;
+  padding: 10px 5px 10px 10px;
+}
+
+.browser-app-results li:first-child {
+  border-top: none;
+}
+
+.browser-app-results li.browser-app-selected {
+  background-color: #99ccff;
+}
+
+/* Actions */
+.browser-app-action {
+  text-align: center;
+}
+
+.browser-app-actions hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border: 0px;
+  border-top: 1px solid #ddd;
+}
+
+.browser-app-action a {
+  text-decoration: none;
+}
+
+.browser-app-action .fa,
+.browser-app-action > a {
+  color: #bbb;
+}
+
+.browser-app-action .fa:hover,
+ .browser-app-action > a:hover {
+  color: #888;
+}
+
+.browser-app-action > form > button[type=submit] {
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0;
+}
+
+.browser-app-action > form > button[type=submit]:hover {
+  color: #888;
+}
+
+.browser-app-results li:hover {
+  cursor: pointer;
+}
+
+.job .status label {
+  display: inline-block;
+  width: 125px;
+  font-weight: bold;
+}
+
+/*.job pre {
+  padding: 10px;
+  margin-bottom: 50px;
+  max-width: 100%;
+  max-height: 400px;
+  overflow-x: auto;
+  overflow-y: auto;
+  background-color: #efefef;
+}*/
+
+h1 {
+  margin-top: 0px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #676767;
+}
+
+h2 {
+  font-size: 16px;
+  color: #676767;
+}
+
+table thead {
+  font-size: 12px;
+  color: #939393;
+  text-transform: uppercase;
+  text-align: left;
+  letter-spacing: 1px;
+}
+
+table thead th {
+  padding: 12px 0;
+  font-weight: normal;
+  border-bottom: 1px solid #e8e7e7;
+}
+
+table tbody td {
+  padding: 12px 0;
+  vertical-align: top;
+}
+
+table tbody tr:not(:first-child) td {
+  border-top: 1px solid #e8e7e7;
+}
+
+table tbody, table tbody a {
+  text-decoration: none;
+}
+
+table td span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: pre;
+  display: block;
+}
+
+table .user {
+  width: 75px;
+}
+
+table .issue {
+  width: 200px;
+}
+
+table .arguments {
+  width: 155px;
+}
+
+table .date {
+  padding-right: 20px;
+}

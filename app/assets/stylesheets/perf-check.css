@@ -1,0 +1,399 @@
+
+@font-face {
+    font-family: OperatorMonoLight;
+    src: url("/assets/fonts/OperatorMonoSSm-Light.otf") format("opentype");
+}
+
+@font-face {
+    font-family: OperatorMonoBook;
+    src: url("/assets/fonts/OperatorMonoSSm-Book.otf") format("opentype");
+}
+
+a {
+  text-decoration: none;
+  color: #658EBF;
+}
+
+html,
+body,
+#content {
+  width: 100%;
+  height: 100%;
+}
+
+#content {
+  padding-top: 120px;
+  box-sizing: border-box;
+  display: none;
+}
+
+#content.show-me {
+  display: block; 
+}
+
+#content #default-content {
+  position: absolute;
+  top: 200px;
+  left: 30%;  
+  /*background-color: #FF0;*/
+  /*width: 200px;*/
+  /*height: 200px;*/
+}
+
+#content #default-content h1{
+  color: #000;
+  text-align: center;
+  font-size: 36px;
+}
+
+#header {
+  height: 100px;
+  margin-bottom: 20px;
+  background-color: #CCC;
+  background: url('/assets/excitebike.jpg');
+  background-position: 50% 100%;
+  background-size: 110%;
+  position: absolute;
+  width: 100%;
+}
+
+#header h1 {
+  padding-top: 30px;
+  padding-left: 12px;
+  letter-spacing: 1.3px;
+  color: #000;
+  text-shadow: 1px 0px 1px #000;
+}
+
+.pull-right {
+  float: right;
+}
+
+#status-page-title {
+  font-weight: bold;
+  margin: -5px 0 3px 0;
+  text-align: center;
+}
+
+.system-status {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 7px;
+  padding: 5px 9px;
+  color: #FFF;
+  font-size: 12px;
+  text-shadow: 1px 0px 1px #000; 
+}
+
+.system-status.online {
+  background: #18711A;
+}
+
+.system-status.offline {
+  background: #B01A1E;
+}
+
+.system-status.offline .fa-times {
+  margin-left: 4px;
+}
+
+.status-label,
+.browser-app-results li .status {
+  font-size: .8em;
+  display: inline-block;
+  width: 50px;
+  margin-right: 9px;
+  padding: 3px 1px;
+  text-align: center;
+  /*border: 1px solid #DDD;*/
+  /*border-radius: 2px;*/
+  background-color: #EFEFEF;
+  text-shadow: 1px 0px 1px #666; 
+  margin-right: 9px;
+}
+
+.browser-app-results li:hover {
+  background-color: #FFF9CC;
+}
+
+.browser-app-results li:last-child:hover {
+  background-color: transparent;
+  cursor: default;
+}
+
+.status-label.running,
+.status.running {
+  color: #FFF;
+  background-color: #19B81D!important;
+}
+
+.status-label.queued,
+.status.queued {
+  color: #FFF;
+  background-color: #E99835 !important;
+}
+
+.status-label.complete,
+.status.complete {
+  color: #FFF;
+  background-color: #7AC57B !important;
+}
+
+.status-label.failed,
+.status.failed {
+  color: #FFF;
+  background-color: #E17376 !important;
+]}
+
+.status-label.canceled,
+.status.canceled {
+  color: #FFF;
+  background-color: #E17376 !important;
+}
+
+ul.browser-app-results {
+  font-size: .8em;
+  overflow-y: hidden;
+}
+
+ul.browser-app-results:hover {
+  overflow-y: auto;
+}
+
+.browser-app-results li {
+  overflow: auto;
+}
+
+.browser-app-results li .status {
+  margin-top: 4px;
+  display: block;
+  float: left;
+  margin-right: 8px;
+}
+
+.browser-app-results li .branch {
+  margin-top: 4px;
+  display: block;
+  float: left;
+}
+
+.browser-app-results li .time {
+  font-size: 10px;
+  margin-top: 1px;
+  clear: both;
+  float: left;
+  display: block;
+  margin-right: 4px;
+  margin-top: 6px;
+}
+
+.browser-app-results li .name {
+  font-size: 10px;
+  margin-top: 4px;
+  display: block;
+  float: left;
+  margin-top: 6px;
+}
+
+.job header.job-header {
+  border: 1px solid #EEE;
+  padding: 12px;
+  padding-top: 14px;
+}
+
+.job header.job-header h2 {
+  color: #000;
+  font-size: 28px;
+}
+
+.job header.job-header h3 {
+  color: #000;
+  margin-top: 12px;
+  margin-bottom: -1px;
+}
+
+
+.job header.job-header .styled-button {
+  font-size: .8em;
+  display: block;
+  margin-left: 8px;
+  padding: 3px;
+  text-decoration: none;
+  color: #000;
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 1px 2px #999;
+  -moz-box-shadow: 0px 1px 2px #999;
+  box-shadow: 0px 1px 2px #999;
+  color: #ffffff;
+  padding: 3px 10px 3px 10px;
+  text-decoration: none;
+}
+
+.job header.job-header .styled-button:hover {
+  background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+}
+
+
+
+
+.job header.job-header pre.command {
+  display: inline-block;
+  background-color: #EFEFEF;
+  border: 1px solid #CCC;
+  margin-top: 10px;
+  margin-bottom: 0;
+  font-size: .7em;
+  padding: 2px 8px 2px 7px;
+  color: #000;
+  font-family: OperatorMonoBook;
+}
+
+.job header.job-header hr {
+  background-color: #eee;
+  border: 0;
+  height: 1px;
+  margin-top: 14px;
+}
+
+.job header.job-header .created-by { 
+  font-size: .8em;
+  color: #333;
+}
+
+.job .status label {
+  font-weight: bold;
+  display: inline-block;
+  width: 125px;
+}
+
+.job .details {
+  padding-top: 20px;
+}
+
+.job .details pre {
+  font-size: .7rem;
+  font-family: OperatorMonoLight;
+  line-height: 1.5rem;
+}
+
+.job .details p code {
+  font-size: .7rem;
+  font-family: OperatorMonoLight;
+  line-height: 1.5rem;
+  display: inline-block;
+  background-color: #EFEFEF;
+  border: 1px solid #CCC;
+  padding: 2px 8px 2px 7px;
+  margin-left: 4px;
+  color: #000;
+  font-family: OperatorMonoBook;
+
+}
+
+
+.job .details .fa-check-square {
+  color: #7AC57B;
+}
+
+.job .details .fa-times-circle {
+  color: #E17376;
+}
+
+.job .details .fa-exclamation-triangle {
+  color: #E99835;
+}
+
+
+
+
+.job pre {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-width: 100%;
+  max-height: 400px;
+  margin: 0 0 40px 0;
+  padding: 15px;
+  background-color: #3e3e3e;
+  color: #FFF;
+  border: 1px solid #CCC;
+  font-size: .7em;
+  font-family: OperatorMonoLight;
+  line-height: 1.5em;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-top: 0;
+  color: #676767;
+}
+
+h2 {
+  font-size: 16px;
+  color: #676767;
+}
+
+table thead {
+  font-size: 12px;
+  text-align: left;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #939393;
+}
+
+table thead th {
+  font-weight: normal;
+  padding: 12px 0;
+  border-bottom: 1px solid #E8E7E7;
+}
+
+table tbody td {
+  padding: 12px 0;
+  vertical-align: top;
+}
+
+table tbody tr:not(:first-child) td {
+  border-top: 1px solid #E8E7E7;
+}
+
+table tbody,
+table tbody a {
+  text-decoration: none;
+}
+
+table td span {
+  display: block;
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: ellipsis;
+}
+
+table .user {
+  width: 75px;
+}
+
+table .issue {
+  width: 200px;
+}
+
+table .arguments {
+  width: 155px;
+}
+
+table .date {
+  padding-right: 20px;
+}
