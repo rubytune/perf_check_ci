@@ -1,4 +1,6 @@
 class PerfCheckJob < ActiveRecord::Base
+  include PgSearch
+
   after_create :enqueue!
 
   state_machine :status, initial: :new do
@@ -28,9 +30,9 @@ class PerfCheckJob < ActiveRecord::Base
     end
 
     after_transition [:new] => :queued, do: :set_queued_at!
+    after_transition [:new] => :queued, do: :perform_perf_check_benchmarks!
 
     after_transition [:queued] => :running, do: :set_run_at!
-    after_transition [:queued] => :running, do: :perform_perf_check_benchmarks!
 
     after_transition [:running] => :completed, do: :set_completed_at!
     after_transition [:running] => :failed, do: :set_failed_at!
@@ -57,12 +59,8 @@ class PerfCheckJob < ActiveRecord::Base
     touch(:failed_at)
   end
 
-  def perform_perf_check_benchmarks!(async: true)
-    if async
-      run_benchmarks!
-    else
-      PerfCheckJobWorker.perform_async(id)
-    end
+  def perform_perf_check_benchmarks!
+    PerfCheckJobWorker.perform_async(id)
   end
 
   def run_benchmarks!

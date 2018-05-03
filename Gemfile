@@ -9,6 +9,9 @@ gem 'rails', '~> 5.2.0'
 gem 'pg'
 gem 'redis', '~> 4.0'
 
+# Search
+gem 'pg_search'
+
 # Web Server
 gem 'puma', '~> 3.11'
 
@@ -40,6 +43,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Background Jobs
 gem 'sinatra', require: false
 gem 'sidekiq'
+
+# Perf-Check
+gem 'perf_check'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
