@@ -1,57 +1,24 @@
-<%= form_tag do %>
+<%= form_tag params.except(:search).permit!, method: :get do %>
   <div class="browser-app-filter-container">
     <span class="browser-app-filter-clear"><a href="#"><i class="fa fa-search"></i></a></span>
-    <%= search_field :search, params[:search], placeholder: 'Search Jobs' %>
+    <%= search_field :search, params[:search], placeholder: 'Search Jobs', id: 'search-field' %>
   </div>
 <% end %>
 
 <ul class="browser-app-results">
-  <li class="">
-      <div>
-        <small class="pull-left status running">running</small>
-        <strong class="branch"><%= link_to 'my_feature_branch_2', '#' %></strong>
-        <small class="time"><%= fa_icon 'clock-o' %> Today at 3:35 PM</small>
-        <small class="name">by <%= link_to 'nathanbertram', '#' %></small>
-      </div>
-  </li>
-
-  <li class="">
-      <div>
-        <small class="pull-left status failed">failed</small>
-        <strong class="branch"><%= link_to 'some-brand-pr-1', '#' %></strong>
-        <small class="time"><%= fa_icon 'clock-o' %> Today at 3:35 PM</small>
-        <small class="name">by <%= link_to 'nathanbertram', '#' %></small>
-      </div>
-  </li>
-
-
-
-  <li class="">
-      <div>
-        <small class="pull-left status canceled">canceled</small>
-        <strong class="branch"><%= link_to 'some-brand-pr-1', '#' %></strong>
-        <small class="time"><%= fa_icon 'clock-o' %> Today at 3:35 PM</small>
-        <small class="name">by <%= link_to 'nathanbertram', '#' %></small>
-      </div>
-  </li>
-
-  <li class="">
-      <div>
-        <small class="pull-left status">queued</small>
-        <strong class="branch"><%= link_to 'this-is-a-really-long-and-descriptive-branch-name-that-should-not-break-the-ui', '#' %></strong>
-        <small class="time"><%= fa_icon 'clock-o' %> Today at 3:35 PM</small>
-        <small class="name">by <%= link_to 'nathanbertram', '#' %></small>
-      </div>
-  </li>
-
-  <li class="">
-      <div>
-        <small class="pull-left status complete">complete</small>
-        <strong class="branch"><%= link_to 'my_feature_branch_1', '#' %></strong>
-        <small class="time"><%= fa_icon 'clock-o' %> Today at 2:35 PM</small>
-        <small class="name">by <%= link_to 'nathanbertram', '#' %></small>
-      </div>
-  </li>
-  <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
-  <li style="text-align: center;">No more results</li>
+  <% if @perf_check_jobs.blank? %>
+    <li style="text-align: center;">No more results</li>
+  <% else %>
+    <% @perf_check_jobs.each do |job| %>
+      <li>
+          <div data-link-to="<%= perf_check_job_path(job) %>">
+            <small class="pull-left status <%= job.status %>"><%= job.status %></small>
+            <strong class="branch"><%= job.branch %></strong>
+            <small class="time"><%= fa_icon 'clock-o' %> <%= job.created_at.stamp("Today at 3:35 PM") %></small>
+            <small class="name">by <%= job.username %></small>
+          </div>
+      </li>
+    <% end %>
+    <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
+  <% end %>
 </ul>

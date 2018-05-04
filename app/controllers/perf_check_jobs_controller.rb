@@ -2,7 +2,11 @@ class PerfCheckJobsController < ApplicationController
   before_action :find_perf_check_job, only: [:show]
 
   def index
-    @perf_check_job = PerfCheckJob.page(params[:page]).per(params[:per])
+    if params[:search].present?
+      @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
+    else
+      @perf_check_jobs = PerfCheckJob.page(params[:page]).per(params[:per])
+    end
   end
 
   def new
@@ -13,9 +17,9 @@ class PerfCheckJobsController < ApplicationController
     @perf_check_job = PerfCheckJob.new(perf_check_job_params)
 
     if @perf_check_job.save
-      render action: :new
-    else
       redirect_to @perf_check_job
+    else
+      render action: :new 
     end
   end
 
