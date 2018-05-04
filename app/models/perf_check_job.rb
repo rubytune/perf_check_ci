@@ -8,6 +8,7 @@ class PerfCheckJob < ActiveRecord::Base
     state :running
     state :completed
     state :failed
+    state :canceled
 
     event :enqueue! do
       transition [:new] => :queued
