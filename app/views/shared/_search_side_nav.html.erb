@@ -11,14 +11,19 @@
   <% else %>
     <% @perf_check_jobs.each do |job| %>
       <li>
-          <div data-link-to="<%= perf_check_job_path(job) %>">
-            <small class="pull-left status <%= job.status %>"><%= job.status %></small>
-            <strong class="branch"><%= job.branch %></strong>
-            <small class="time"><%= fa_icon 'clock-o' %> <%= job.created_at.stamp("Today at 3:35 PM") %></small>
-            <small class="name">by <%= job.username %></small>
-          </div>
+          <%= link_to perf_check_job_path(job) do %>
+            <div data-link-to="<%= perf_check_job_path(job) %>">
+              <small class="pull-left status <%= job.status %>"><%= job.status %></small>
+              <strong class="branch"><%= job.branch %></strong>
+              <small class="time"><%= fa_icon 'clock-o' %> <%= job.created_at.stamp("Today at 3:35 PM") %></small>
+              <small class="name">by <%= job.username %></small>
+            </div>
+          <% end %>
       </li>
     <% end %>
-    <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
+
+    <% if @perf_check_jobs.total_pages > 1 %>
+      <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
+    <% end %>
   <% end %>
 </ul>

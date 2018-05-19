@@ -1,5 +1,12 @@
 <%= error_messages_for(@perf_check_job) %>
 <%= form_for @perf_check_job do |f| %>
+  <%= f.label :arguments, 'Job Arguments' %>
+  <br />
   <%= f.text_field :arguments %>
+  <br />
+  <%= f.label :username %>
+  <br />
+  <%= f.text_field :username %>
+  <br />
   <%= submit_tag 'Create Job' %>
 <% end %>
