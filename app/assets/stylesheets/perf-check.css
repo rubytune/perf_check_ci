@@ -65,6 +65,10 @@ body,
   text-shadow: 1px 0px 1px #000;
 }
 
+#header h1 a {
+  color: #000;
+}
+
 .pull-right {
   float: right;
 }
