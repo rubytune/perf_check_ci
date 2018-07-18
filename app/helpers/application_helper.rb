@@ -5,5 +5,9 @@ module ApplicationHelper
 
   def none_text(text)
     text.blank? ? '-' : text
-  end  
+  end
+
+  def time_ago(datetime)
+    datetime > 1.day.ago ? time_ago_in_words(datetime) + ' ago' : datetime.stamp("Aug 5th at 3:35 PM")
+  end
 end

@@ -6,7 +6,7 @@
     <hr style="background-color: #EEE;" />
     <h3><%= @perf_check_job.branch %></h3>
     <div class="created-by">
-        <span><a title=" 8:45AM May  1, 2018">5h 29m ago</a></span>
+      <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@perf_check_job.created_at) %></span>
       by
       <span><strong><%= @perf_check_job.username %></strong></span>
     </div>
