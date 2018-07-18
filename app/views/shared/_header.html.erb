@@ -1,6 +1,6 @@
 <div id="header">
   <h1><a href="/">Perf Check Status Page</a></h1>
+  <div class="new-job"><%= link_to "#{fa_icon 'plus'} New PerfCheck Job".html_safe, [:new, :perf_check_job], class: 'styled-button pull-right' %></div>
 </div>
 <div id="status-content"><span data-reactroot="" class="system-status offline">Daemon Offline <%= fa_icon 'times' %></span></div>
-<div id="status-content"><span data-reactroot="" class="system-status offline">Daemon Offline <%= fa_icon 'times' %></span></div>
-<div id="status-content"><%= link_to "#{fa_icon 'plus'} New PerfCheck".html_safe, '#', class: 'styled-button re-run pull-right' %></div>
+<div id="status-content"><span data-reactroot="" class="system-status online">Daemon Online <%= fa_icon 'check' %></span></div>
