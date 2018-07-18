@@ -303,6 +303,9 @@ ul.browser-app-results:hover {
   margin-bottom: -1px;
 }
 
+.job header.job-header span.time-ago {
+  color: #527AB1;
+}
 
 .job header.job-header .styled-button {
   font-size: .8em;
