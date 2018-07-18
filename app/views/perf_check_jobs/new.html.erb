@@ -1,12 +1,18 @@
-<%= error_messages_for(@perf_check_job) %>
-<%= form_for @perf_check_job do |f| %>
-  <%= f.label :arguments, 'Job Arguments' %>
-  <br />
-  <%= f.text_field :arguments %>
-  <br />
-  <%= f.label :username %>
-  <br />
-  <%= f.text_field :username %>
-  <br />
-  <%= submit_tag 'Create Job' %>
-<% end %>
+<div id="aligner">
+  <div id="new-perf-check-job">
+    <h1>New PerfCheck Job</h1>
+    <br />
+    <%= error_messages_for(@perf_check_job) %>
+    <%= form_for @perf_check_job do |f| %>
+      <%= f.label :arguments, 'Job Arguments' %>
+      <br />
+      <%= f.text_field :arguments, class: 'text-field', required: 'required' %>
+      <br />
+      <%= f.label :username %>
+      <br />
+      <%= f.text_field :username, class: 'text-field', required: 'required' %>
+      <br />
+      <%= submit_tag 'Create Job', class: 'submit' %>
+    <% end %>
+  </div>
+</div>
