@@ -13,6 +13,10 @@ a {
   text-decoration: none;
 }
 
+.hidden {
+  display: none;
+}
+
 .browser-app {
   display: flex;
   flex-direction: row;
