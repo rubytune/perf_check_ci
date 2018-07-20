@@ -1,7 +1,7 @@
 <%= form_tag params.except(:search).permit!, method: :get do %>
   <div class="browser-app-filter-container">
     <span class="browser-app-filter-clear"><a href="#"><i class="fa fa-search"></i></a></span>
-    <%= search_field :search, params[:search], placeholder: 'Search Jobs', id: 'search-field' %>
+    <%= search_field_tag :search, params[:search], placeholder: 'Search Jobs', id: 'search-field' %>
   </div>
 <% end %>
 
@@ -22,8 +22,6 @@
       </li>
     <% end %>
 
-    <% if @perf_check_jobs.total_pages > 1 %>
-      <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
-    <% end %>
+    <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
   <% end %>
 </ul>
