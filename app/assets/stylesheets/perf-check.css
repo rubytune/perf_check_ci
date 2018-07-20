@@ -362,6 +362,12 @@ ul.browser-app-results:hover {
   margin-top: 14px;
 }
 
+.job header.job-header .status {
+  padding: 5px 80px;
+  text-shadow: 1px 0px 1px #666; 
+}
+
+
 .job header.job-header .created-by { 
   font-size: .8em;
   color: #333;
