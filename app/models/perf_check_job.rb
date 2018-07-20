@@ -13,6 +13,8 @@ class PerfCheckJob < ActiveRecord::Base
   end
 
   def run_benchmarks!
+    run! # Move status to running
+    sleep 45
     true
   end
 
