@@ -4,6 +4,7 @@
     <%= link_to "#{fa_icon 'github'} View #1234567".html_safe, '#', class: 'styled-button re-run pull-right' %>
     <h2>PerfCheckJob ID: <%= @perf_check_job.id %></h2>
     <hr style="background-color: #EEE;" />
+    <span class="pull-right status <%= @perf_check_job.status %>"><%= @perf_check_job.status %></span>
     <h3><%= @perf_check_job.branch %></h3>
     <div class="created-by">
       <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@perf_check_job.created_at) %></span>
@@ -12,11 +13,12 @@
     </div>
     <pre class="command"><%= @perf_check_job.arguments %></pre>
   </header>
-  <div class="details">
-    <p><strong>/url/that/is/being-perf-checked?eh=1</strong><br>
-    <i class="fa fa-times-circle" aria-hidden="true"></i> Encountered HTTP errors (500)<br>
-    <i class="fa fa-search" aria-hidden="true"></i> No backtrace captured, indicating a low level boot issue. Ensure that the app boots happily on the perf check server.</p>
-    <p><%= link_to 'See more details', '#' %>.</p>
-  </div>
-  <pre id="log">Loading <%= @perf_check_job.log_path %> ...</pre>
+  <!-- This is outputted the perfcheck daemon post -->
+  <% if @perf_check_job.result_details.present?  %>
+    <div class="details">
+      <%== markdown(@perf_check_job.result_details) %>
+    </div>
+  <% end %>
+
+  <pre id="log" data-log-path="<%= @perf_check_job.log_path %>">Loading <%= @perf_check_job.log_path %> ...</pre>
 </div>
