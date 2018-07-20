@@ -1,6 +1,12 @@
 ### Usage
 
 
+### Sidekiq
+
+Make sure redis is running and run:
+
+`bundle exec sidekiq -q default`
+
 ### Search
 
 Need to reindex?
