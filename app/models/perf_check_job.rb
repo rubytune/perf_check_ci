@@ -12,6 +12,10 @@ class PerfCheckJob < ActiveRecord::Base
     PerfCheckJobWorker.perform_async(id)
   end
 
+  def perf_check
+    PerfCheck.new(arguments)
+  end
+
   def run_benchmarks!
     run! # Move status to running
     sleep 45
