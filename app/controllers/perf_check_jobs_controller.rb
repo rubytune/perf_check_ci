@@ -34,7 +34,7 @@ class PerfCheckJobsController < ApplicationController
   end
 
   def perf_check_job_params
-    params.require(:perf_check_job).permit(:username, :arguments, :branch)
+    params.require(:perf_check_job).permit(:username, :arguments, :branch, :urls_to_benchmark)
   end
 
   def find_perf_check_job

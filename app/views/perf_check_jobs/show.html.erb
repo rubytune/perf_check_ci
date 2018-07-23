@@ -11,7 +11,7 @@
       by
       <span><strong><%= @perf_check_job.username %></strong></span>
     </div>
-    <pre class="command"><%= @perf_check_job.arguments %></pre>
+    <pre class="command"><%= @perf_check_job.perf_check_command %></pre>
   </header>
   <!-- This is outputted the perfcheck daemon post -->
   <% if @perf_check_job.result_details.present?  %>
