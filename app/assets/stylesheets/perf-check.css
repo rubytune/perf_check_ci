@@ -50,6 +50,7 @@ body,
 }
 
 #content #new-perf-check-job {
+  width: 80%;
   max-width: 50%;
   border: 1px solid #ccc;
   padding: 45px;
@@ -64,6 +65,13 @@ body,
   font-family: OperatorMonoBook;
 }
 
+#content #new-perf-check-job hr{
+  border: none;
+  border-bottom: 1px solid #C1C1C1;
+  margin: 25px 0;
+  text-shadow: 1px 0px 1px #000;
+}
+
 #content #new-perf-check-job label {
   font-weight: bold;
 }
@@ -76,7 +84,7 @@ body,
 
 #content #new-perf-check-job .submit {
   padding: 15px 10px;
-  width: 108%;
+  width: 104%;
   margin: 0;
   font-size: 1.15em;
   display: block;

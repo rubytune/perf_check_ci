@@ -12,8 +12,12 @@ class PerfCheckJob < ActiveRecord::Base
     PerfCheckJobWorker.perform_async(id)
   end
 
+  def perf_check_command
+    "#{arguments} #{urls_to_benchmark}"
+  end
+
   def perf_check
-    PerfCheck.new(arguments)
+    PerfCheck.new(perf_check_command)
   end
 
   def run_benchmarks!
