@@ -20,7 +20,11 @@ class PerfCheckJobsController < ApplicationController
   end
 
   def show
-    
+
+  end
+
+  def record_not_found
+    render 'record_not_found'
   end
 
   private
@@ -38,6 +42,9 @@ class PerfCheckJobsController < ApplicationController
   end
 
   def find_perf_check_job
-    @perf_check_job = PerfCheckJob.find(params[:id])
+    unless @perf_check_job = PerfCheckJob.find_by(id: params[:id])
+      record_not_found
+      return
+    end
   end
 end
