@@ -232,10 +232,11 @@ body,
   background-color: #E99835 !important;
 }
 
-.status-label.complete,
-.status.complete {
-  color: #FFF;
-  background-color: #7AC57B !important;
+.status-label.completed,
+.status.completed {
+  color: #000;
+  background-color: #EBEBEB !important;
+  text-shadow: 0 !important; 
 }
 
 .status-label.failed,

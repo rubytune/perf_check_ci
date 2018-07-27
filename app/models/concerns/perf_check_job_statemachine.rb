@@ -36,7 +36,7 @@ module PerfCheckJobStatemachine
 
       after_transition [:running] => :completed, do: :set_completed_at!
       after_transition [:running] => :failed, do: :set_failed_at!
-      after_transition [:running] => :canceled, do: :set_canceled_at!      
+      after_transition [:running] => :canceled, do: :set_canceled_at!
     end
   end
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_23_184210) do
+ActiveRecord::Schema.define(version: 2018_07_27_002611) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2018_07_23_184210) do
   create_table "perf_check_jobs", force: :cascade do |t|
     t.string "status"
     t.string "arguments"
-    t.string "log_path"
+    t.string "log_filename"
     t.datetime "queued_at"
     t.datetime "run_at"
     t.datetime "completed_at"
