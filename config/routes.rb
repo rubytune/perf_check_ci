@@ -11,6 +11,11 @@ end
 Rails.application.routes.draw do
   root to: 'perf_check_jobs#index'
   resources :perf_check_jobs
+  resources :daemon_checks, only: [] do
+    collection do
+      get :sidekiq_status
+    end
+  end
 
   namespace :api do
     namespace :v1 do
