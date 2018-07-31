@@ -3,7 +3,7 @@
   <div class="new-job"><%= link_to "#{fa_icon 'plus'} New PerfCheck Job".html_safe, [:new, :perf_check_job], class: 'styled-button pull-right' %></div>
 </div>
 <div id="status-content">
-  <a href="/sidekiq"><span data-reactroot="" class="system-status offline hidden">Sidekiq & Daemon Offline<%= fa_icon 'times' %></span></a>
-  <a href="/sidekiq"><span data-reactroot="" class="system-status online">Sidekiq & Daemon Online<%= fa_icon 'check' %></span></a>
+  <a href="/sidekiq"><span class="system-status offline hidden">Sidekiq & Daemon Offline <%= fa_icon 'times' %></span></a>
+  <a href="/sidekiq"><span class="system-status online">Sidekiq & Daemon Online <%= fa_icon 'check' %></span></a>
 </div>
 
