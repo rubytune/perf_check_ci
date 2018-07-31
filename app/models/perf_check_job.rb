@@ -70,6 +70,7 @@ class PerfCheckJob < ActiveRecord::Base
   end
 
   def read_log_file
+    return "*** ERROR: Log File Not Found ***\nDirectory: #{log_path}" unless File.exists?(full_log_path)
     contents = File.read(full_log_path, encoding: "UTF-8")
     return "*** Empty Log File ***\nDirectory: #{log_path}" if contents.blank?
     contents
