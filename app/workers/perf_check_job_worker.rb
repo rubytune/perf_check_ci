@@ -2,6 +2,7 @@ class PerfCheckJobWorker
   include Sidekiq::Worker
 
   def perform(perf_check_job_id)
+    sleep 0.25 # Give the DB a sec
     perf_check_job = PerfCheckJob.find(perf_check_job_id)
     LogNotificationsWorker.perform_async(perf_check_job_id)
     
