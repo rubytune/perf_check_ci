@@ -50,7 +50,7 @@ class PerfCheckJob < ActiveRecord::Base
   def create_clone_and_rerun!
     PerfCheckJob.create(clone_params)
   end
-  
+
   ############
   # Log File
   ############
@@ -60,7 +60,7 @@ class PerfCheckJob < ActiveRecord::Base
   end
 
   def log_file_dir
-    "/private/perf_check_jobs/"
+    "/log/perf_check_jobs/"
   end
 
   def create_empty_log_file!
@@ -85,7 +85,7 @@ class PerfCheckJob < ActiveRecord::Base
   end
 
   def broadcast_log_file!(log_contents = nil)
-    ActionCable.server.broadcast("log_notifications_channel_#{id}", {contents: log_contents || read_log_file, status: status})
+    ActionCable.server.broadcast("log_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status})
   end
 
   def should_broadcast_log_file?
