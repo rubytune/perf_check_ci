@@ -38,11 +38,19 @@ class PerfCheckJob < ActiveRecord::Base
     true
   end
 
-  def rerun!
-    true
+  def clone_params
+    {
+      arguments: arguments,
+      username: username,
+      branch: branch,
+      urls_to_benchmark: urls_to_benchmark
+    }
   end
 
-
+  def create_clone_and_rerun!
+    PerfCheckJob.create(clone_params)
+  end
+  
   ############
   # Log File
   ############

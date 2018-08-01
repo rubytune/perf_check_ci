@@ -1,6 +1,6 @@
 <div class="job">
   <header class="job-header">
-    <%= link_to "#{fa_icon 'refresh'} Re-Run PerfCheck".html_safe, '#', class: 'styled-button re-run pull-right' %>
+    <%= link_to "#{fa_icon 'refresh'} Re-Run PerfCheck".html_safe, [:clone_and_rerun, @perf_check_job], class: 'styled-button re-run pull-right' %>
     <%= link_to "#{fa_icon 'github'} View #1234567".html_safe, '#', class: 'styled-button re-run pull-right' %>
     <h2>PerfCheckJob ID: <%= @perf_check_job.id %></h2>
     <hr style="background-color: #EEE;" />
