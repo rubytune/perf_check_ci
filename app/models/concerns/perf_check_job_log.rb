@@ -30,13 +30,5 @@ module PerfCheckJobLog
       return "*** Empty Log File ***\nDirectory: #{log_path}" if contents.blank?
       contents
     end
-
-    def broadcast_log_file!(log_contents = nil)
-      ActionCable.server.broadcast("log_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status})
-    end
-
-    def should_broadcast_log_file?
-      !(completed? || failed? || canceled?)
-    end
   end
 end
