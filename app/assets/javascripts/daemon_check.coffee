@@ -1,6 +1,5 @@
 $(document).on 'turbolinks:load', ->
-  setInterval (->
-    # /daemon_checks/sidekiq_status
+  checkSidekiqStatus = ->
     $.get '/daemon_checks/sidekiq_status', (data) ->
       $('.system-status').removeClass('online offline')
       $('.system-status').addClass(data['status'])
@@ -9,4 +8,8 @@ $(document).on 'turbolinks:load', ->
       else
         $('.system-status').html('Sidekiq &amp; Daemon Offline <i class="fa fa-times"></i>')
 
+
+  checkSidekiqStatus()
+  setInterval (->
+    checkSidekiqStatus()
   ), 10000
