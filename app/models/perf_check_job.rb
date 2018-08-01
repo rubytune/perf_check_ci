@@ -4,8 +4,7 @@ class PerfCheckJob < ActiveRecord::Base
   include PgSearch
   multisearchable :against => [:username, :branch, :status]
 
-  after_commit :enqueue!
-  after_create :create_empty_log_file!
+  after_create :create_empty_log_file!, :enqueue!, :broadcast_new_perf_check!
 
   validates :username, :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
@@ -23,21 +22,28 @@ class PerfCheckJob < ActiveRecord::Base
   end
 
   def run_benchmarks!
-    run! # Move statemachine status to running
-    contents = ""
-    25.times do |t|
-      contents = contents + "\n" + ("*" * t)
-      File.write(full_log_path, contents)
-      sleep 0.5
-    end
+    if run! # Move statemachine status to running
+      contents = ""
+      25.times do |t|
+        contents = contents + "\n" + ("*" * t)
+        File.write(full_log_path, contents)
+        sleep 0.5
+      end
 
-    25.times do |t|
-      contents = contents + "\n" + ("*" * 25)[0..(25-t)]
-      File.write(full_log_path, contents)
-      sleep 0.5
+      25.times do |t|
+        contents = contents + "\n" + ("*" * 25)[0..(25-t)]
+        File.write(full_log_path, contents)
+        sleep 0.5
+      end
+      return true
+    else
+      return false
     end
-    true
   end
+
+  ##############
+  # Clone Logic
+  ##############
 
   def clone_params
     {
@@ -51,4 +57,20 @@ class PerfCheckJob < ActiveRecord::Base
   def create_clone_and_rerun!
     PerfCheckJob.create(clone_params)
   end
+
+  ################################
+  # Actioncable - Broadcast Logic #
+  ################################
+
+  def broadcast_log_file!(log_contents = nil)
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status, broadcast_type: 'log_file_stream'})
+  end
+
+  def broadcast_new_perf_check!
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(broadcast_type: 'new_perf_check'))
+  end
+
+  def should_broadcast_log_file?
+    !(completed? || failed? || canceled?)
+  end  
 end

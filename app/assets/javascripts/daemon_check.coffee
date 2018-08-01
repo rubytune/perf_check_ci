@@ -8,7 +8,6 @@ $(document).on 'turbolinks:load', ->
       else
         $('.system-status').html('Sidekiq &amp; Daemon Offline <i class="fa fa-times"></i>')
 
-
   checkSidekiqStatus()
   setInterval (->
     checkSidekiqStatus()
