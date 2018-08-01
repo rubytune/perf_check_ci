@@ -7,7 +7,7 @@
 
 <ul class="browser-app-results">
   <% if @perf_check_jobs.blank? %>
-    <li style="text-align: center;">No more results</li>
+    <li style="text-align: center;">No matching results</li>
   <% else %>
     <% @perf_check_jobs.each do |job| %>
       <li>
@@ -22,6 +22,6 @@
       </li>
     <% end %>
 
-    <li style="text-align: center;"><%= link_to 'Load More Results', '#' %></li>
   <% end %>
 </ul>
+<div id="load-more-result text-center" style="text-align: center;"><%= link_to 'Load More Results', '#' %></div>

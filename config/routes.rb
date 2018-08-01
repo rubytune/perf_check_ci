@@ -10,7 +10,11 @@ end
 
 Rails.application.routes.draw do
   root to: 'perf_check_jobs#index'
-  resources :perf_check_jobs
+  resources :perf_check_jobs do
+    member do
+      get :clone_and_rerun
+    end
+  end
   resources :daemon_checks, only: [] do
     collection do
       get :sidekiq_status

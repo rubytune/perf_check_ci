@@ -1,6 +1,6 @@
 class PerfCheckJobsController < ApplicationController
-  before_action :find_perf_check_job, only: [:show]
-  before_action :load_perf_check_jobs, except: [:create]
+  before_action :load_perf_check_jobs
+  before_action :find_perf_check_job, only: [:show, :clone_and_rerun]
 
   def index
   end
@@ -20,7 +20,11 @@ class PerfCheckJobsController < ApplicationController
   end
 
   def show
+  end
 
+  def clone_and_rerun
+    @new_perf_check_job = @perf_check_job.create_clone_and_rerun!
+    redirect_to @new_perf_check_job
   end
 
   def record_not_found
