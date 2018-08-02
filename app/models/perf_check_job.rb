@@ -4,7 +4,8 @@ class PerfCheckJob < ActiveRecord::Base
   include PgSearch
   multisearchable :against => [:username, :branch, :status]
 
-  after_create :create_empty_log_file!, :enqueue!, :broadcast_new_perf_check!
+  after_commit :enqueue!, :broadcast_new_perf_check!
+  after_create :create_empty_log_file!
 
   validates :username, :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
@@ -35,7 +36,7 @@ class PerfCheckJob < ActiveRecord::Base
         File.write(full_log_path, contents)
         sleep 0.5
       end
-      return true
+      true
     else
       return false
     end

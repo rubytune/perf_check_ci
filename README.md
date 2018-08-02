@@ -1,11 +1,14 @@
-### Usage
+## Usage
 
+## Development
 
-### Sidekiq
+### Setup
 
-Make sure redis is running and run:
-
-`bundle exec sidekiq -q default`
+1. Ensure you have Redis & Postgres installed and running.
+2. `bundle install`
+2. `rake db:setup`
+3. `bundle exec sidekiq -q default`
+4. `rails s`
 
 ### Search
 
