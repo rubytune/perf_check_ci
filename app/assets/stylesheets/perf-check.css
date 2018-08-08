@@ -1,12 +1,12 @@
 
 @font-face {
     font-family: OperatorMonoLight;
-    src: url("/assets/fonts/OperatorMonoSSm-Light.otf") format("opentype");
+    src: asset-url("/fonts/OperatorMonoSSm-Light.otf") format("opentype");
 }
 
 @font-face {
     font-family: OperatorMonoBook;
-    src: url("/assets/fonts/OperatorMonoSSm-Book.otf") format("opentype");
+    src: asset-url("/fonts/OperatorMonoSSm-Book.otf") format("opentype");
 }
 
 a {
