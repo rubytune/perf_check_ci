@@ -209,7 +209,7 @@ a {
 
 .browser-app-results li {
   border-top: 1px solid #eee;
-  padding: 10px 5px 10px 10px;
+  padding: 0;
 }
 
 .browser-app-results li:first-child {
@@ -218,6 +218,17 @@ a {
 
 .browser-app-results li.browser-app-selected {
   background-color: #99ccff;
+}
+
+.browser-app-results li:hover {
+  cursor: pointer;
+}
+
+.browser-app-results li a {
+  display: inline-block;
+  width: 100%;
+  padding: 10px 5px 10px 10px;
+  margin: 0;
 }
 
 /* Actions */
@@ -257,9 +268,7 @@ a {
   color: #888;
 }
 
-.browser-app-results li:hover {
-  cursor: pointer;
-}
+
 
 .job .status label {
   display: inline-block;
