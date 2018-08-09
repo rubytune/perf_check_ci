@@ -3,6 +3,10 @@ class PerfCheckJobsController < ApplicationController
   before_action :find_perf_check_job, only: [:show, :clone_and_rerun]
 
   def index
+    respond_to do |wants|
+      wants.html
+      wants.json { render json: {perf_check_jobs: @perf_check_jobs}}
+    end
   end
 
   def new
@@ -38,7 +42,7 @@ class PerfCheckJobsController < ApplicationController
       @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
     else
       @perf_check_jobs = PerfCheckJob.most_recent.page(params[:page]).per(params[:per])
-    end  
+    end
   end
 
   def perf_check_job_params
