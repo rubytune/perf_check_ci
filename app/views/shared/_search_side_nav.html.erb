@@ -21,7 +21,10 @@
           <% end %>
       </li>
     <% end %>
-
   <% end %>
+
 </ul>
-<div id="load-more-result text-center" style="text-align: center;"><%= link_to 'Load More Results', '#' %></div>
+
+<div id="load-more-results-container">
+  <%= link_to 'Load More Results', '#', id: 'load-more-results', data: {page: params[:page] || 1, per: params[:per], search: params[:search]} %>
+</div>
