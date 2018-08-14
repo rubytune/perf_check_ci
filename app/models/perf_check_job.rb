@@ -7,6 +7,8 @@ class PerfCheckJob < ActiveRecord::Base
   after_commit :enqueue!, :broadcast_new_perf_check!
   after_create :create_empty_log_file!
 
+  has_many :test_cases, class_name: 'PerfCheckJobTestCase'
+
   validates :username, :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
 
