@@ -10,10 +10,28 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_27_002611) do
+ActiveRecord::Schema.define(version: 2018_08_14_204322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "perf_check_job_test_cases", force: :cascade do |t|
+    t.bigint "perf_check_id"
+    t.string "status"
+    t.string "http_status"
+    t.integer "before_time_ms"
+    t.integer "after_time_ms"
+    t.integer "reference_latency_ms"
+    t.decimal "speedup_factor"
+    t.text "result"
+    t.text "diff"
+    t.text "warning"
+    t.text "error"
+    t.string "exception_url"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["perf_check_id"], name: "index_perf_check_job_test_cases_on_perf_check_id"
+  end
 
   create_table "perf_check_jobs", force: :cascade do |t|
     t.string "status"

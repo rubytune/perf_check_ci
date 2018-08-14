@@ -134,10 +134,6 @@ GEM
     nio4r (2.3.1)
     nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
-    perf_check (0.10.01)
-      colorize
-      diffy
-      rake
     perf_check (0.10.1)
       colorize
       diffy
