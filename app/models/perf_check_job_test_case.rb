@@ -1,4 +1,4 @@
-class PerfCheckJobTestCase < ActiveRecord::Base
+class PerfCheckJobTestCase < ApplicationRecord
   STATUSES = ['success', 'failed']
   HTTP_STATUSES = ['200', '404', '500']
 

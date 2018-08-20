@@ -1,4 +1,4 @@
-class PerfCheckJob < ActiveRecord::Base
+class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
   include PerfCheckJobLog
   include PgSearch
