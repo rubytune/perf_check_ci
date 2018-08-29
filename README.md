@@ -10,13 +10,17 @@
 3. `bundle exec sidekiq -q default`
 4. `rails s`
 
+
+### Configuration
+
+1. `cp config/perf_check_ci.yml.example config/perf_check_ci.yml`
+
 ### Search
 
 Need to reindex?
 `PgSearch::Multisearch.rebuild(PerfCheckJob)`
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
   _____    ______   _____    ______      _____   _    _   ______    _____   _  __     _____   _____ 
  |  __ \  |  ____| |  __ \  |  ____|    / ____| | |  | | |  ____|  / ____| | |/ /    / ____| |_   _|
  | |__) | | |__    | |__) | | |__      | |      | |__| | | |__    | |      | ' /    | |        | |  
