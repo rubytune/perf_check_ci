@@ -1,0 +1,13 @@
+development: &default
+  github_key: YOUR-GITHUB-KEY
+  github_secret: YOUR-GITHUB-SECRET
+  github_callback_url: http://localhost:3000/oauth/callback?provider=github
+
+test: *default
+
+staging: *default
+
+production:
+  github_key: YOUR-GITHUB-KEY
+  github_secret: YOUR-GITHUB-SECRET
+  github_callback_url: http://localhost:3000/oauth/callback?provider=github
