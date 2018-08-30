@@ -10,6 +10,13 @@ end
 
 Rails.application.routes.draw do
   root to: 'perf_check_jobs#index'
+  get 'login' => 'sessions#new'
+  get 'logout' => 'sessions#destroy'
+  get 'oauth' => 'oauths#oauth'
+  get 'oauth/callback' => 'oauths#callback'
+
+  OauthsController
+
   resources :perf_check_jobs do
     member do
       get :clone_and_rerun
