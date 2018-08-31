@@ -1,7 +1,8 @@
 class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
-  include PerfCheckJobLog
+  include JobLog
   include PgSearch
+  
   multisearchable :against => [:username, :branch, :status]
 
   after_commit :enqueue!, :broadcast_new_perf_check!
@@ -16,32 +17,43 @@ class PerfCheckJob < ApplicationRecord
     PerfCheckJobWorker.perform_async(id)
   end
 
-  def perf_check_command
-    "#{arguments} #{urls_to_benchmark}"
+  def all_arguments
+    "#{APP_CONFIG[:default_arguments]} #{arguments} #{urls_to_benchmark}"
   end
 
-  def perf_check
-    PerfCheck.new(perf_check_command)
+  def run_perf_check!
+    perf_check = PerfCheck.new(APP_CONFIG[:app_dir])
+    perf_check.load_config
+    perf_check.parse_arguments(all_arguments)
+    perf_check.run
   end
 
   def run_benchmarks!
     if run! # Move statemachine status to running
-      contents = ""
-      25.times do |t|
-        contents = contents + "\n" + ("*" * t)
-        File.write(full_log_path, contents)
-        sleep 0.5
+      log_to(full_log_path) do
+        Bundler.with_clean_env do
+          run_perf_check!
+        end
       end
-
-      25.times do |t|
-        contents = contents + "\n" + ("*" * 25)[0..(25-t)]
-        File.write(full_log_path, contents)
-        sleep 0.5
-      end
-      true
     else
       return false
     end
+  end
+
+  def test_logger
+    contents = ""
+    25.times do |t|
+      contents = contents + "\n" + ("*" * t)
+      File.write(full_log_path, contents)
+      sleep 0.5
+    end
+
+    25.times do |t|
+      contents = contents + "\n" + ("*" * 25)[0..(25-t)]
+      File.write(full_log_path, contents)
+      sleep 0.5
+    end
+    true
   end
 
   ##############
@@ -75,5 +87,5 @@ class PerfCheckJob < ApplicationRecord
 
   def should_broadcast_log_file?
     !(completed? || failed? || canceled?)
-  end  
+  end
 end
