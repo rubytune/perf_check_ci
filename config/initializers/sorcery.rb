@@ -112,9 +112,9 @@ Rails.application.config.sorcery.configure do |config|
   # config.facebook.api_version = "v2.3"
   # config.facebook.parse = :json
 
-  config.github.key = PERF_CHECK_CONFIG[:github_key]
-  config.github.secret = PERF_CHECK_CONFIG[:github_secret]
-  config.github.callback_url = PERF_CHECK_CONFIG[:github_callback_url]
+  config.github.key = APP_CONFIG[:github_key]
+  config.github.secret = APP_CONFIG[:github_secret]
+  config.github.callback_url = APP_CONFIG[:github_callback_url]
   config.github.user_info_mapping = {:github_username => "login", :full_name => "name", :avatar_url => "avatar_url", :email => "email"}
   config.github.scope = "user"
 
