@@ -11,7 +11,7 @@
       by
       <span><strong><%= @perf_check_job.username %></strong></span>
     </div>
-    <pre class="command"><%= @perf_check_job.perf_check_command %></pre>
+    <pre class="command"><%= @perf_check_job.all_arguments %></pre>
   </header>
   <!-- This is outputted the perfcheck daemon post -->
   <% if @perf_check_job.result_details.present?  %>
@@ -19,5 +19,9 @@
       <%== markdown(@perf_check_job.result_details) %>
     </div>
   <% end %>
-  <pre id="log" data-perf-check-id="<%= @perf_check_job.id %>" data-log-filename="<%= @perf_check_job.log_filename %>" data-broadcast="<%= @perf_check_job.should_broadcast_log_file? %>"><%= @perf_check_job.should_broadcast_log_file? ? "Loading #{@perf_check_job.log_path} ..." : @perf_check_job.read_log_file %></pre>
+  <pre id="log" data-perf-check-id="<%= @perf_check_job.id %>" 
+    data-log-filename="<%= @perf_check_job.log_filename %>" 
+    data-broadcast="<%= @perf_check_job.should_broadcast_log_file? %>">
+   <%= @perf_check_job.should_broadcast_log_file? ? "Loading #{@perf_check_job.relative_log_path} ..." : @perf_check_job.read_log_file %>
+  </pre>
 </div>
