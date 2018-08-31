@@ -12,7 +12,7 @@ records_to_populate.times do |sample_count|
   username = ['chucknorris', 'testuser', 'testuser2', 'testuser3']
   puts PerfCheckJob.create({
     status: status,
-    log_path: 'test-log-file.txt',
+    log_filename: 'test-log-file.txt',
     arguments: "-n#{rand(20)} --deployment --super /url/to/check/#{sample_count}",
     queued_at: base_created_at ,
     failed_at: status == 'failed' ? (base_created_at + 1.minute) : nil,
