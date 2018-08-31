@@ -37,22 +37,23 @@ module JobLog
     end
 
     def log_to(log_path)
-      redirect_logs_to(log_path)
+      stdout, stderr = redirect_logs_to(log_path)
       yield
-    ensure 
-      return_logs_to_original_path
+      return_logs_to_original_path(stdout, stderr)
     end
 
     def redirect_logs_to(log_path)
+      $stdout.flush
       stdout = $stdout.dup
       stderr = $stderr.dup
-      $stdout.reopen(log)
-      $stderr.reopen(log)
-      $stdout.sync
+      $stdout.reopen(log_path)
+      $stderr.reopen(log_path)
+      $stdout.sync # flush immediately vs. buffer
       $stderr.sync
+      return stdout, stderr
     end
 
-    def return_logs_to_original_path
+    def return_logs_to_original_path(stdout, stderr)
       $stdout.reopen(stdout)
       $stderr.reopen(stderr)
     end
