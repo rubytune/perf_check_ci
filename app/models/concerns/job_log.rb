@@ -10,6 +10,10 @@ module JobLog
       "log/perf_check_jobs"
     end
 
+    def log_filename
+      log_filename =  "perf-check-job-#{id}.log"
+    end
+
     def relative_log_path
       File.join(log_dir, log_filename)
     end
@@ -18,8 +22,8 @@ module JobLog
       File.join(log_root_dir, relative_log_path)
     end
 
+
     def create_empty_log_file!
-      log_filename =  "perf-check-job-#{id}.log"
       FileUtils.mkdir_p(File.join(log_dir))
       FileUtils.touch(relative_log_path)
       update_attribute(:log_filename, log_filename)
