@@ -1,0 +1,23 @@
+#login-page {
+  background: url('/assets/excitebike.jpg') 100% 100% no-repeat;
+  background-size: cover;
+}
+
+#login-container {
+  background: #fff;
+  margin: 100px auto;
+  padding: 30px 30px 10px 30px;
+  width: 150px;
+  border-radius: 15px;
+}
+
+#login-container img {
+  width: 150px;
+  height: 150px;
+  margin-bottom: 5px;
+}
+
+#login-container a {
+  color: #000;
+  font-size: 16px;
+}
