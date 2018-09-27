@@ -19,7 +19,7 @@ gem 'puma', '~> 3.11'
 # gem 'capistrano-rails', group: :development
 
 # CSS / Assets / JS
-gem "font-awesome-rails"
+gem 'font_awesome5_rails'
 gem 'jquery-rails'
 gem 'coffee-rails', '~> 4.2'
 gem 'turbolinks', '~> 5'

@@ -552,6 +552,11 @@ table .date {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  border-bottom: 1px solid #aaa;
+}
+
+.dropdown-content a:last-child {
+  border-bottom: none;
 }
 
 .dropdown-content a:hover {background-color: #ddd;}

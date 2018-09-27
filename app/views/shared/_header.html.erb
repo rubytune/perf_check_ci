@@ -4,6 +4,9 @@
     <div class="dropdown">
       <button class="dropbtn"><%= image_tag current_user.avatar_url %></button>
       <div class="dropdown-content">
+        <%= link_to my_perf_check_jobs_path do %>
+          <%= fa_icon 'motorcycle' %> My Perf Checks
+        <% end %>        
         <%= link_to logout_path do %>
           <%= fa_icon 'power-off' %> Log Out
         <% end %>
