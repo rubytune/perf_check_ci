@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   get 'oauth' => 'oauths#oauth'
   get 'oauth/callback' => 'oauths#callback'
 
-  OauthsController
+  resource :my_perf_check_jobs, only: [:index]
 
   resources :perf_check_jobs do
     member do
@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :perf_check_jobs
+      resource :webhooks, only: [:create]
     end
   end
 
