@@ -4,8 +4,6 @@ puts "==========================================================================
 puts "Populating #{RECORDS_TO_POPULATE} test PerfCheckJob's - #{Time.now}"
 puts "================================================================================"
 
-PerfCheckJob.destroy_all && User.destroy_all
-
 possible_perf_check_statuses = ['queued', 'running', 'completed', 'failed', 'canceled']
 branch_names = ['master', 'featuer-x', 'feature-y', 'bug-fix-a', 'bug-fix-b', 'staging']
 seed_users_attrs = [
