@@ -268,8 +268,6 @@ a {
   color: #888;
 }
 
-
-
 .job .status label {
   display: inline-block;
   width: 125px;
@@ -288,52 +286,61 @@ h2 {
   color: #676767;
 }
 
+table {
+  width: 100%;
+  padding: 0; margin: 0;
+  text-align: left;
+  border-collapse: collapse;  
+}
+
 table thead {
-  font-size: 12px;
+  font-size: 16px;
   color: #939393;
   text-transform: uppercase;
   text-align: left;
   letter-spacing: 1px;
+  font-family: bold;
+  margin: 0; padding: 0;
 }
 
 table thead th {
-  padding: 12px 0;
+  padding: 12px;
   font-weight: normal;
   border-bottom: 1px solid #e8e7e7;
+  margin: 0; padding: 0;
+}
+
+table tbody tr {
+  margin: 0; padding: 0;
+}
+
+
+table tbody tr:nth-child(even)  {
+  background: #ddd;
+}
+
+table tbody tr:nth-child(even):hover, table tbody tr:hover {
+  background: #F2C99A;
 }
 
 table tbody td {
-  padding: 12px 0;
+  padding: 2px 5px; margin: 0;
   vertical-align: top;
+  font-size: 16px;
+  border: none;
 }
 
-table tbody tr:not(:first-child) td {
-  border-top: 1px solid #e8e7e7;
+table tbody td.status {
+  width: 75px;
+  border: 1px solid #fff;
 }
+
+
+table tbody {
+  margin: 0; padding: 0;
+}
+
 
 table tbody, table tbody a {
   text-decoration: none;
-}
-
-table td span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: pre;
-  display: block;
-}
-
-table .user {
-  width: 75px;
-}
-
-table .issue {
-  width: 200px;
-}
-
-table .arguments {
-  width: 155px;
-}
-
-table .date {
-  padding-right: 20px;
 }

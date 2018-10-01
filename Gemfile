@@ -28,7 +28,7 @@ gem 'uglifier', '>= 1.3.0'
 gem 'momentjs-rails'
 
 # Pagination
-gem 'kaminari'
+gem 'pagy'
 
 # Convenient Datestamps
 gem 'stamp'

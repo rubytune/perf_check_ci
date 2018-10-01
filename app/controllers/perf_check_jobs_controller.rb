@@ -37,16 +37,8 @@ class PerfCheckJobsController < ApplicationController
 
   private
 
-  def load_perf_check_jobs
-    if params[:search].present?
-      @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
-    else
-      @perf_check_jobs = PerfCheckJob.most_recent.page(params[:page]).per(params[:per])
-    end
-  end
-
   def perf_check_job_params
-    params.require(:perf_check_job).permit(:username, :arguments, :branch, :urls_to_benchmark)
+    params.require(:perf_check_job).permit(:arguments, :branch, :urls_to_benchmark)
   end
 
   def find_perf_check_job

@@ -1,0 +1,52 @@
+.pagination a, .pagination span.current, .pagination span.gap, .pagination span.active, .pagination span.prev, .pagination span.next {
+  float: left;
+  padding: 0 8px;
+  line-height: 38px;
+  text-decoration: none;
+  background-color: white;
+  border: 1px solid #DDD;
+  border-left-width: 0;
+}
+
+.pagination span.prev a, .pagination span.next a {
+  border: none;
+}
+
+.pagination {
+  border-left: 1px solid #ddd;
+  display: inline-block;
+  height: 40px;
+  margin: 10px auto;
+}
+.pagination .first{
+  padding : 0;
+  float: none;
+  border: none;
+}
+.pagination .prev {
+  padding : 0;
+  float: none;
+  border: none;
+}
+.pagination .page{
+  padding : 0;
+  float: none;
+  border: none;
+}
+.pagination .next{
+  padding : 0;
+  float: none;
+  border: none;
+}
+.pagination .last{
+  padding : 0;
+  float: none;
+  border: none;
+}
+
+.pagination-container {
+  display: block;
+  width: 600px;
+  height: 40px;
+  margin: 0 auto;
+}

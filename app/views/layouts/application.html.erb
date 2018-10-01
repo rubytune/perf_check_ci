@@ -13,10 +13,11 @@
     <%= render 'shared/header'%>
     <div id="content" class=" show-me" style="height: 100%;">
       <div data-reactroot="" class="browser-app">
-        <div class="browser-app-filter">
-          <%= render 'shared/search_side_nav' %>
-        </div>
-
+        <% unless @disable_search_nav %>
+          <div class="browser-app-filter">
+            <%= render 'shared/search_side_nav' %>
+          </div>
+        <% end %>
         <div class="browser-app-viewport">
           <div class="browser-app-viewport-content">
             <%= yield %>

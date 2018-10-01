@@ -6,14 +6,14 @@
 <% end %>
 
 <ul class="browser-app-results">
-  <% if @perf_check_jobs.blank? %>
+  <% if @perf_check_jobs_records.blank? %>
     <li style="text-align: center;">No matching results</li>
   <% else %>
-    <% @perf_check_jobs.each do |job| %>
+    <% @perf_check_jobs_records.each do |job| %>
       <li>
           <%= link_to perf_check_job_path(job) do %>
             <div data-link-to="<%= perf_check_job_path(job) %>">
-              <small class="pull-left status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status %></small>
+              <small class="pull-left status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status.humanize %></small>
               <strong class="branch"><%= job.branch %></strong>
               <small class="time"><%= fa_icon 'clock-o' %> <%= time_ago(job.created_at) %></small>
               <small class="name">by <%= job.username %></small>

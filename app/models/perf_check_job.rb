@@ -3,15 +3,20 @@ class PerfCheckJob < ApplicationRecord
   include JobLog
   include PgSearch
   
-  multisearchable :against => [:username, :branch, :status]
+  multisearchable :against => [:branch, :status]
 
   after_commit :enqueue!, :broadcast_new_perf_check!
   after_create :create_empty_log_file!
 
+  belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
 
-  validates :username, :status, :arguments, presence: true
+  validates :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
+
+  def username
+    user.github_username
+  end
 
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
@@ -63,7 +68,7 @@ class PerfCheckJob < ApplicationRecord
   def clone_params
     {
       arguments: arguments,
-      username: username,
+      user_id: user_id,
       branch: branch,
       urls_to_benchmark: urls_to_benchmark
     }
@@ -82,7 +87,7 @@ class PerfCheckJob < ApplicationRecord
   end
 
   def broadcast_new_perf_check!
-    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(broadcast_type: 'new_perf_check'))
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(username: username, broadcast_type: 'new_perf_check'))
   end
 
   def should_broadcast_log_file?
