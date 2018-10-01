@@ -1,4 +1,5 @@
 class ApplicationController < ActionController::Base
+  include Pagy::Backend
   protect_from_forgery with: :exception
   before_action :require_user
   
@@ -18,4 +19,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def load_perf_check_jobs
+    if params[:search].present?
+      @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
+    else
+      @perf_check_jobs, @perf_check_jobs_records = pagy(PerfCheckJob.most_recent)
+    end
+  end
 end

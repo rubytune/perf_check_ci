@@ -1,0 +1,42 @@
+<div class="job">
+  <header class="job-header">
+    <h2 style="text-align: center"><%= fa_icon 'motorcycle' %> My Perf Check Jobs (<%= @my_perf_check_jobs.count %>)</h2>
+    <hr />
+    <div class="details">
+      <% if @my_perf_check_jobs_records.blank? %>
+        <h3 style="text-align: center">You haven't run any jobs yet - <%= link_to 'Create One', [:new, :perf_check_job] %></h3>
+      <% else %>
+        <table class="table">
+          <thead>
+            <th>ID</th>
+            <th>Branch</th>
+            <th>Job</th>
+            <th>Status</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <% @my_perf_check_jobs_records.each do |perf_check_job| %>
+              <tr>
+                <td><%= perf_check_job.id %></td>
+                <td><%= perf_check_job.branch %></td>
+                <td><%= perf_check_job.arguments %></td>
+                <td class="status perf-check-status-<%= perf_check_job.id %> <%= perf_check_job.status %>"><%= perf_check_job.status %></td>
+                <td><%= perf_check_job.created_at.stamp("Aug 5th at 3:35 PM") %></td>
+                <td>
+                  <%= link_to "#{fa_icon 'redo-alt'} Re-Run PerfCheck".html_safe, [:clone_and_rerun, perf_check_job], class: 'styled-button re-run pull-right' %>
+                  <%= link_to " View Job".html_safe, perf_check_job, class: 'styled-button re-run pull-right' %>                            
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        <div class="pagination-container">
+          <%== pagy_nav(@my_perf_check_jobs) %>
+        </div>
+        <br />
+      <% end %>
+    </div>
+   </header>
+
+</div>

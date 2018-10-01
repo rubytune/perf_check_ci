@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_29_210341) do
+ActiveRecord::Schema.define(version: 2018_09_29_154010) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,10 +94,11 @@ ActiveRecord::Schema.define(version: 2018_08_29_210341) do
     t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "username"
     t.string "branch"
     t.text "result_details"
     t.string "urls_to_benchmark"
+    t.integer "user_id"
+    t.index ["user_id"], name: "index_perf_check_jobs_on_user_id"
   end
 
   create_table "pg_search_documents", force: :cascade do |t|

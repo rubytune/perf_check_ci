@@ -1,4 +1,5 @@
 module ApplicationHelper
+  include Pagy::Frontend
   def yes_no(bool)
     bool ? 'Yes' : 'No'
   end

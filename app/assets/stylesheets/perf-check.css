@@ -456,56 +456,7 @@ h2 {
   color: #676767;
 }
 
-table thead {
-  font-size: 12px;
-  text-align: left;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #939393;
-}
 
-table thead th {
-  font-weight: normal;
-  padding: 12px 0;
-  border-bottom: 1px solid #E8E7E7;
-}
-
-table tbody td {
-  padding: 12px 0;
-  vertical-align: top;
-}
-
-table tbody tr:not(:first-child) td {
-  border-top: 1px solid #E8E7E7;
-}
-
-table tbody,
-table tbody a {
-  text-decoration: none;
-}
-
-table td span {
-  display: block;
-  overflow: hidden;
-  white-space: pre;
-  text-overflow: ellipsis;
-}
-
-table .user {
-  width: 75px;
-}
-
-table .issue {
-  width: 200px;
-}
-
-table .arguments {
-  width: 155px;
-}
-
-table .date {
-  padding-right: 20px;
-}
 
 #load-more-results-container {
   padding: 0 10px;
