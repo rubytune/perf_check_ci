@@ -5,7 +5,7 @@ class PerfCheckJobsController < ApplicationController
   def index
     respond_to do |wants|
       wants.html
-      wants.json { render json: {perf_check_jobs: @perf_check_jobs}}
+      wants.json { render json: {perf_check_jobs: @perf_check_jobs_records}}
     end
   end
 
