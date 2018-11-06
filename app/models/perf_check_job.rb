@@ -61,6 +61,15 @@ class PerfCheckJob < ApplicationRecord
     true
   end
 
+
+  ##############
+  # Spawn Job
+  ##############
+
+  def self.spawn_from_github_mention(job_params)
+
+  end
+
   ##############
   # Clone Logic
   ##############
