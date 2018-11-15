@@ -9,11 +9,11 @@ class GithubMention
       object = payload['comment'] 
       job_template = setup_job_template(issue, object)
     else
-      raise 'What up'
+      return
+      # raise 'What up'
     end
 
     object['body'].scan(/^@#{APP_CONFIG[:github_user]} (.+)/).each do |args|
-      binding.pry
       job_params = job_template.dup
       branch, args = parse_branch(args.first)
       job_params[:arguments] = args
