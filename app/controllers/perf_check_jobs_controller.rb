@@ -15,6 +15,7 @@ class PerfCheckJobsController < ApplicationController
 
   def create
     @perf_check_job = PerfCheckJob.new(perf_check_job_params)
+    @perf_check_job.user = current_user
 
     if @perf_check_job.save
       redirect_to @perf_check_job

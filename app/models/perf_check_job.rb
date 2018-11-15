@@ -67,7 +67,13 @@ class PerfCheckJob < ApplicationRecord
   ##############
 
   def self.spawn_from_github_mention(job_params)
-
+    user = User.find_by(github_username: job_params[:github_holder]["user"]["login"])
+    PerfCheckJob.create({
+      arguments: job_params[:arguments],
+      user: user,
+      branch: job_params[:branch],
+      urls_to_benchmark: ''
+    })
   end
 
   ##############
