@@ -3,24 +3,45 @@ require "optparse"
 require "shellwords"
 
 class GithubMention
-  def self.extract_and_spawn_jobs(issue, object)
-    jobs = []
+  def self.extract_and_spawn_jobs(payload)
+    if issue = payload['issue']
+      issue = payload['issue']
+      object = payload['comment'] 
+      job_template = setup_job_template(issue, object)
+    else
+      raise 'What up'
+    end
 
+    object['body'].scan(/^@#{APP_CONFIG[:github_user]} (.+)/).each do |args|
+      binding.pry
+      job_params = job_template.dup
+      branch, args = parse_branch(args.first)
+      job_params[:arguments] = args
+
+      if branch.present?
+        job_params[:branch] = branch
+        job_params[:sha] = branch
+      end
+
+      PerfCheckJob.spawn_from_github_mention(job_params)
+    end
+  end
+
+  def self.setup_job_template(issue, object)
     job_template = {
-      issue:          issue.fetch('url'),
-      issue_title:    issue.fetch('title'),
-      issue_html_url: issue.fetch('html_url'),
-      issue_comments: issue.fetch('comments_url'),
-      github_holder:  object,
-      created_at:     Time.now
+      issue:          issue['url'],
+      issue_title:    issue['title'],
+      issue_html_url: issue['html_url'],
+      issue_comments: issue['comments_url'],
+      github_holder:  object
     }
 
     if issue["head"]
       job_template.merge!(
-        branch:         issue.fetch('head').fetch('ref'),
-        reference:      issue.fetch('base').fetch('ref'),
-        sha:            issue.fetch('head').fetch('sha'),
-        reference_sha:  issue.fetch('base').fetch('sha'),
+        branch:         issue['head']['ref'],
+        reference:      issue['base']['ref'],
+        sha:            issue['head']['sha'],
+        reference_sha:  issue['base']['sha'],
       )
     else
       # For regular issues, default to master-master
@@ -33,21 +54,6 @@ class GithubMention
         reference_sha:  "master"
       )
     end
-
-    object.fetch('body').scan(/^@#{APP_CONFIG['github_user']} (.+)/).each do |args|
-      job = job_template.dup
-      branch, args = parse_branch(args.first)
-      job[:arguments] = args
-
-      if branch
-        job[:branch] = branch
-        job[:sha] = branch
-      end
-
-      jobs.push(job)
-    end
-
-    PerfCheckJob.spawn_from_github_mention(job)
   end
 
   # Extract --branch XYZ pseudo-option from mentions

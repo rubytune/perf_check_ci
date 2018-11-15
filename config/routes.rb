@@ -30,7 +30,9 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resource :webhooks, only: [:create]
+      resource :webhooks, only: [] do
+        post :github
+      end
     end
   end
 
