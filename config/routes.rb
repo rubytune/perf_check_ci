@@ -15,7 +15,8 @@ Rails.application.routes.draw do
   get 'oauth' => 'oauths#oauth'
   get 'oauth/callback' => 'oauths#callback'
 
-  resources :my_perf_check_jobs, only: [:index]
+  get 'my_perf_check_jobs' => 'users#show', id: 'current_user'
+  resources :users, only: [:show]
 
   resources :perf_check_jobs do
     member do
