@@ -4,15 +4,15 @@
     <hr />
 
     <div class="number-of-runs">
-      <%= number_field_tag :number_of_runs, params[:number_of_runs], class: 'text-field', data: {target: 'perf-check-wizard.numberOfRuns', action: 'change->perf-check-wizard#setFinalCommand'} %>
+      <%= number_field_tag :number_of_runs, params[:number_of_runs], class: 'text-field', data: {target: 'perf-check-wizard.numberOfRuns', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
       <label>Runs</label>
     </div>
 
     <div class="branch-name">
-      <%= text_field_tag :branch, params[:branch], class: 'text-field', placeholder: 'Branch Name'%>
+      <%= text_field_tag :branch, params[:branch], class: 'text-field', placeholder: 'Branch Name', data: {target: 'perf-check-wizard.branchName', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}%>
 
       <label>
-        <%= check_box_tag :only_bench_branch, params[:only_bench_branch] %>
+        <%= check_box_tag :only_bench_branch, true, false, {data: {target: 'perf-check-wizard.onlyBenchBranch', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
         Only Bench Branch
       </label>
     </div>
@@ -35,13 +35,13 @@
 
     <div class="perf-check-options">
       <label>
-        <%= check_box_tag :run_migrations, params[:run_migrations] %>
+        <%= check_box_tag :run_migrations, true, false, {data: {target: 'perf-check-wizard.runMigrations', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
         Run Migrations
       </label>
       <br />
 
       <label>
-        <%= check_box_tag :no_diff, params[:no_diff] %>
+        <%= check_box_tag :verify_no_diff, true, false, {data: {target: 'perf-check-wizard.verifyNoDiff', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
         Verify No Diff
       </label>
     </div>
