@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "numberOfRuns", "branchName", "finalCommand", "onlyBenchBranch", "runMigrations", "verifyNoDiff" ]
+  static targets = [ "numberOfRuns", "branchName", "finalCommand", "onlyBenchBranch", "runMigrations", "verifyNoDiff", "runAsUser"]
 
   connect() {
     this.numberOfRunsTarget.value = '20'
@@ -9,10 +9,30 @@ export default class extends Controller {
     this.setFinalCommand()
   }
 
-  // copy() {
-  //   this.sourceTarget.select()
-  //   document.execCommand("copy")
-  // }
+  // Figure out how to move over to dynamic targets?
+  addUrl (event) {
+    $('#urls-to-benchmark').append('<li><input type="text" name="url" class="text-field url-to-benchmark" placeholder="/path/to/benchmark" data-action="keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand"></li>')
+    event.preventDefault()
+    return false;
+  }
+
+  getUrlValues() {
+    var urls = [];
+    $.each($('.url-to-benchmark'), function( index, item ) {
+      var url = $(item).val()
+      if(url != ''){
+        urls.push($(item).val());        
+      }
+    });
+    return urls.join(' ');
+  }
+
+  runAsUserCmd() {
+    var user = this.runAsUserTarget.value;
+    if(user != '') {
+      return "--" + user;
+    }
+  }
 
   generateArgumentString(target, prefix) {
     if(target.value != undefined && target.value != ''){
@@ -31,10 +51,14 @@ export default class extends Controller {
   setFinalCommand() {
     var numberOfRunsCmd = this.generateArgumentString(this.numberOfRunsTarget, '-n');
     var branchNameCmd = this.generateArgumentString(this.branchNameTarget, '-r');
-    var onlyBenchBranchCmd = this.generateArgumentBoolean(this.onlyBenchBranchTarget, '-q')
-    var runMigrationsCmd = this.generateArgumentBoolean(this.runMigrationsTarget, '--run-migrations')
-    var verifyNoDiffCmd = this.generateArgumentBoolean(this.verifyNoDiffTarget, '--verify-no-diff')
+    var onlyBenchBranchCmd = this.generateArgumentBoolean(this.onlyBenchBranchTarget, '-q');
+    var runMigrationsCmd = this.generateArgumentBoolean(this.runMigrationsTarget, '--run-migrations');
+    var verifyNoDiffCmd = this.generateArgumentBoolean(this.verifyNoDiffTarget, '--verify-no-diff');
 
-    this.finalCommandTarget.value = [numberOfRunsCmd, branchNameCmd, onlyBenchBranchCmd, runMigrationsCmd, verifyNoDiffCmd].join(' ');
+    var runAsUserCmd = this.runAsUserCmd()
+
+    var urlCmd = this.getUrlValues();
+
+    this.finalCommandTarget.value = [runAsUserCmd, numberOfRunsCmd, branchNameCmd, onlyBenchBranchCmd, runMigrationsCmd, verifyNoDiffCmd, urlCmd].join(' ');
   }
 }
