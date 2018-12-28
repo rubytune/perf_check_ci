@@ -1,7 +1,7 @@
 import { Controller } from "stimulus"
 
 export default class extends Controller {
-  static targets = [ "numberOfRuns", "branchName", "finalCommand", "onlyBenchBranch", "runMigrations", "verifyNoDiff", "runAsUser"]
+  static targets = [ "numberOfRuns", "branchName", "finalCommand", "onlyBenchBranch", "runMigrations", "verifyNoDiff", "runAsUserSelect", "runAsUserEmail"]
 
   connect() {
     this.numberOfRunsTarget.value = '20'
@@ -28,9 +28,15 @@ export default class extends Controller {
   }
 
   runAsUserCmd() {
-    var user = this.runAsUserTarget.value;
-    if(user != '') {
-      return "--" + user;
+    var user_email_value = this.runAsUserEmailTarget.value;
+
+    if(user_email_value != '') {
+      return user_email_value;
+    } else {
+      var user = this.runAsUserSelectTarget.value;
+      if(user != '') {
+        return "--" + user;
+      }      
     }
   }
 
@@ -56,7 +62,6 @@ export default class extends Controller {
     var verifyNoDiffCmd = this.generateArgumentBoolean(this.verifyNoDiffTarget, '--verify-no-diff');
 
     var runAsUserCmd = this.runAsUserCmd()
-
     var urlCmd = this.getUrlValues();
 
     this.finalCommandTarget.value = [runAsUserCmd, numberOfRunsCmd, branchNameCmd, onlyBenchBranchCmd, runMigrationsCmd, verifyNoDiffCmd, urlCmd].join(' ');

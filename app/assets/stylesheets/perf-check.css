@@ -55,7 +55,7 @@ body,
   border: 1px solid #ccc;
   padding: 45px;
   border-radius: 15px;
-  margin-top: 100px;
+  margin: 0 25px;
 }
 
 #content #new-perf-check-job .number-of-runs input {
@@ -66,8 +66,6 @@ body,
 #content #new-perf-check-job .branch-name input[type=text] {
   width: 450px;
 }
-
-
 
 #content #new-perf-check-job ul#urls-to-benchmark {
   display: block;
