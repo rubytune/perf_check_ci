@@ -62,6 +62,13 @@ body,
   width: 50px;
 }
 
+
+#content #new-perf-check-job .branch-name input[type=text] {
+  width: 450px;
+}
+
+
+
 #content #new-perf-check-job ul#urls-to-benchmark {
   display: block;
   width: 100%;
@@ -74,7 +81,35 @@ body,
 }
 
 #content #new-perf-check-job ul#urls-to-benchmark li input {
-  width: 500px;
+  width: 100%;
+}
+
+
+#content #new-perf-check-job .add-url .styled-button {
+  margin-right: -24px;
+  padding: 5px 25px;
+  font-size: 16px;
+  margin-bottom: 13px;
+}
+
+#content #new-perf-check-job .run-as-user {
+  clear: both;
+}
+
+#content #new-perf-check-job .run-as-user select {
+  font-size: 16px; padding: 10px;
+  height: 35px;
+  width: 300px;
+}
+
+#content #new-perf-check-job .run-as-user span {
+  padding-left: 8px;
+}
+
+#content #new-perf-check-job .run-as-user input[type=email] {
+  float: right;
+  width: 300px;
+  margin-right: -20px;
 }
 
 #content #new-perf-check-job h1{
