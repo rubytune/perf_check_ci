@@ -1,0 +1,25 @@
+<div id="aligner">
+  <div id="new-perf-check-job">
+    <h1><%= fa_icon 'motorcycle' %> New PerfCheck Job </h1>
+    <hr />
+    <%= error_messages_for(@perf_check_job) %>
+    <%= form_for @perf_check_job do |f| %>
+      <%= f.label :urls_to_benchmark do%>
+        URL(s) 
+        <small>Seperate with space</small>
+      <% end %>
+      <br />
+      <%= f.text_field :urls_to_benchmark, class: 'text-field', required: 'required' %>
+
+      <%= f.label :arguments, 'Job Arguments' %>
+      <br />
+      <%= f.text_field :arguments, class: 'text-field', required: 'required' %>
+      <br />
+      <%= f.label :branch, 'Branch or Reference' %>
+      <br />
+      <%= f.text_field :branch, class: 'text-field', required: 'required' %>
+      <br />
+      <%= submit_tag 'Create Job', class: 'submit' %>
+    <% end %>
+  </div>
+</div>

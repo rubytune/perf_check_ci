@@ -1,23 +1,55 @@
-<div id="aligner">
+<div id="aligner" data-controller="perf-check-wizard">
   <div id="new-perf-check-job">
-    <h1><%= fa_icon 'motorcycle' %> New PerfCheck Job </h1>
+    <h1><%= fa_icon 'motorcycle' %> New Perf Check </h1>
     <hr />
-    <%= error_messages_for(@perf_check_job) %>
-    <%= form_for @perf_check_job do |f| %>
-      <%= f.label :urls_to_benchmark do%>
-        URL(s) 
-        <small>Seperate with space</small>
-      <% end %>
-      <br />
-      <%= f.text_field :urls_to_benchmark, class: 'text-field', required: 'required' %>
 
-      <%= f.label :arguments, 'Job Arguments' %>
+    <div class="number-of-runs">
+      <%= number_field_tag :number_of_runs, params[:number_of_runs], class: 'text-field', data: {target: 'perf-check-wizard.numberOfRuns', action: 'change->perf-check-wizard#setFinalCommand'} %>
+      <label>Runs</label>
+    </div>
+
+    <div class="branch-name">
+      <%= text_field_tag :branch, params[:branch], class: 'text-field', placeholder: 'Branch Name'%>
+
+      <label>
+        <%= check_box_tag :only_bench_branch, params[:only_bench_branch] %>
+        Only Bench Branch
+      </label>
+    </div>
+
+
+    <label>Urls to Benchmark:</label>
+    <ul class="urls-to-benchmark">
+      <li>
+        <%= text_field_tag "url[]", nil, class: 'text-field', placeholder: '/path/to/bencmark' %>
+      </li>
+      <li><a href="#" class="styled-button pull-right">+ Add Url</a></li>
+    </ul>
+
+
+    <div class="run-as-user">
+      <%= select_tag :run_as_user, options_for_select(PerfCheckJob::PERF_CHECK_USER_TYPES),  class: 'text-field' %>
+    </div>
+
+    <br />
+
+    <div class="perf-check-options">
+      <label>
+        <%= check_box_tag :run_migrations, params[:run_migrations] %>
+        Run Migrations
+      </label>
       <br />
-      <%= f.text_field :arguments, class: 'text-field', required: 'required' %>
+
+      <label>
+        <%= check_box_tag :no_diff, params[:no_diff] %>
+        Verify No Diff
+      </label>
+    </div>
+
+    <%= form_for @perf_check_job do |f| %>
+      <h4>Final Command:</h4>
       <br />
-      <%= f.label :branch, 'Branch or Reference' %>
-      <br />
-      <%= f.text_field :branch, class: 'text-field', required: 'required' %>
+      <%= f.text_field :arguments, class: 'text-field', required: 'required', data: {target: 'perf-check-wizard.finalCommand'} %>
       <br />
       <%= submit_tag 'Create Job', class: 'submit' %>
     <% end %>

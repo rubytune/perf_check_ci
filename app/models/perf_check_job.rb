@@ -2,6 +2,7 @@ class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
   include PgSearch
+  PERF_CHECK_USER_TYPES = ['admin', 'user']
   
   multisearchable :against => [:branch, :status]
 
@@ -13,6 +14,7 @@ class PerfCheckJob < ApplicationRecord
 
   validates :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
+
 
   def username
     user.github_username
