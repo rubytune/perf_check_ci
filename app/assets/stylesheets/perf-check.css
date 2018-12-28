@@ -62,22 +62,20 @@ body,
   width: 50px;
 }
 
-#content #new-perf-check-job ul.urls-to-benchmark {
+#content #new-perf-check-job ul#urls-to-benchmark {
   display: block;
   width: 100%;
   margin: 0; padding: 0;
   list-style: none;
 }
 
-#content #new-perf-check-job ul.urls-to-benchmark li {
+#content #new-perf-check-job ul#urls-to-benchmark li {
   margin: 0; padding: 0;
 }
 
-#content #new-perf-check-job ul.urls-to-benchmark li input {
+#content #new-perf-check-job ul#urls-to-benchmark li input {
   width: 500px;
 }
-
-
 
 #content #new-perf-check-job h1{
   color: #000;

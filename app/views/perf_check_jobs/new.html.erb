@@ -10,25 +10,23 @@
 
     <div class="branch-name">
       <%= text_field_tag :branch, params[:branch], class: 'text-field', placeholder: 'Branch Name', data: {target: 'perf-check-wizard.branchName', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}%>
-
-      <label>
-        <%= check_box_tag :only_bench_branch, true, false, {data: {target: 'perf-check-wizard.onlyBenchBranch', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
-        Only Bench Branch
-      </label>
     </div>
 
-
     <label>Urls to Benchmark:</label>
-    <ul class="urls-to-benchmark">
+    <ul id="urls-to-benchmark">
       <li>
-        <%= text_field_tag "url[]", nil, class: 'text-field', placeholder: '/path/to/bencmark' %>
+        <%= text_field_tag :url, nil, class: 'text-field url-to-benchmark', placeholder: '/path/to/benchmark', data: {action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
       </li>
-      <li><a href="#" class="styled-button pull-right">+ Add Url</a></li>
+      <li>
+        <%= text_field_tag :url, nil, class: 'text-field url-to-benchmark', placeholder: '/path/to/benchmark', data: {action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
+      </li>
+
     </ul>
 
+    <a href="#" class="styled-button pull-right" data-action="click->perf-check-wizard#addUrl" >+ Add Url</a>
 
     <div class="run-as-user">
-      <%= select_tag :run_as_user, options_for_select(PerfCheckJob::PERF_CHECK_USER_TYPES),  class: 'text-field' %>
+      <%= select_tag :run_as_user, options_for_select([['No User', '']]+ PerfCheckJob::PERF_CHECK_USER_TYPES, ''),  class: 'text-field', data: {target: 'perf-check-wizard.runAsUser', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
     </div>
 
     <br />
@@ -44,6 +42,12 @@
         <%= check_box_tag :verify_no_diff, true, false, {data: {target: 'perf-check-wizard.verifyNoDiff', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
         Verify No Diff
       </label>
+      <br />
+
+      <label>
+        <%= check_box_tag :only_bench_branch, true, false, {data: {target: 'perf-check-wizard.onlyBenchBranch', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
+        Only Bench Specified Branch
+      </label>      
     </div>
 
     <%= form_for @perf_check_job do |f| %>
