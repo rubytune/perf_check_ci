@@ -58,6 +58,27 @@ body,
   margin-top: 100px;
 }
 
+#content #new-perf-check-job .number-of-runs input {
+  width: 50px;
+}
+
+#content #new-perf-check-job ul.urls-to-benchmark {
+  display: block;
+  width: 100%;
+  margin: 0; padding: 0;
+  list-style: none;
+}
+
+#content #new-perf-check-job ul.urls-to-benchmark li {
+  margin: 0; padding: 0;
+}
+
+#content #new-perf-check-job ul.urls-to-benchmark li input {
+  width: 500px;
+}
+
+
+
 #content #new-perf-check-job h1{
   color: #000;
   text-align: center;
@@ -317,7 +338,7 @@ ul.browser-app-results:hover {
   color: #527AB1;
 }
 
-.job header.job-header .styled-button {
+.styled-button {
   font-size: .8em;
   display: block;
   margin-left: 8px;
@@ -341,7 +362,7 @@ ul.browser-app-results:hover {
   text-decoration: none;
 }
 
-.job header.job-header .styled-button:hover {
+.styled-button:hover {
   background: #3cb0fd;
   background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
   background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
@@ -349,8 +370,6 @@ ul.browser-app-results:hover {
   background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
 }
-
-
 
 
 .job header.job-header pre.command {
