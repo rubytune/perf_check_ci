@@ -2,7 +2,7 @@ class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
   include PgSearch
-  PERF_CHECK_USER_TYPES = ['admin', 'super', 'user',]
+  PERF_CHECK_USER_TYPES = ['admin', 'super', 'user', 'standard', 'read']
   
   multisearchable :against => [:branch, :status]
 
