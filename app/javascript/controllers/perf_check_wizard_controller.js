@@ -57,7 +57,7 @@ export default class extends Controller {
   setFinalCommand() {
     var numberOfRunsCmd = this.generateArgumentString(this.numberOfRunsTarget, '-n');
     var branchNameCmd = this.generateArgumentString(this.branchNameTarget, '-r');
-    var onlyBenchBranchCmd = this.generateArgumentBoolean(this.onlyBenchBranchTarget, '-q');
+    var onlyBenchBranchCmd = this.generateArgumentBoolean(this.onlyBenchBranchTarget, '--branch');
     var runMigrationsCmd = this.generateArgumentBoolean(this.runMigrationsTarget, '--run-migrations');
     var verifyNoDiffCmd = this.generateArgumentBoolean(this.verifyNoDiffTarget, '--verify-no-diff');
 

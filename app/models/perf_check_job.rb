@@ -15,7 +15,6 @@ class PerfCheckJob < ApplicationRecord
   validates :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
 
-
   def username
     user.github_username
   end
@@ -28,8 +27,12 @@ class PerfCheckJob < ApplicationRecord
     "#{APP_CONFIG[:default_arguments]} #{arguments} #{urls_to_benchmark}"
   end
 
+  def urls_to_benchmark
+    ''
+  end
+
   def run_perf_check!
-    perf_check = PerfCheck.new(APP_CONFIG[:app_dir])
+    perf_check = PerfCheck.new(APP_CONFIG[:app_dir]) 
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
     perf_check.run
@@ -73,8 +76,7 @@ class PerfCheckJob < ApplicationRecord
     PerfCheckJob.create({
       arguments: job_params[:arguments],
       user: user,
-      branch: job_params[:branch],
-      urls_to_benchmark: ''
+      branch: job_params[:branch]
     })
   end
 
@@ -86,8 +88,7 @@ class PerfCheckJob < ApplicationRecord
     {
       arguments: arguments,
       user_id: user_id,
-      branch: branch,
-      urls_to_benchmark: urls_to_benchmark
+      branch: branch
     }
   end
 

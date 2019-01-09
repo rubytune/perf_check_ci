@@ -17,6 +17,7 @@ pickle-email-*.html
 config/initializers/secret_token.rb
 
 config/perf_check_ci.yml
+config/database.yml
 
 # Only include if you have production secrets in this file, which is no longer a Rails default
 # config/secrets.yml

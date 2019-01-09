@@ -30,7 +30,6 @@ RECORDS_TO_POPULATE.times do |sample_count|
     run_at: status == 'failed' ? (base_created_at + 10.seconds) : nil,
     completed_at: status == 'completed' ? (base_created_at + rand(30).minutes) : nil,
     user_id: users.sample.id,
-    branch: branch_names.sample,
     canceled_at: base_created_at,
     created_at: base_created_at,
     updated_at: base_created_at
