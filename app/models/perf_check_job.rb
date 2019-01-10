@@ -1,3 +1,4 @@
+require 'github_mention'
 class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
@@ -8,6 +9,7 @@ class PerfCheckJob < ApplicationRecord
 
   after_commit :enqueue!, :broadcast_new_perf_check!
   after_create :create_empty_log_file!
+  before_save :set_branch_if_empty
 
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
@@ -19,17 +21,20 @@ class PerfCheckJob < ApplicationRecord
     user.github_username
   end
 
+  def set_branch_if_empty
+    if branch.blank?
+      self.branch = GithubMention.parse_branch(arguments).try(:first)
+    end
+  end
+
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
   end
 
   def all_arguments
-    "#{APP_CONFIG[:default_arguments]} #{arguments} #{urls_to_benchmark}"
+    [APP_CONFIG[:default_arguments], arguments].compact.join(' ')
   end
 
-  def urls_to_benchmark
-    ''
-  end
 
   def run_perf_check!
     perf_check = PerfCheck.new(APP_CONFIG[:app_dir]) 

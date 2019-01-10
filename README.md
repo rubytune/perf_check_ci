@@ -14,6 +14,7 @@
 ### Configuration
 
 1. `cp config/perf_check_ci.yml.example config/perf_check_ci.yml`
+2. `cp config/database.yml.example config/database.yml`
 
 ### Search
 
