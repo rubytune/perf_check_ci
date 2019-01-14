@@ -43,7 +43,9 @@ class PerfCheckJobsController < ApplicationController
   end
 
   def find_perf_check_job
-    unless @perf_check_job = PerfCheckJob.find_by(id: params[:id])
+    if @perf_check_job = PerfCheckJob.includes(:test_cases).find_by(id: params[:id])
+      @test_cases = @perf_check_job.test_cases
+    else
       record_not_found
       return
     end

@@ -460,9 +460,7 @@ ul.browser-app-results:hover {
   margin-left: 4px;
   color: #000;
   font-family: OperatorMonoBook;
-
 }
-
 
 .job .details .fa-check-square {
   color: #7AC57B;
@@ -476,8 +474,37 @@ ul.browser-app-results:hover {
   color: #E99835;
 }
 
+#test-cases .test-case {
+  background: #EFEFEF;
+  padding: 12px;
+  border-radius: 5px;
+  margin: 10px 0;
+}
 
+#test-cases .test-case pre {
+  margin: 0;
+  font-size: 12px !important;
+}
 
+#test-cases .test-case.test-case-success-increase {
+  background: #9ADD91;
+}
+
+#test-cases .test-case.test-case-success-same {
+  background: #9ADD91;
+}
+
+#test-cases .test-case.test-case-success-decrease {
+  background: #E69848;
+}
+
+#test-cases .test-case.test-case-failed {
+  background: #E58D92;
+}
+
+#test-cases .test-case a {
+  color: #000;
+}
 
 .job pre {
   overflow-x: auto;

@@ -16,6 +16,30 @@ class PerfCheckJobTestCase < ApplicationRecord
     status == 'failed'
   end
 
+  def speedup_factor_increased?
+    speedup_factor > 1.0
+  end
+
+  def speedup_factor_decreased?
+    speedup_factor < -1.0
+  end
+
+  def speedup_factor_about_the_same?
+    speedup_factor < 1.0 && speedup_factor > -1.0
+  end
+
+  def status_class
+    if failed?
+      return 'failed'
+    elsif speedup_factor_increased?
+      return 'success-increase'
+    elsif speedup_factor_about_the_same?
+      return 'success-same'
+    elsif speedup_factor_decreased?
+      return 'success-decrease'
+    end      
+  end
+
   def self.add_test_case!(perf_check_job, test_case)
     http_status = test_case.http_status
     status = http_status == '200' ? 'success' : 'failed'
@@ -25,14 +49,15 @@ class PerfCheckJobTestCase < ApplicationRecord
       status: status,
       http_status: http_status,
       max_memory: test_case.max_memory,
-      this_latency: test_case.this_latency,
+      branch_latency: test_case.this_latency,
       reference_latency: test_case.reference_latency,
-      this_query_count: test_case.this_query_count,
+      branch_query_count: test_case.this_query_count,
       reference_query_count: test_case.reference_query_count,
       latency_difference: test_case.latency_difference,
       speedup_factor: test_case.speedup_factor,
       diff_file_path: test_case.response_diff.file,
-      error_backtrace: test_case.error_backtrace
+      error_backtrace: test_case.error_backtrace,
+      resource_benchmarked: test_case.resource
     })
   end
 
