@@ -1,5 +1,7 @@
-PATH
-  remote: /Users/nathanbertram/Sites/rubytune/perf_check
+GIT
+  remote: git://github.com/rubytune/perf_check.git
+  revision: c130165371fe41856844ff7504b6f40f326e5518
+  branch: add-fields-to-test-case
   specs:
     perf_check (0.10.3)
       colorize

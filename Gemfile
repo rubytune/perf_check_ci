@@ -45,7 +45,7 @@ gem 'sinatra', require: false
 gem 'sidekiq'
 
 # Perf-Check
-gem 'perf_check', :path => '/Users/nathanbertram/Sites/rubytune/perf_check'
+gem 'perf_check', git: 'git://github.com/rubytune/perf_check.git', branch: 'add-fields-to-test-case'
 
 # Markdown
 gem 'kramdown'
