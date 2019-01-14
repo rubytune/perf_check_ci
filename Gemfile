@@ -45,7 +45,7 @@ gem 'sinatra', require: false
 gem 'sidekiq'
 
 # Perf-Check
-gem 'perf_check'
+gem 'perf_check', :path => '/Users/nathanbertram/Sites/rubytune/perf_check'
 
 # Markdown
 gem 'kramdown'

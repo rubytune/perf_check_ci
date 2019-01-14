@@ -40,7 +40,15 @@ class PerfCheckJob < ApplicationRecord
     perf_check = PerfCheck.new(APP_CONFIG[:app_dir]) 
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
-    perf_check.run
+    perf_check_test_results = perf_check.run
+    parse_and_save_test_results!(perf_check_test_results)
+    return true
+  end
+
+  def parse_and_save_test_results!(perf_check_test_results)
+    perf_check_test_results.each do |perf_check_test_result|
+      PerfCheckJobTestCase.add_test_case!(self, perf_check_test_result)
+    end
   end
 
   def run_benchmarks!

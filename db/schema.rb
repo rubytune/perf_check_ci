@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_08_214638) do
+ActiveRecord::Schema.define(version: 2019_01_14_203923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,21 +66,21 @@ ActiveRecord::Schema.define(version: 2019_01_08_214638) do
   end
 
   create_table "perf_check_job_test_cases", force: :cascade do |t|
-    t.bigint "perf_check_id"
+    t.bigint "perf_check_job_id"
     t.string "status"
     t.string "http_status"
-    t.integer "before_time_ms"
-    t.integer "after_time_ms"
-    t.integer "reference_latency_ms"
+    t.decimal "max_memory"
+    t.decimal "this_latency"
+    t.decimal "reference_latency"
+    t.integer "this_query_count"
+    t.integer "reference_query_count"
+    t.decimal "latency_difference"
     t.decimal "speedup_factor"
-    t.text "result"
-    t.text "diff"
-    t.text "warning"
-    t.text "error"
-    t.string "exception_url"
+    t.string "diff_file_path"
+    t.text "error_backtrace"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["perf_check_id"], name: "index_perf_check_job_test_cases_on_perf_check_id"
+    t.index ["perf_check_job_id"], name: "index_perf_check_job_test_cases_on_perf_check_job_id"
   end
 
   create_table "perf_check_jobs", force: :cascade do |t|
