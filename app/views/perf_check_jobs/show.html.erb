@@ -13,10 +13,17 @@
     </div>
     <pre class="command"><%= @perf_check_job.all_arguments %></pre>
   </header>
-  <!-- This is outputted the perfcheck daemon post -->
   <% if @perf_check_job.result_details.present?  %>
     <div class="details">
       <%== markdown(@perf_check_job.result_details) %>
+    </div>
+  <% end %>
+
+  <% if @test_cases.any? %>
+    <div id="test-cases">
+      <% @test_cases.each do |test_case| %>
+        <%= render 'test_case', test_case: test_case %>
+      <% end %>
     </div>
   <% end %>
   <pre id="log" data-perf-check-id="<%= @perf_check_job.id %>" 

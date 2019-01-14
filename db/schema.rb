@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_14_203923) do
+ActiveRecord::Schema.define(version: 2019_01_16_003704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,9 +70,9 @@ ActiveRecord::Schema.define(version: 2019_01_14_203923) do
     t.string "status"
     t.string "http_status"
     t.decimal "max_memory"
-    t.decimal "this_latency"
+    t.decimal "branch_latency"
     t.decimal "reference_latency"
-    t.integer "this_query_count"
+    t.integer "branch_query_count"
     t.integer "reference_query_count"
     t.decimal "latency_difference"
     t.decimal "speedup_factor"
@@ -80,6 +80,7 @@ ActiveRecord::Schema.define(version: 2019_01_14_203923) do
     t.text "error_backtrace"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "resource_benchmarked"
     t.index ["perf_check_job_id"], name: "index_perf_check_job_test_cases_on_perf_check_job_id"
   end
 
