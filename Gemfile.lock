@@ -137,7 +137,7 @@ GEM
       multi_xml (~> 0.5)
       rack (>= 1.2, < 3)
     pagy (0.19.4)
-    perf_check (0.10.3)
+    perf_check (0.10.4)
       colorize
       diffy
       rake
