@@ -1,8 +1,12 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   protect_from_forgery with: :exception
-  before_action :require_user
+  before_action :require_user, except: [:health]
   
+  def health
+    head :ok
+  end
+
   private
 
   def require_user

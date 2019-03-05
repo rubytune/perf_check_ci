@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'logout' => 'sessions#destroy'
   get 'oauth' => 'oauths#oauth'
   get 'oauth/callback' => 'oauths#callback'
+  get 'health' => 'application#health'
 
   get 'my_perf_check_jobs' => 'users#show', id: 'current_user'
   resources :users, only: [:show]
