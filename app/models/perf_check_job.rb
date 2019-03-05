@@ -88,7 +88,8 @@ class PerfCheckJob < ApplicationRecord
     PerfCheckJob.create({
       arguments: job_params[:arguments],
       user: user,
-      branch: job_params[:branch]
+      branch: job_params[:branch],
+      github_html_url: job_params[:issue_html_url]
     })
   end
 
@@ -100,7 +101,8 @@ class PerfCheckJob < ApplicationRecord
     {
       arguments: arguments,
       user_id: user_id,
-      branch: branch
+      branch: branch,
+      github_html_url: github_html_url
     }
   end
 

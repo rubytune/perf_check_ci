@@ -1,4 +1,3 @@
-
 require "optparse"
 require "shellwords"
 
@@ -8,10 +7,8 @@ class GithubMention
       issue = payload['issue']
       object = payload['comment'] 
       job_template = setup_job_template(issue, object)
-    else
-      return
-      # raise 'What up'
     end
+
 
     object['body'].scan(/^@#{APP_CONFIG[:github_user]} (.+)/).each do |args|
       job_params = job_template.dup

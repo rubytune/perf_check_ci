@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_01_16_003704) do
+ActiveRecord::Schema.define(version: 2019_01_29_075538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,6 +98,7 @@ ActiveRecord::Schema.define(version: 2019_01_16_003704) do
     t.text "result_details"
     t.integer "user_id"
     t.string "branch"
+    t.string "github_html_url"
     t.index ["user_id"], name: "index_perf_check_jobs_on_user_id"
   end
 
