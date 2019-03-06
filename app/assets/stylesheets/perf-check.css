@@ -163,7 +163,7 @@ body,
   height: 100px;
   margin-bottom: 20px;
   background-color: #CCC;
-  background: url('/assets/excitebike.jpg');
+  background: asset-url('/assets/excitebike.jpg');
   background-position: 50% 100%;
   background-size: 110%;
   position: absolute;

@@ -1,5 +1,5 @@
 #login-page {
-  background: url('/assets/excitebike.jpg') 100% 100% no-repeat;
+  background: asset-url('/assets/excitebike.jpg') 100% 100% no-repeat;
   background-size: cover;
 }
 
