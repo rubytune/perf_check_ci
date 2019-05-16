@@ -95,9 +95,9 @@ ActiveRecord::Schema.define(version: 2019_01_29_075538) do
     t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "branch"
     t.text "result_details"
     t.integer "user_id"
-    t.string "branch"
     t.string "github_html_url"
     t.index ["user_id"], name: "index_perf_check_jobs_on_user_id"
   end
