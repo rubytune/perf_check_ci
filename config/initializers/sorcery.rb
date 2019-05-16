@@ -116,7 +116,7 @@ Rails.application.config.sorcery.configure do |config|
   config.github.secret = APP_CONFIG[:github_secret]
   config.github.callback_url = APP_CONFIG[:github_callback_url]
   config.github.user_info_mapping = {:github_username => "login", :full_name => "name", :avatar_url => "avatar_url", :email => "email"}
-  config.github.scope = "user"
+  config.github.scope = "read:user,read:org"
 
   # config.paypal.key = ""
   # config.paypal.secret = ""
@@ -341,7 +341,7 @@ Rails.application.config.sorcery.configure do |config|
     # Default: `:reset_password_email`
     #
     # user.reset_password_email_method_name = :send_password_reset_instructions
-    
+
     # when true sorcery will not automatically
     # email password reset details and allow you to
     # manually handle how and when email is sent
