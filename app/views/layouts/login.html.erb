@@ -9,5 +9,8 @@
 
   <body id="login-page">
     <%= yield %>
+    <% flash.each do |name, message| %>
+      <div class="flash"><i><%= "#{message}" %></i></div>
+    <% end %>
   </body>
 </html>

@@ -1,5 +1,4 @@
 source 'https://rubygems.org'
-ruby '2.4.3'
 
 gem 'rails', '~> 5.2.2'
 
@@ -48,8 +47,9 @@ gem 'perf_check'
 # Markdown
 gem 'kramdown'
 
-# Sorcery
+# Oauth and github
 gem 'sorcery'
+gem 'octokit'
 
 gem 'httparty'
 
