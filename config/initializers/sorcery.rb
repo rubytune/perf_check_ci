@@ -116,7 +116,7 @@ Rails.application.config.sorcery.configure do |config|
   config.github.secret = APP_CONFIG[:github_secret]
   config.github.callback_url = APP_CONFIG[:github_callback_url]
   config.github.user_info_mapping = {:github_username => "login", :full_name => "name", :avatar_url => "avatar_url", :email => "email"}
-  config.github.scope = "read:user,read:org"
+  config.github.scope = "user,read:org"
 
   # config.paypal.key = ""
   # config.paypal.secret = ""
