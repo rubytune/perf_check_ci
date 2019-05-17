@@ -1,25 +1,33 @@
 development: &default
+  # The directory that we will be performance testing
   app_dir: ../perf_check/test_app
+
+  # These are passed to the perf_check CLI
   default_arguments: -n20 --deployment
+
+  # Alert thresholds specify how to qualify performance regression/improvemens
   limits:
     queries: 75         # max number of queries in a request before warning is raised
     latency: 4000       # max request latency before warning is raised
     change_factor: 0.09  # latency change threshold triggering alternate phrasing
 
+  # github OAUTH config
   github_key: YOUR-GITHUB-KEY
   github_secret: YOUR-GITHUB-SECRET
-  github_token: YOUR-GITHUB-TOKEN  
+  github_token: YOUR-GITHUB-TOKEN
+
+  # github webhook config
   github_callback_url: http://localhost:3000/oauth/callback?provider=github
   github_webhook_secret: YOUR-WEBHOOK-SECRET
   github_user: perf-check-bot
+
+production:
+  <<: *default
+
+  # Action Cable needs to know who it should accept requests from
+  cable_request_origins: yourdomain.com
+
 
 test: *default
 
 staging: *default
-
-production:
-  github_key: YOUR-GITHUB-KEY
-  github_secret: YOUR-GITHUB-SECRET
-  github_callback_url: http://localhost:3000/oauth/callback?provider=github
-  github_webhook_secret: YOUR-WEBHOOK-SECRET
-  github_user: perf-check-bot
