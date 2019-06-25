@@ -22,7 +22,6 @@ module JobLog
       File.join(log_root_dir, relative_log_path)
     end
 
-
     def create_empty_log_file!
       FileUtils.mkdir_p(File.join(log_dir))
       FileUtils.touch(relative_log_path)

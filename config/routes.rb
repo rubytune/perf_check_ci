@@ -1,10 +1,9 @@
 require 'sidekiq/web'
 
 class AuthConstraint
-  def self.admin?(request)
-    return true if Rails.env.development?
-    # return User.find_by(id: request.session[:user_id]).try(:super_admin?) || false if request.session[:user_id]
-    return false
+  def matches?(request)
+    # https://github.com/NoamB/sorcery/wiki/Routes-Constraints
+    User.find_by_id(request.session[:user_id]).present?
   end
 end
 
@@ -38,7 +37,5 @@ Rails.application.routes.draw do
     end
   end
 
-  constraints lambda {|request| AuthConstraint.admin?(request) } do
-    mount Sidekiq::Web => '/sidekiq'
-  end
+  mount Sidekiq::Web => '/sidekiq', :constraints => AuthConstraint.new
 end

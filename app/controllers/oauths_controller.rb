@@ -44,6 +44,6 @@ class OauthsController < ApplicationController
   end
 
   def organization_membership_optional?
-    APP_CONFIG[:github_organization].empty?
+    APP_CONFIG[:github_organization].nil?
   end
 end

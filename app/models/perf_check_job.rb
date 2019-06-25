@@ -4,7 +4,7 @@ class PerfCheckJob < ApplicationRecord
   include JobLog
   include PgSearch
   PERF_CHECK_USER_TYPES = ['admin', 'super', 'user', 'standard', 'read']
-  
+
   multisearchable :against => [:branch, :status]
 
   after_commit :enqueue!, :broadcast_new_perf_check!
@@ -36,12 +36,12 @@ class PerfCheckJob < ApplicationRecord
   end
 
   def run_perf_check!
-    perf_check = PerfCheck.new(APP_CONFIG[:app_dir]) 
+    perf_check = PerfCheck.new(APP_CONFIG[:app_dir])
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
     perf_check_test_results = perf_check.run
     parse_and_save_test_results!(perf_check_test_results)
-    return true
+    true
   end
 
   def parse_and_save_test_results!(perf_check_test_results)
