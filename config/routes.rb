@@ -37,5 +37,5 @@ Rails.application.routes.draw do
     end
   end
 
-  mount Sidekiq::Web => '/sidekiq', :constraints => AuthConstraint.new
+  mount Sidekiq::Web => '/sidekiq_status', :constraints => AuthConstraint.new
 end
