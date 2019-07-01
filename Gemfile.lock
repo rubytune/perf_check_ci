@@ -58,8 +58,6 @@ GEM
       zeitwerk (~> 2.1, >= 2.1.4)
     addressable (2.6.0)
       public_suffix (>= 2.0.2, < 4.0)
-    archive-zip (0.12.0)
-      io-like (~> 0.3.0)
     bcrypt (3.1.13)
     better_errors (2.5.1)
       coderay (>= 1.0.0)
@@ -82,9 +80,6 @@ GEM
       xpath (~> 3.2)
     childprocess (1.0.1)
       rake (< 13.0)
-    chromedriver-helper (2.1.1)
-      archive-zip (~> 0.10)
-      nokogiri (~> 1.8)
     coderay (1.1.2)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
@@ -113,7 +108,6 @@ GEM
       multi_xml (>= 0.5.2)
     i18n (1.6.0)
       concurrent-ruby (~> 1.0)
-    io-like (0.3.0)
     jquery-rails (4.3.5)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
@@ -279,6 +273,10 @@ GEM
       activemodel (>= 6.0.0.a)
       bindex (>= 0.4.0)
       railties (>= 6.0.0.a)
+    webdrivers (4.0.1)
+      nokogiri (~> 1.6)
+      rubyzip (~> 1.0)
+      selenium-webdriver (>= 3.0, < 4.0)
     webpacker (4.0.7)
       activesupport (>= 4.2)
       rack-proxy (>= 0.6.1)
@@ -298,8 +296,7 @@ DEPENDENCIES
   binding_of_caller
   bootsnap
   byebug
-  capybara (>= 2.15, < 4.0)
-  chromedriver-helper
+  capybara
   coffee-rails
   font_awesome5_rails
   httparty
@@ -322,13 +319,14 @@ DEPENDENCIES
   sinatra
   sorcery
   spring
-  spring-watcher-listen (~> 2.0.0)
+  spring-watcher-listen
   stamp
   state_machines-activerecord
   turbolinks
   tzinfo-data
   uglifier
-  web-console (>= 3.3.0)
+  web-console
+  webdrivers
   webpacker
 
 BUNDLED WITH
