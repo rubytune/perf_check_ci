@@ -1,28 +1,25 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 5.2.2'
+gem 'rails', '~> 6.0.0.rc1'
 
 # Database
 gem 'pg'
-gem 'redis', '~> 4.0'
+gem 'redis'
 
 # Search
 gem 'pg_search'
 
 # Web Server
-gem 'puma', '~> 3.11'
-
-# Use Capistrano for deployment
-# gem 'capistrano-rails', group: :development
+gem 'puma'
 
 # CSS / Assets / JS
-gem 'webpacker', '>= 4.0.x'
+gem 'webpacker'
 gem 'font_awesome5_rails'
 gem 'jquery-rails'
-gem 'coffee-rails', '~> 4.2'
-gem 'turbolinks', '~> 5'
+gem 'coffee-rails'
+gem 'turbolinks'
 gem 'sass-rails'
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier'
 gem 'momentjs-rails'
 
 # Pagination
@@ -35,7 +32,7 @@ gem 'stamp'
 gem 'state_machines-activerecord'
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootsnap', require: false
 
 # Background Jobs
 gem 'sinatra', require: false
