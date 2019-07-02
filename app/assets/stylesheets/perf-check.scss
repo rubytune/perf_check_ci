@@ -28,13 +28,13 @@ body,
 }
 
 #content.show-me {
-  display: block; 
+  display: block;
 }
 
 #content #default-content {
   position: absolute;
   top: 200px;
-  left: 30%;  
+  left: 30%;
 }
 
 #content #default-content h1{
@@ -163,7 +163,7 @@ body,
   height: 100px;
   margin-bottom: 20px;
   background-color: #CCC;
-  background: asset-url('/assets/excitebike.jpg');
+  background: image-url('excitebike.jpg');
   background-position: 50% 100%;
   background-size: 110%;
   position: absolute;
@@ -260,7 +260,7 @@ body,
   /*border: 1px solid #DDD;*/
   /*border-radius: 2px;*/
   background-color: #EFEFEF;
-  text-shadow: 1px 0px 1px #666; 
+  text-shadow: 1px 0px 1px #666;
   margin-right: 9px;
 }
 
@@ -289,7 +289,7 @@ body,
 .status.completed {
   color: #000;
   background-color: #EBEBEB !important;
-  text-shadow: 0 !important; 
+  text-shadow: 0 !important;
 }
 
 .status-label.failed,
@@ -424,11 +424,11 @@ ul.browser-app-results:hover {
 
 .job header.job-header .status {
   padding: 5px 80px;
-  text-shadow: 1px 0px 1px #666; 
+  text-shadow: 1px 0px 1px #666;
 }
 
 
-.job header.job-header .created-by { 
+.job header.job-header .created-by {
   font-size: .8em;
   color: #333;
 }
