@@ -153,7 +153,7 @@ GEM
     octokit (4.14.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     pagy (3.3.0)
-    perf_check (0.10.4)
+    perf_check (0.10.5)
       colorize
       diffy
       rake

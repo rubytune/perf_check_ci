@@ -38,7 +38,7 @@ gem 'bootsnap',  require: false
 gem 'sinatra', require: false
 gem 'sidekiq'
 
-# Perf-Check
+# Perf Check
 gem 'perf_check'
 
 # Markdown
