@@ -6,7 +6,7 @@
       <div class="dropdown-content">
         <%= link_to my_perf_check_jobs_path do %>
           <%= fa_icon 'motorcycle' %> My Perf Checks
-        <% end %>        
+        <% end %>
         <%= link_to logout_path do %>
           <%= fa_icon 'power-off' %> Log Out
         <% end %>
@@ -16,7 +16,7 @@
   <h1><a href="/">Perf Check CI : Status Page</a></h1>
   <div class="new-job pull-right"><%= link_to "#{fa_icon 'plus'} New Perf Check".html_safe, [:new, :perf_check_job], class: 'styled-button pull-right' %></div>
   <div id="status-content">
-    <a href="/sidekiq"><span class="system-status offline hidden">Sidekiq & Daemon Offline <%= fa_icon 'times' %></span></a>
-    <a href="/sidekiq"><span class="system-status online">Sidekiq & Daemon Online <%= fa_icon 'check' %></span></a>
+    <a href="/status"><span class="system-status offline hidden">Sidekiq & Daemon Offline <%= fa_icon 'times' %></span></a>
+    <a href="/status"><span class="system-status online">Sidekiq & Daemon Online <%= fa_icon 'check' %></span></a>
   </div>
 </div>
