@@ -1,5 +1,6 @@
 class PerfCheckJobWorker
   include Sidekiq::Worker
+  sidekiq_options queue: :perf_check
 
   def perform(perf_check_job_id)
     sleep 0.25 # Give the DB a sec
