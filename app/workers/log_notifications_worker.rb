@@ -1,5 +1,6 @@
 class LogNotificationsWorker
   include Sidekiq::Worker
+  sidekiq_options queue: :logs
 
   def perform(perf_check_job_id)
     perf_check_job = PerfCheckJob.find(perf_check_job_id)
