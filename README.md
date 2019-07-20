@@ -1,25 +1,27 @@
-## Usage
+# Perf Check CI
+
+[Perf Check](https://github.com/rubytune/perf_check) is a command line tool to run performance tests on running web applications. Perf Check CI is a web application to manage Perf Check jobs. You interact with Perf Check CI either through a browser directly or by issuing command in GitHub branches and issues.
 
 ## Development
 
-### Setup
+Perf Check CI requires **Redis** and **Postgres** to run. You should also install a recent version of **Ruby** and **Yarn**. Once you have these in place you can run the setup script to perform all relevant setup steps.
 
-1. Ensure you have Redis & Postgres installed and running.
-2. `bundle install`
-2. `rake db:setup`
-3. `bundle exec sidekiq -q perf_check -q logs`
-4. `rails s`
+    bin/setup
 
+If you want to customize any settings you can change `config/database.yml` and `config/perf_check_ci.yml`. 
 
-### Configuration
+Run Sidekiq and a Rails server to access the application:
 
-1. `cp config/perf_check_ci.yml.example config/perf_check_ci.yml`
-2. `cp config/database.yml.example config/database.yml`
+    bundle exec sidekiq -q perf_check -q logs
+    rails server
 
-### Search
+The Rails command will print instructions on how to access the application.
 
-Need to reindex?
-`PgSearch::Multisearch.rebuild(PerfCheckJob)`
+## Automated testing
+
+Run automated tests through the rails command.
+
+    rails test
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   _____    ______   _____    ______      _____   _    _   ______    _____   _  __     _____   _____
