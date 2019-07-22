@@ -1,18 +1,21 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 
-%w(support).each do |path|
-  Dir.glob(Rails.root.join("test/#{path}/**/*.rb")).each { |file| require file }
+require 'webmock/minitest'
+
+Dir.glob(Rails.root.join('test/support/**/*.rb')).each { |file| require file }
+
+module ActiveSupport
+  class TestCase
+    fixtures :all
+  end
 end
 
-class ActiveSupport::TestCase
-  fixtures :all
-end
-
-class ActionDispatch::IntegrationTest
-  protected
-
-  include Sorcery::TestHelpers::Rails::Request
-  include Support::Authentication
+module ActionDispatch
+  class IntegrationTest
+    include Support::Authentication
+  end
 end
