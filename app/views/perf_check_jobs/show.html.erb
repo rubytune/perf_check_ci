@@ -11,7 +11,7 @@
     <div class="created-by">
       <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@perf_check_job.created_at) %></span>
       by
-      <span><strong><%= @perf_check_job.username %></strong></span>
+      <span><strong><%= @perf_check_job.user_name %></strong></span>
     </div>
     <pre class="command"><%= @perf_check_job.all_arguments %></pre>
   </header>
