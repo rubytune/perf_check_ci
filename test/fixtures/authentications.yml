@@ -1,0 +1,6 @@
+lyra:
+  user: lyra
+  provider: github
+  uid: 77234
+  created_at: <%= 1.day.ago %>
+  updated_at: <%= 1.day.ago %>

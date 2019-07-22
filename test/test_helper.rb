@@ -2,9 +2,17 @@ ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 
-class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+%w(support).each do |path|
+  Dir.glob(Rails.root.join("test/#{path}/**/*.rb")).each { |file| require file }
+end
 
-  # Add more helper methods to be used by all tests here...
+class ActiveSupport::TestCase
+  fixtures :all
+end
+
+class ActionDispatch::IntegrationTest
+  protected
+
+  include Sorcery::TestHelpers::Rails::Request
+  include Support::Authentication
 end
