@@ -43,6 +43,11 @@ group :test do
   gem 'webmock'
 end
 
+group :development do
+  # Used to generate random seed data.
+  gem 'faker'
+end
+
 group :production do
   # Web Server
   gem 'puma'
