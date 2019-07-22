@@ -1,4 +1,5 @@
 class PerfCheckJobsController < ApplicationController
+  include Pagy::Backend
   before_action :load_perf_check_jobs
   before_action :find_perf_check_job, only: [:show, :clone_and_rerun]
 
@@ -48,6 +49,14 @@ class PerfCheckJobsController < ApplicationController
     else
       record_not_found
       return
+    end
+  end
+
+  def load_perf_check_jobs
+    if params[:search].present?
+      @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
+    else
+      @perf_check_jobs, @perf_check_jobs_records = pagy(PerfCheckJob.most_recent)
     end
   end
 end
