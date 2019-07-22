@@ -16,7 +16,7 @@
               <small class="pull-left status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status.humanize %></small>
               <strong class="branch"><%= job.branch %></strong>
               <small class="time"><%= fa_icon 'clock-o' %> <%= time_ago(job.created_at) %></small>
-              <small class="name">by <%= job.username %></small>
+              <small class="name">by <%= job.user_name %></small>
             </div>
           <% end %>
       </li>
