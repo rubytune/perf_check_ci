@@ -1,4 +1,5 @@
 require 'github_mention'
+
 class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
@@ -17,9 +18,7 @@ class PerfCheckJob < ApplicationRecord
   validates :status, :arguments, presence: true
   scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
 
-  def username
-    user.github_username
-  end
+  delegate :name, to: :user, prefix: :user
 
   def set_branch_if_empty
     if branch.blank?
@@ -84,7 +83,7 @@ class PerfCheckJob < ApplicationRecord
   ##############
 
   def self.spawn_from_github_mention(job_params)
-    user = User.find_by(github_username: job_params[:github_holder]["user"]["login"])
+    user = User.find_by(github_login: job_params[:github_holder]["user"]["login"])
     PerfCheckJob.create({
       arguments: job_params[:arguments],
       user: user,
@@ -119,7 +118,7 @@ class PerfCheckJob < ApplicationRecord
   end
 
   def broadcast_new_perf_check!
-    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(username: username, broadcast_type: 'new_perf_check'))
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
   end
 
   def should_broadcast_log_file?
