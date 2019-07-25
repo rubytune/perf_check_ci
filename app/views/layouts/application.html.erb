@@ -5,13 +5,13 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag "application", 'data-turbolinks-track': 'reload', defer: true  %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload', defer: true  %>
   </head>
 
   <body>
-    <%= render 'shared/header'%>
+    <%= render 'shared/header' %>
     <div id="content" class=" show-me" style="height: 100%;">
       <div data-reactroot="" class="browser-app">
         <% unless @disable_search_nav %>

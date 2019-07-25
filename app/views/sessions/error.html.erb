@@ -1,0 +1,9 @@
+<% @disable_search_nav = true %>
+
+<h1>User authorization failed</h1>
+
+<% @authorization.errors.full_messages.each do |message| %>
+<p><%= message %></p>
+<% end %>
+
+<p><%= link_to 'Retry', root_path %></p>
