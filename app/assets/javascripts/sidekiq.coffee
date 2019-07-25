@@ -1,6 +1,6 @@
 $(document).on 'turbolinks:load', ->
   checkSidekiqStatus = ->
-    $.get '/daemon_checks/sidekiq_status', (data) ->
+    $.get '/sidekiq', (data) ->
       $('.system-status').removeClass('online offline')
       $('.system-status').addClass(data['status'])
       if data['status'] == 'online'

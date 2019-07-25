@@ -13,16 +13,11 @@ end
 Rails.application.routes.draw do
   root to: 'perf_check_jobs#index'
 
+  resource :session
+  resource :sidekiq, only: %i[show]
+  resource :user
   resources :perf_check_jobs do
     get :clone_and_rerun
-  end
-  resource :session
-  resource :user
-
-  resources :daemon_checks, only: [] do
-    collection do
-      get :sidekiq_status
-    end
   end
 
   if Rails.env.test?
