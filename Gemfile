@@ -38,6 +38,9 @@ gem 'perf_check'
 # Markdown
 gem 'kramdown'
 
+# GitHub APIs
+gem 'octokit'
+
 group :test do
   # Disallow all HTTP requests from the test suite by default.
   gem 'webmock'
