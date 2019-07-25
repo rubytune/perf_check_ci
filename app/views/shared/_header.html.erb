@@ -9,8 +9,8 @@
           <%= link_to user_path do %>
             <%= fa_icon 'motorcycle' %> My Perf Checks
           <% end %>
-          <% form_with(url: session_path, method: 'destroy') do %>
-            <%= fa_icon 'power-off' %> Log Out
+          <%= form_with(url: session_path, method: 'delete') do %>
+            <button type="submit"><%= fa_icon 'power-off' %> Log Out</button>
           <% end %>
         </div>
       </div>

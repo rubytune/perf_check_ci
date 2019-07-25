@@ -27,7 +27,6 @@ class SessionsController < ActionController::Base
 
   def destroy
     logout
-    redirect_to root_url
   end
 
   private

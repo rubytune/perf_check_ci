@@ -38,7 +38,7 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
     login :lyra
 
     delete '/session'
-    assert_redirected_to root_url
+    assert_select 'h1'
     assert_nil session[:user_id]
   end
 end
