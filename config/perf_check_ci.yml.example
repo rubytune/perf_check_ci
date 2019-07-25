@@ -20,7 +20,6 @@ development: &default
   github_organization:
 
   # github webhook config
-  github_callback_url: http://localhost:3000/oauth/callback?provider=github
   github_webhook_secret: YOUR-WEBHOOK-SECRET
   github_user: perf-check-bot
 
@@ -29,8 +28,5 @@ production:
 
   # Action Cable needs to know who it should accept requests from
   cable_request_origins: yourdomain.com
-
-
-test: *default
 
 staging: *default
