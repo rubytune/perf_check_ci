@@ -57,10 +57,14 @@ class PerfCheckJobsController < ApplicationController
   end
 
   def load_perf_check_jobs
+    @perf_check_jobs, @perf_check_jobs_records = pagy(perf_check_jobs)
+  end
+
+  def perf_check_jobs
     if params[:search].present?
-      @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
+      PerfCheckJob.search(params[:search])
     else
-      @perf_check_jobs, @perf_check_jobs_records = pagy(PerfCheckJob.includes(:user).most_recent)
+      PerfCheckJob.includes(:user).most_recent
     end
   end
 end
