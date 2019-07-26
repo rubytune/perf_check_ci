@@ -17,6 +17,10 @@ Run Sidekiq and a Rails server to access the application:
 
 The Rails command will print instructions on how to access the application.
 
+## Manual testing
+
+The setup script will create a number of users in the database. You can sign in as any of those users when not running in the `production` environment by going to `/test` or `/development/sessions/new`.
+
 ## Automated testing
 
 Run automated tests through the rails command.

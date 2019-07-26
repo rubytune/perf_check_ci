@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-# Manages authentication sessions for users by authorizing
-# access to GitHub and verifying access to the configured
-# GitHub organization.
+# Manages authentication sessions for users by authorizing access to GitHub and
+# verifying access to the configured GitHub organization.
 class SessionsController < ActionController::Base
   include Authentication
 

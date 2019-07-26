@@ -20,6 +20,14 @@ Rails.application.routes.draw do
     get :clone_and_rerun
   end
 
+  if !Rails.env.production?
+    get 'test', to: 'development/sessions#new'
+
+    namespace :development do
+      resources :sessions, only: %i[new create]
+    end
+  end
+
   if Rails.env.test?
     namespace :test do
       resources :sessions, only: %i[create]
