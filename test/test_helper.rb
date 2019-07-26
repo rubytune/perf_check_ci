@@ -5,6 +5,7 @@ require_relative '../config/environment'
 require 'rails/test_help'
 
 require 'webmock/minitest'
+require 'sidekiq/testing'
 
 Dir.glob(Rails.root.join('test/support/**/*.rb')).each { |file| require file }
 

@@ -10,9 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_22_115824) do
+ActiveRecord::Schema.define(version: 2019_07_26_135950) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "perf_check_job_test_cases", force: :cascade do |t|
@@ -50,15 +51,6 @@ ActiveRecord::Schema.define(version: 2019_07_22_115824) do
     t.integer "user_id"
     t.string "github_html_url"
     t.index ["user_id"], name: "index_perf_check_jobs_on_user_id"
-  end
-
-  create_table "pg_search_documents", force: :cascade do |t|
-    t.text "content"
-    t.string "searchable_type"
-    t.bigint "searchable_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["searchable_type", "searchable_id"], name: "index_pg_search_documents_on_searchable_type_and_searchable_id"
   end
 
   create_table "users", force: :cascade do |t|
