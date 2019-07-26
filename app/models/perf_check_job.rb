@@ -3,10 +3,15 @@ require 'github_mention'
 class PerfCheckJob < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
-  include PgSearch
+  include PgSearch::Model
+
   PERF_CHECK_USER_TYPES = ['admin', 'super', 'user', 'standard', 'read']
 
-  multisearchable :against => [:branch, :status]
+  pg_search_scope(
+    :search,
+    against: %i[branch status],
+    using: [:tsearch, :trigram]
+  )
 
   after_commit :enqueue!, :broadcast_new_perf_check!
   after_create :create_empty_log_file!
