@@ -9,7 +9,7 @@ class PerfCheckJobsControllerTest < ActionDispatch::IntegrationTest
     login :lyra
   end
 
-  test 'shows an overview of all current jobs' do
+  test 'sees an overview of all current jobs' do
     get '/jobs'
     assert_response :ok
     assert_select 'strong.branch'
@@ -43,5 +43,11 @@ class PerfCheckJobsControllerTest < ActionDispatch::IntegrationTest
   test 'does not return search results when pagination reached a blank page' do
     get '/jobs', params: { query: 'optimization', page: 2 }
     assert_response :no_content
+  end
+
+  test 'sees a form to create a new job' do
+    get '/jobs/new'
+    assert_response :ok
+    assert_select 'form'
   end
 end
