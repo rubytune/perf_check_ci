@@ -31,7 +31,7 @@ $(document).on 'turbolinks:load', ->
       console.log("PerfCheckJobNotificationsChannel: Disconnected")
 
     received: (data) ->
-      console.log("PerfCheckJobNotificationsChannel: Recieved")
+      console.log("PerfCheckJobNotificationsChannel: Received")
       console.log(data)
       updatePerfCheckStatus(data) # Updates sidenav and the currently viewed page if applicable
       if $('#log').data('broadcast') && $('#log').data('perfCheckId') == data['id'] && data['broadcast_type'] == 'log_file_stream'
