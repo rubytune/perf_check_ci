@@ -16,11 +16,8 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
 
   test 'starts a new authentication session' do
     get '/session/new'
-    assert(
-      response.location.start_with?(
-        Authorization.github_authorize_url
-      )
-    )
+    assert_response :ok
+    assert_includes response.body, Authorization.github_authorize_url
   end
 
   test 'creates a new session when authentication is successful' do
@@ -32,13 +29,25 @@ class SessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'sees error when authentication failed' do
+    error_description = 'The redirect_uri MUST match the registered callback ' \
+      'URL for this application.'
+    get(
+      '/session',
+      params: {
+        error: 'redirect_uri_mismatch',
+        error_description: error_description,
+        error_uri:
+          'https://developer.github.com/apps/managing-oauth-apps/trouble' \
+          'shooting-authorization-request-errors/#redirect-uri-mismatch'
+      }
+    )
+    assert_includes response.body, error_description
   end
 
   test 'destroys an authenticated session' do
     login :lyra
 
     delete '/session'
-    assert_select 'h1'
-    assert_nil session[:user_id]
+    assert_redirected_to root_url
   end
 end

@@ -6,11 +6,9 @@
 class SessionsController < ActionController::Base
   include Authentication
 
-  layout 'application'
-
   # Step 1: Redirect to GitHub to start flow to get OAuth access token.
   def new
-    redirect_to Authorization.new(authorization_params).url
+    @authorization = Authorization.new(authorization_params)
   end
 
   # Step 2: User returns from GitHub with either OAuth code or an error message
@@ -27,6 +25,7 @@ class SessionsController < ActionController::Base
 
   def destroy
     logout
+    redirect_to root_url
   end
 
   private
