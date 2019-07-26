@@ -1,12 +1,12 @@
 <div class="job">
   <header class="job-header">
-    <%= link_to "#{fa_icon 'github', type: 'brand'} View on Github".html_safe, "https://github.com/#{@user.github_username}", class: 'styled-button re-run pull-right' %>
+    <%= link_to "#{fa_icon 'github', type: 'brand'} View on Github".html_safe, "https://github.com/#{current_user.github_login}", class: 'styled-button re-run pull-right' %>
 
     <h2 style="text-align: center"><%= fa_icon 'motorcycle' %> 
       <% if params[:id] == 'current_user' %>
         My Perf Check Jobs 
       <% else %>
-        <%= "@" + @user.github_username %>'s
+        <%= "@" + current_user.github_login %>'s
         Perf Check Jobs
       <% end %>
 
