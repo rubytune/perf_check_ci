@@ -11,4 +11,4 @@ $(document).on 'turbolinks:load', ->
   checkSidekiqStatus()
   setInterval (->
     checkSidekiqStatus()
-  ), 10000
+  ), 60000
