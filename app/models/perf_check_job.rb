@@ -35,7 +35,7 @@ class PerfCheckJob < ApplicationRecord
   end
 
   def run_perf_check!
-    perf_check = PerfCheck.new(APP_CONFIG[:app_dir])
+    perf_check = PerfCheck.new(File.expand_path(APP_CONFIG[:app_dir]))
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
     perf_check_test_results = perf_check.run
