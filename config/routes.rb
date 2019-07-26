@@ -11,12 +11,12 @@ class AuthConstraint
 end
 
 Rails.application.routes.draw do
-  root to: 'perf_check_jobs#index'
+  root to: 'jobs#index'
 
   resource :session
   resource :sidekiq, only: %i[show]
   resource :user
-  resources :perf_check_jobs do
+  resources :jobs do
     get :clone_and_rerun
   end
 

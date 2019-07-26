@@ -2,8 +2,8 @@
   <div id="new-perf-check-job">
     <h1><%= fa_icon 'motorcycle' %> New PerfCheck Job </h1>
     <hr />
-    <%= error_messages_for(@perf_check_job) %>
-    <%= form_for @perf_check_job do |f| %>
+    <%= error_messages_for(@job) %>
+    <%= form_for @job do |f| %>
       <%= f.label :urls_to_benchmark do%>
         URL(s) 
         <small>Seperate with space</small>

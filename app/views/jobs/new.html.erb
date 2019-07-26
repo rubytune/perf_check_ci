@@ -52,7 +52,7 @@
     
     </div>
 
-    <%= form_for @perf_check_job do |f| %>
+    <%= form_for @job do |f| %>
       <h4>Final Command:</h4>
       <%= f.text_field :arguments, class: 'text-field', required: 'required', data: {target: 'perf-check-wizard.finalCommand'} %>
       <br />
