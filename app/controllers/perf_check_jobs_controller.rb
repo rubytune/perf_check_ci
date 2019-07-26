@@ -60,7 +60,7 @@ class PerfCheckJobsController < ApplicationController
     if params[:search].present?
       @perf_check_jobs = PgSearch.multisearch(params[:search]).page(params[:page]).per(params[:per]).map(&:searchable)
     else
-      @perf_check_jobs, @perf_check_jobs_records = pagy(PerfCheckJob.most_recent)
+      @perf_check_jobs, @perf_check_jobs_records = pagy(PerfCheckJob.includes(:user).most_recent)
     end
   end
 end
