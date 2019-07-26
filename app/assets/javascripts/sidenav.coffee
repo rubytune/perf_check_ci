@@ -25,10 +25,14 @@ $(document).on 'turbolinks:load', ->
 
     $('#load-more-results').data({page: page, per: per, search: search})
     $.get '/perf_check_jobs.json?page='+page+'&per='+per+'&search='+search, (data) ->
+      if (!data)
+        $('#load-more-results').html('Load More Results')
+        return false;
+
       $.each data["perf_check_jobs"], (key, perf_check_job) ->
         addPerfcheckJobToSidenav(perf_check_job)
         return
-      
+
       if data["perf_check_jobs"].length == 0
         $('#load-more-results').hide()
 

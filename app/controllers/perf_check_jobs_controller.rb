@@ -3,6 +3,8 @@ class PerfCheckJobsController < ApplicationController
   before_action :load_perf_check_jobs
   before_action :find_perf_check_job, only: [:show, :clone_and_rerun]
 
+  rescue_from Pagy::OverflowError, with: -> { head :no_content }
+
   def index
     respond_to do |wants|
       wants.html
@@ -21,20 +23,13 @@ class PerfCheckJobsController < ApplicationController
     if @perf_check_job.save
       redirect_to @perf_check_job
     else
-      render action: :new 
+      render action: :new
     end
-  end
-
-  def show
   end
 
   def clone_and_rerun
     @new_perf_check_job = @perf_check_job.create_clone_and_rerun!
     redirect_to @new_perf_check_job
-  end
-
-  def record_not_found
-    render 'record_not_found'
   end
 
   private
@@ -51,8 +46,7 @@ class PerfCheckJobsController < ApplicationController
     if @perf_check_job = PerfCheckJob.includes(:test_cases).find_by(id: perf_check_job_id)
       @test_cases = @perf_check_job.test_cases
     else
-      record_not_found
-      return
+      render :record_not_found
     end
   end
 
