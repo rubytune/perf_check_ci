@@ -1,7 +1,7 @@
 RECORDS_TO_POPULATE = 100
 
 puts "================================================================================"
-puts "Populating #{RECORDS_TO_POPULATE} test PerfCheckJobs"
+puts "Populating #{RECORDS_TO_POPULATE} jobs"
 puts "================================================================================"
 
 statusses = %w[queued running completed failed canceled]
@@ -22,7 +22,7 @@ RECORDS_TO_POPULATE.times do |sample_count|
   base_created_at = sample_count.hours.ago
 
   status = statusses.sample
-  PerfCheckJob.create(
+  Job.create(
     branch: branches.sample,
     status: status,
     log_filename: 'test-log-file.txt',
