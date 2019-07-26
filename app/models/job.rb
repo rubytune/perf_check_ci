@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'github_mention'
 
-class PerfCheckJob < ApplicationRecord
+class Job < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
   include PgSearch::Model
@@ -21,7 +23,7 @@ class PerfCheckJob < ApplicationRecord
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
 
   validates :status, :arguments, presence: true
-  scope :most_recent, -> { order("perf_check_jobs.created_at DESC") }
+  scope :most_recent, -> { order(created_at: :desc) }
 
   delegate :name, to: :user, prefix: :user
 
@@ -89,7 +91,7 @@ class PerfCheckJob < ApplicationRecord
 
   def self.spawn_from_github_mention(job_params)
     user = User.find_by(github_login: job_params[:github_holder]["user"]["login"])
-    PerfCheckJob.create({
+    Job.create({
       arguments: job_params[:arguments],
       user: user,
       branch: job_params[:branch],
@@ -111,7 +113,7 @@ class PerfCheckJob < ApplicationRecord
   end
 
   def create_clone_and_rerun!
-    PerfCheckJob.create(clone_params)
+    Job.create(clone_params)
   end
 
   ################################
@@ -119,11 +121,11 @@ class PerfCheckJob < ApplicationRecord
   ################################
 
   def broadcast_log_file!(log_contents = nil)
-    ActionCable.server.broadcast("perf_check_job_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status, broadcast_type: 'log_file_stream'})
+    ActionCable.server.broadcast("job_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status, broadcast_type: 'log_file_stream'})
   end
 
   def broadcast_new_perf_check!
-    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
+    ActionCable.server.broadcast("job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
   end
 
   def should_broadcast_log_file?
