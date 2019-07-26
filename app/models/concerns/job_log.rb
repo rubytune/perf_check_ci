@@ -7,7 +7,7 @@ module JobLog
     end
 
     def log_dir
-      "log/perf_check_jobs"
+      "log/jobs"
     end
 
     def log_filename
