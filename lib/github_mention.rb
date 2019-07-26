@@ -20,7 +20,7 @@ class GithubMention
         job_params[:sha] = branch
       end
 
-      PerfCheckJob.spawn_from_github_mention(job_params)
+      Job.spawn_from_github_mention(job_params)
     end
   end
 
