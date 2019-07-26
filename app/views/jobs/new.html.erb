@@ -31,7 +31,7 @@
     </div>
 
     <div class="run-as-user">
-      <%= select_tag :run_as_user, options_for_select([['No User', '']]+ PerfCheckJob::PERF_CHECK_USER_TYPES, ''),  class: 'text-field', data: {target: 'perf-check-wizard.runAsUserSelect', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
+      <%= select_tag :run_as_user, options_for_select([['No User', '']]+ Job::PERF_CHECK_USER_TYPES, ''),  class: 'text-field', data: {target: 'perf-check-wizard.runAsUserSelect', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
       <span>- or -</span>
       <%= email_field_tag :email, nil, class: 'text-field', placeholder: 'example@example.com', data: {target: 'perf-check-wizard.runAsUserEmail', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
     </div>
