@@ -1,27 +1,29 @@
-RECORDS_TO_POPULATE = 5000
+RECORDS_TO_POPULATE = 100
 
 puts "================================================================================"
-puts "Populating #{RECORDS_TO_POPULATE} test PerfCheckJob's - #{Time.now}"
+puts "Populating #{RECORDS_TO_POPULATE} test PerfCheckJobs"
 puts "================================================================================"
 
-possible_perf_check_statuses = ['queued', 'running', 'completed', 'failed', 'canceled']
-branch_names = ['master', 'featuer-x', 'feature-y', 'bug-fix-a', 'bug-fix-b', 'staging']
-seed_users_attrs = [
-  {first_name: 'John', last_name: 'Doe', email: 'john@doe.com', github_username: 'johndoe'},
-  {first_name: 'Jane', last_name: 'Doe', email: 'jane@doe.com', github_username: 'janedoe'},
-  {first_name: 'Test', last_name: 'User', email: 'test@user.com', github_username: 'testuser'},
-  {first_name: 'Example', last_name: 'Person', email: 'example@person.com', github_username: 'exampleperson'},
-]
+statusses = %w[queued running completed failed canceled]
+branches = %w[master feature-x feature-y sudara/bug-fix-a bug-fix-b staging]
 
-users = seed_users_attrs.collect do |seed_users_attr|
-  User.create(seed_users_attr)
+10.times do
+  name = Faker::Name.name
+  User.create(
+    name: name,
+    github_login: Faker::Internet.username(name),
+    github_avatar_url: "https://avatars3.githubusercontent.com/u/#{rand(1024)}?v=4"
+  )
 end
+
+users = User.all.to_a
 
 RECORDS_TO_POPULATE.times do |sample_count|
   base_created_at = sample_count.hours.ago
 
-  status = possible_perf_check_statuses.sample
-  puts PerfCheckJob.create({
+  status = statusses.sample
+  PerfCheckJob.create(
+    branch: branches.sample,
     status: status,
     log_filename: 'test-log-file.txt',
     arguments: "-n#{rand(20)} --deployment --super /url/to/check/#{sample_count}",
@@ -33,11 +35,5 @@ RECORDS_TO_POPULATE.times do |sample_count|
     canceled_at: base_created_at,
     created_at: base_created_at,
     updated_at: base_created_at
-    }).inspect
-
-  puts "\n"
+  )
 end
-
-puts "======================================================"
-puts "Complete #{Time.now}"
-puts "======================================================"

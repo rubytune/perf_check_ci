@@ -42,7 +42,6 @@ jobs:
       # Wait for Postgres and copy configuration
       - run: dockerize -wait tcp://localhost:5432 -timeout 10s
       - run: cp .circleci/database.yml config/database.yml
-      - run: cp .circleci/perf_check_ci.yml config/perf_check_ci.yml
 
       # Yarn
       - restore_cache:

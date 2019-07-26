@@ -2,8 +2,10 @@
 
 module Test
   class SessionsController < ActionController::Base
+    include Authentication
+
     def create
-      session[:user_id] = params[:user_id]
+      login(params[:user_id].to_i)
       head :ok
     end
   end

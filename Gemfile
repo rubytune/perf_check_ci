@@ -6,11 +6,12 @@ gem 'rails', '~> 6.0.0.rc1'
 gem 'pg'
 gem 'redis'
 
+# Required to use Action Cable. Action Cable does not work with WEBrick,
+# because WEBrick does not support the Rack socket hijacking API.
+gem 'puma'
+
 # Search
 gem 'pg_search'
-
-# Web Server
-gem 'puma'
 
 # CSS / Assets / JS
 gem 'webpacker'
@@ -31,9 +32,6 @@ gem 'stamp'
 # State Machine
 gem 'state_machines-activerecord'
 
-# Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap',  require: false
-
 # Background Jobs
 gem 'sinatra', require: false
 gem 'sidekiq'
@@ -44,35 +42,15 @@ gem 'perf_check'
 # Markdown
 gem 'kramdown'
 
-# Oauth and github
-gem 'sorcery'
+# GitHub APIs
 gem 'octokit'
 
-gem 'httparty'
-
-group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+group :test do
+  # Disallow all HTTP requests from the test suite by default.
+  gem 'webmock'
 end
 
 group :development do
-  # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'pry'
-  gem 'web-console'
-  gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'better_errors'
-  gem 'binding_of_caller'
-  # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
-  gem 'spring'
-  gem 'spring-watcher-listen'
+  # Used to generate random seed data.
+  gem 'faker'
 end
-
-group :test do
-  # Adds support for Capybara system testing and selenium driver
-  gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
-end
-
-# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]

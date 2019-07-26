@@ -1,12 +1,12 @@
 <div class="job">
   <header class="job-header">
-    <%= link_to "#{fa_icon 'github', type: 'brand'} View on Github".html_safe, "https://github.com/#{@user.github_username}", class: 'styled-button re-run pull-right' %>
+    <%= link_to "#{fa_icon 'github', type: 'brand'} View on Github".html_safe, "https://github.com/#{current_user.github_login}", class: 'styled-button re-run pull-right' %>
 
     <h2 style="text-align: center"><%= fa_icon 'motorcycle' %> 
       <% if params[:id] == 'current_user' %>
         My Perf Check Jobs 
       <% else %>
-        <%= "@" + @user.github_username %>'s
+        <%= "@" + current_user.github_login %>'s
         Perf Check Jobs
       <% end %>
 
@@ -35,7 +35,7 @@
                 <td class="status perf-check-status-<%= perf_check_job.id %> <%= perf_check_job.status %>"><%= perf_check_job.status %></td>
                 <td><%= perf_check_job.created_at.stamp("Aug 5th at 3:35 PM") %></td>
                 <td>
-                  <%= link_to "#{fa_icon 'redo-alt'} Re-Run PerfCheck".html_safe, [:clone_and_rerun, perf_check_job], class: 'styled-button re-run pull-right' %>
+                  <%= link_to "#{fa_icon 'redo-alt'} Re-Run PerfCheck".html_safe, [perf_check_job, :clone_and_rerun], class: 'styled-button re-run pull-right' %>
                   <%= link_to " View Job".html_safe, perf_check_job, class: 'styled-button re-run pull-right' %>                            
                 </td>
               </tr>

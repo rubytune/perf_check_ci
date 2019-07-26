@@ -1,18 +1,33 @@
+# frozen_string_literal: true
+
 ENV['RAILS_ENV'] ||= 'test'
 require_relative '../config/environment'
 require 'rails/test_help'
 
-%w(support).each do |path|
-  Dir.glob(Rails.root.join("test/#{path}/**/*.rb")).each { |file| require file }
+require 'webmock/minitest'
+
+Dir.glob(Rails.root.join('test/support/**/*.rb')).each { |file| require file }
+
+APP_CONFIG.update(
+  app_dir: '../path/to/app',
+  default_arguments: '-n 2 --deployment',
+  limits: { queries: 5, latency: 4000, change_factor: 0.09 },
+  github_client_id: 'xxxxxxxxxxxxxxxxxxxx',
+  github_client_secret: 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
+  github_token: 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',
+  github_organizations: ['bluewater-fishing'],
+  github_webhook_secret: 'eeeeeeeeeee',
+  github_user: 'perf-check-bot'
+)
+
+module ActiveSupport
+  class TestCase
+    fixtures :all
+  end
 end
 
-class ActiveSupport::TestCase
-  fixtures :all
-end
-
-class ActionDispatch::IntegrationTest
-  protected
-
-  include Sorcery::TestHelpers::Rails::Request
-  include Support::Authentication
+module ActionDispatch
+  class IntegrationTest
+    include Support::Authentication
+  end
 end

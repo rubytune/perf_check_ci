@@ -1,6 +1,6 @@
 <div class="job">
   <header class="job-header">
-    <%= link_to "#{fa_icon 'redo-alt'} Re-Run PerfCheck".html_safe, [:clone_and_rerun, @perf_check_job], class: 'styled-button re-run pull-right' %>
+    <%= link_to "#{fa_icon 'redo-alt'} Re-Run PerfCheck".html_safe, [@perf_check_job, :clone_and_rerun], class: 'styled-button re-run pull-right' %>
     <% if @perf_check_job.github_html_url.present? %>
       <%= link_to "#{fa_icon 'github', type: 'brand'} View".html_safe, @perf_check_job.github_html_url, class: 'styled-button re-run pull-right' %>
     <% end %>
@@ -11,7 +11,7 @@
     <div class="created-by">
       <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@perf_check_job.created_at) %></span>
       by
-      <span><strong><%= @perf_check_job.username %></strong></span>
+      <span><strong><%= @perf_check_job.user_name %></strong></span>
     </div>
     <pre class="command"><%= @perf_check_job.all_arguments %></pre>
   </header>

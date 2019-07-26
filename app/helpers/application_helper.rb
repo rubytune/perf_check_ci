@@ -1,4 +1,7 @@
 module ApplicationHelper
+  # Returns the currently authenticated user and nil otherwise.
+  attr_reader :current_user
+
   include Pagy::Frontend
   def yes_no(bool)
     bool ? 'Yes' : 'No'
