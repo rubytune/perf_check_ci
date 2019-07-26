@@ -6,8 +6,8 @@ $(document).on 'turbolinks:load', ->
     if $('.perf-check-status-' + data['id']).length == 0
       $('.browser-app-results').append("
         <li>
-          <a href='/perf_check_jobs/" + data['id'] + "'>
-            <div data-link-to='/perf_check_jobs/" + data['id'] + "'>
+          <a href='/jobs/" + data['id'] + "'>
+            <div data-link-to='/jobs/" + data['id'] + "'>
               <small class='pull-left status perf-check-status-" + data['id'] + " " + data['status'] + "'>" + data['status'] + "</small>
               <strong class='branch'>" + data['branch'] + "</strong>
               <small class='time'><i class='fa fa-clock-o'></i> less than a minute ago</small>
@@ -24,16 +24,16 @@ $(document).on 'turbolinks:load', ->
     search = currentPageData["search"] || ''
 
     $('#load-more-results').data({page: page, per: per, search: search})
-    $.get '/perf_check_jobs.json?page='+page+'&per='+per+'&search='+search, (data) ->
+    $.get '/jobs.json?page='+page+'&per='+per+'&search='+search, (data) ->
       if (!data)
         $('#load-more-results').html('Load More Results')
         return false;
 
-      $.each data["perf_check_jobs"], (key, perf_check_job) ->
-        addPerfcheckJobToSidenav(perf_check_job)
+      $.each data["jobs"], (key, job) ->
+        addPerfcheckJobToSidenav(job)
         return
 
-      if data["perf_check_jobs"].length == 0
+      if data["jobs"].length == 0
         $('#load-more-results').hide()
 
       $('#load-more-results').html('Load More Results')

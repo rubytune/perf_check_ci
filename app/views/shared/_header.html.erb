@@ -17,7 +17,7 @@
     </div>
   <% end %>
   <h1><a href="/">Perf Check CI : Status Page</a></h1>
-  <div class="new-job pull-right"><%= link_to "#{fa_icon 'plus'} New Perf Check".html_safe, [:new, :perf_check_job], class: 'styled-button pull-right' %></div>
+  <div class="new-job pull-right"><%= link_to "#{fa_icon 'plus'} New Perf Check".html_safe, [:new, :job], class: 'styled-button pull-right' %></div>
   <div id="status-content">
     <a href="/status"><span class="system-status offline hidden">Sidekiq & Daemon Offline <%= fa_icon 'times' %></span></a>
     <a href="/status"><span class="system-status online">Sidekiq & Daemon Online <%= fa_icon 'check' %></span></a>

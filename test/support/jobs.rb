@@ -27,7 +27,7 @@ module Support
           completed_at = base_created_at + rand(30).minutes
         end
 
-        PerfCheckJob.create(
+        Job.create(
           branch: branches.sample,
           status: status,
           log_filename: 'test-log-file.txt',

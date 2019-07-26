@@ -1,0 +1,36 @@
+<div class="job">
+  <header class="job-header">
+    <%= link_to "#{fa_icon 'redo-alt'} Re-Run PerfCheck".html_safe, [@job, :clone_and_rerun], class: 'styled-button re-run pull-right' %>
+    <% if @job.github_html_url.present? %>
+      <%= link_to "#{fa_icon 'github', type: 'brand'} View".html_safe, @job.github_html_url, class: 'styled-button re-run pull-right' %>
+    <% end %>
+    <h2>Job <%= @job.id %></h2>
+    <hr style="background-color: #EEE;" />
+    <span class="pull-right perf-check-status-<%= @job.id %> status <%= @job.status %>"><%= @job.status %></span>
+    <h3><%= @job.branch %></h3>
+    <div class="created-by">
+      <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@job.created_at) %></span>
+      by
+      <span><strong><%= @job.user_name %></strong></span>
+    </div>
+    <pre class="command"><%= @job.all_arguments %></pre>
+  </header>
+  <% if @job.result_details.present?  %>
+    <div class="details">
+      <%== markdown(@job.result_details) %>
+    </div>
+  <% end %>
+
+  <% if @test_cases.any? %>
+    <div id="test-cases">
+      <% @test_cases.each do |test_case| %>
+        <%= render 'test_case', test_case: test_case %>
+      <% end %>
+    </div>
+  <% end %>
+  <pre id="log" data-perf-check-id="<%= @job.id %>" 
+    data-log-filename="<%= @job.log_filename %>" 
+    data-broadcast="<%= @job.should_broadcast_log_file? %>">
+   <%= @job.should_broadcast_log_file? ? "Loading #{@job.relative_log_path} ..." : @job.read_log_file %>
+  </pre>
+</div>

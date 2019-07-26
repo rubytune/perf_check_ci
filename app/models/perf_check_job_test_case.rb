@@ -2,7 +2,7 @@ class PerfCheckJobTestCase < ApplicationRecord
   STATUSES = ['success', 'failed']
   HTTP_STATUSES = ['200', '404', '500']
 
-  belongs_to :perf_check_job
+  belongs_to :job
 
   validates_inclusion_of :status, in: STATUSES
   validates_inclusion_of :http_status, in: HTTP_STATUSES
@@ -40,12 +40,12 @@ class PerfCheckJobTestCase < ApplicationRecord
     end      
   end
 
-  def self.add_test_case!(perf_check_job, test_case)
+  def self.add_test_case!(job, test_case)
     http_status = test_case.http_status
     status = http_status == '200' ? 'success' : 'failed'
 
     create({
-      perf_check_job: perf_check_job,
+      job: job,
       status: status,
       http_status: http_status,
       max_memory: test_case.max_memory,

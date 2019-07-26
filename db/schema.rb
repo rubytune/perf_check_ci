@@ -10,32 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_135950) do
+ActiveRecord::Schema.define(version: 2019_07_26_145352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
-  create_table "perf_check_job_test_cases", force: :cascade do |t|
-    t.bigint "perf_check_job_id"
-    t.string "status"
-    t.string "http_status"
-    t.decimal "max_memory"
-    t.decimal "branch_latency"
-    t.decimal "reference_latency"
-    t.integer "branch_query_count"
-    t.integer "reference_query_count"
-    t.decimal "latency_difference"
-    t.decimal "speedup_factor"
-    t.string "diff_file_path"
-    t.text "error_backtrace"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "resource_benchmarked"
-    t.index ["perf_check_job_id"], name: "index_perf_check_job_test_cases_on_perf_check_job_id"
-  end
-
-  create_table "perf_check_jobs", force: :cascade do |t|
+  create_table "jobs", force: :cascade do |t|
     t.string "status"
     t.string "arguments"
     t.string "log_filename"
@@ -50,7 +31,26 @@ ActiveRecord::Schema.define(version: 2019_07_26_135950) do
     t.text "result_details"
     t.integer "user_id"
     t.string "github_html_url"
-    t.index ["user_id"], name: "index_perf_check_jobs_on_user_id"
+    t.index ["user_id"], name: "index_jobs_on_user_id"
+  end
+
+  create_table "perf_check_job_test_cases", force: :cascade do |t|
+    t.bigint "job_id"
+    t.string "status"
+    t.string "http_status"
+    t.decimal "max_memory"
+    t.decimal "branch_latency"
+    t.decimal "reference_latency"
+    t.integer "branch_query_count"
+    t.integer "reference_query_count"
+    t.decimal "latency_difference"
+    t.decimal "speedup_factor"
+    t.string "diff_file_path"
+    t.text "error_backtrace"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "resource_benchmarked"
+    t.index ["job_id"], name: "index_perf_check_job_test_cases_on_job_id"
   end
 
   create_table "users", force: :cascade do |t|
