@@ -13,8 +13,8 @@ $(document).on 'turbolinks:load', ->
     if $('.perf-check-status-' + data['id']).length == 0
       $('.browser-app-results').prepend("
         <li>
-          <a href='/perf_check_jobs/" + data['id'] + "'>
-            <div data-link-to='/perf_check_jobs/" + data['id'] + "'>
+          <a href='/jobs/" + data['id'] + "'>
+            <div data-link-to='/jobs/" + data['id'] + "'>
               <small class='pull-left status perf-check-status-" + data['id'] + " queued'>queued</small>
               <strong class='branch'>" + data['branch'] + "</strong>
               <small class='time'><i class='fa fa-clock-o'></i> less than a minute ago</small>
