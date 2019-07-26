@@ -6,6 +6,10 @@ gem 'rails', '~> 6.0.0.rc1'
 gem 'pg'
 gem 'redis'
 
+# Required to use Action Cable. Action Cable does not work with WEBrick,
+# because WEBrick does not support the Rack socket hijacking API.
+gem 'puma'
+
 # Search
 gem 'pg_search'
 
@@ -49,9 +53,4 @@ end
 group :development do
   # Used to generate random seed data.
   gem 'faker'
-end
-
-group :production do
-  # Web Server
-  gem 'puma'
 end
