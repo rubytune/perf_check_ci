@@ -43,8 +43,12 @@ class PerfCheckJobsController < ApplicationController
     params.require(:perf_check_job).permit(:arguments, :branch)
   end
 
+  def perf_check_job_id
+    params[:id] || params[:perf_check_job_id]
+  end
+
   def find_perf_check_job
-    if @perf_check_job = PerfCheckJob.includes(:test_cases).find_by(id: params[:id])
+    if @perf_check_job = PerfCheckJob.includes(:test_cases).find_by(id: perf_check_job_id)
       @test_cases = @perf_check_job.test_cases
     else
       record_not_found

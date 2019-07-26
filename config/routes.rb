@@ -13,7 +13,9 @@ end
 Rails.application.routes.draw do
   root to: 'perf_check_jobs#index'
 
-  resources :perf_check_jobs
+  resources :perf_check_jobs do
+    get :clone_and_rerun
+  end
   resource :session
   resource :user
 
