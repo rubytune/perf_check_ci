@@ -7,8 +7,6 @@ class Job < ApplicationRecord
   include JobLog
   include PgSearch::Model
 
-  PERF_CHECK_USER_TYPES = ['admin', 'super', 'user', 'standard', 'read']
-
   pg_search_scope(
     :search,
     against: %i[branch status],
