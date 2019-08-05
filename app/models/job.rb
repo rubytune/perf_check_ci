@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'github_mention'
-
 class Job < ApplicationRecord
   include PerfCheckJobStatemachine
   include JobLog
@@ -10,12 +8,11 @@ class Job < ApplicationRecord
   pg_search_scope(
     :search,
     against: %i[branch status],
-    using: [:tsearch, :trigram]
+    using: %i[tsearch trigram]
   )
 
   after_commit :enqueue!, :broadcast_new_perf_check!
   after_create :create_empty_log_file!
-  before_save :set_branch_if_empty
 
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
@@ -25,10 +22,9 @@ class Job < ApplicationRecord
 
   delegate :name, to: :user, prefix: :user
 
-  def set_branch_if_empty
-    if branch.blank?
-      self.branch = GithubMention.parse_branch(arguments).try(:first)
-    end
+  def arguments=(arguments)
+    super
+    self.branch ||= self.class.parse_branch(arguments)
   end
 
   def perform_perf_check_benchmarks!
@@ -128,5 +124,17 @@ class Job < ApplicationRecord
 
   def should_broadcast_log_file?
     !(completed? || failed? || canceled?)
+  end
+
+  def self.parse_branch(arguments)
+    return if arguments.blank?
+
+    parts = Shellwords.shellsplit(arguments)
+    parts.each_with_index do |part, index|
+      if part == '--branch'
+        return parts[index + 1]
+      end
+    end
+    nil
   end
 end
