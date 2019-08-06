@@ -1,24 +1,13 @@
-
-@font-face {
-  font-family: OperatorMonoLight;
-  src: font-url("OperatorMonoSSm-Light.otf") format("opentype");
-}
-
-@font-face {
-  font-family: OperatorMonoBook;
-  src: font-url("OperatorMonoSSm-Book.otf") format("opentype");
-}
-
-a {
-  text-decoration: none;
-  color: #658EBF;
-}
-
 html,
 body,
 #content {
   width: 100%;
   height: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: #658EBF;
 }
 
 #content {
@@ -115,7 +104,6 @@ body,
   color: #000;
   text-align: center;
   font-size: 36px;
-  font-family: OperatorMonoBook;
 }
 
 #content #new-perf-check-job hr {
@@ -411,7 +399,6 @@ ul.browser-app-results:hover {
   font-size: .7em;
   padding: 2px 8px 2px 7px;
   color: #000;
-  font-family: OperatorMonoBook;
 }
 
 .job header.job-header hr {
@@ -444,13 +431,11 @@ ul.browser-app-results:hover {
 
 .job .details pre {
   font-size: .7rem;
-  font-family: OperatorMonoLight;
   line-height: 1.5rem;
 }
 
 .job .details p code {
   font-size: .7rem;
-  font-family: OperatorMonoLight;
   line-height: 1.5rem;
   display: inline-block;
   background-color: #EFEFEF;
@@ -458,7 +443,6 @@ ul.browser-app-results:hover {
   padding: 2px 8px 2px 7px;
   margin-left: 4px;
   color: #000;
-  font-family: OperatorMonoBook;
 }
 
 .job .details .fa-check-square {
@@ -516,7 +500,6 @@ ul.browser-app-results:hover {
   color: #FFF;
   border: 1px solid #CCC;
   font-size: .7em;
-  font-family: OperatorMonoLight;
   line-height: 1.5em;
 }
 
