@@ -293,15 +293,12 @@ a {
 
 ul.browser-app-results {
   font-size: .8em;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 
 ul.browser-app-results:hover {
   overflow-y: auto;
-}
-
-.browser-app-results li {
-  overflow: auto;
 }
 
 .browser-app-results li .status {
