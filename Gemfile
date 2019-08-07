@@ -37,7 +37,7 @@ gem 'sinatra', require: false
 gem 'sidekiq'
 
 # Perf Check
-gem 'perf_check'
+gem 'perf_check', path: '../perf_check'
 
 # Markdown
 gem 'kramdown'

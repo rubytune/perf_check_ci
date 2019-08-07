@@ -35,12 +35,18 @@ class Job < ApplicationRecord
     [APP_CONFIG[:default_arguments], arguments].compact.join(' ')
   end
 
+  def app_dir
+    File.expand_path(APP_CONFIG[:app_dir])
+  end
+
   def run_perf_check!
-    perf_check = PerfCheck.new(File.expand_path(APP_CONFIG[:app_dir]))
+    job_output = JobOutput.new(id)
+    perf_check = PerfCheck.new(app_dir)
+    perf_check.logger = Logger.new(job_output)
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
-    perf_check_test_results = perf_check.run
-    parse_and_save_test_results!(perf_check_test_results)
+    parse_and_save_test_results!(perf_check.run)
+    update_column(:output, job_output.output)
     true
   end
 
@@ -52,13 +58,11 @@ class Job < ApplicationRecord
 
   def run_benchmarks!
     if run! # Move statemachine status to running
-      log_to(full_log_path) do
-        Bundler.with_clean_env do
-          run_perf_check!
-        end
+      Bundler.with_clean_env do
+        run_perf_check!
       end
     else
-      return false
+      false
     end
   end
 
@@ -115,7 +119,7 @@ class Job < ApplicationRecord
   ################################
 
   def broadcast_new_perf_check!
-    ActionCable.server.broadcast("job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
   end
 
   def should_broadcast_log_file?

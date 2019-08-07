@@ -1,3 +1,11 @@
+PATH
+  remote: ../perf_check
+  specs:
+    perf_check (0.10.5)
+      colorize
+      diffy
+      rake
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -114,10 +122,6 @@ GEM
     octokit (4.14.0)
       sawyer (~> 0.8.0, >= 0.5.3)
     pagy (3.4.1)
-    perf_check (0.10.5)
-      colorize
-      diffy
-      rake
     pg (1.1.4)
     pg_search (2.3.0)
       activerecord (>= 4.2)
@@ -238,7 +242,7 @@ DEPENDENCIES
   momentjs-rails
   octokit
   pagy
-  perf_check
+  perf_check!
   pg
   pg_search
   puma

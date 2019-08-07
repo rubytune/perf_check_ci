@@ -6,13 +6,13 @@ class JobTest < ActiveSupport::TestCase
   test 'returns the name of the associated user' do
     assert_equal(
       users(:lyra).name,
-      jobs(:lyra_completed_lra_perf_check).user_name
+      jobs(:lyra_completed_lra_optimizations).user_name
     )
   end
 
   test 'finds jobs by their branch' do
     results = Job.search('optimizations')
-    assert results.include?(jobs(:lyra_completed_lra_perf_check))
+    assert results.include?(jobs(:lyra_completed_lra_optimizations))
   end
 
   test 'finds jobs by their status' do
@@ -36,6 +36,17 @@ class JobCreationTest < ActiveSupport::TestCase
   end
 end
 
+class JobRunningTest < ActiveSupport::TestCase
+  test 'runs queued job' do
+    job = jobs(:lyra_queued_lra_optimizations)
+    stub_request(:get, 'http://127.0.0.1:3031/')
+    # Using the worker because that's where all the job running logic is
+    # currently implemented. This should be refactored to an instance method
+    # on Job.
+    assert PerfCheckJobWorker.new.perform(job.id)
+  end
+end
+
 class JobBranchTest < ActiveSupport::TestCase
   test 'does not parse branch from blank arguments' do
     assert_nil Job.parse_branch(nil)
@@ -51,5 +62,13 @@ class JobBranchTest < ActiveSupport::TestCase
       'lra/optimizations',
       Job.parse_branch('-n 20 --branch lra/optimizations')
     )
+  end
+end
+
+class JobValidationTest < ActiveSupport::TestCase
+  test 'can be valid' do
+    Job.all.each do |job|
+      assert job.valid?
+    end
   end
 end
