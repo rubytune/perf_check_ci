@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_26_145352) do
+ActiveRecord::Schema.define(version: 2019_08_07_135705) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2019_07_26_145352) do
     t.text "result_details"
     t.integer "user_id"
     t.string "github_html_url"
+    t.text "output"
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
