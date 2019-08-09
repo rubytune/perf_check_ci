@@ -115,11 +115,11 @@ class Job < ApplicationRecord
   ################################
 
   def broadcast_log_file!(log_contents = nil)
-    ActionCable.server.broadcast("job_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status, broadcast_type: 'log_file_stream'})
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status, broadcast_type: 'log_file_stream'})
   end
 
   def broadcast_new_perf_check!
-    ActionCable.server.broadcast("job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
+    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
   end
 
   def should_broadcast_log_file?
