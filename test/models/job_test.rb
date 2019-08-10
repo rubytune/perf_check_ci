@@ -6,13 +6,13 @@ class JobTest < ActiveSupport::TestCase
   test 'returns the name of the associated user' do
     assert_equal(
       users(:lyra).name,
-      jobs(:lyra_completed_lra_perf_check).user_name
+      jobs(:lyra_queued_lra_optimizations).user_name
     )
   end
 
   test 'finds jobs by their branch' do
     results = Job.search('optimizations')
-    assert results.include?(jobs(:lyra_completed_lra_perf_check))
+    assert results.include?(jobs(:lyra_queued_lra_optimizations))
   end
 
   test 'finds jobs by their status' do
@@ -51,5 +51,13 @@ class JobBranchTest < ActiveSupport::TestCase
       'lra/optimizations',
       Job.parse_branch('-n 20 --branch lra/optimizations')
     )
+  end
+end
+
+class JobValidationTest < ActiveSupport::TestCase
+  test 'can be valid' do
+    Job.all.each do |job|
+      assert job.valid?
+    end
   end
 end
