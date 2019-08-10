@@ -12,7 +12,7 @@ If you want to customize any settings you can change `config/database.yml` and `
 
 Run Sidekiq and a Rails server to access the application:
 
-    bundle exec sidekiq -q perf_check -q logs
+    bundle exec sidekiq
     rails server
 
 The Rails command will print instructions on how to access the application.
