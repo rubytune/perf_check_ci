@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module JobHelper
-  PERF_CHECK_USER_TYPES = ['admin', 'super', 'user', 'standard', 'read']
+  PERF_CHECK_USER_TYPES = %w[admin super user standard read].freeze
 
   def user_type_options
-    [['No User', nil]] + PERF_CHECK_USER_TYPES.each do |user_type|
+    [['No User', nil]] + PERF_CHECK_USER_TYPES.map do |user_type|
       [user_type.humanize, user_type]
     end
   end
