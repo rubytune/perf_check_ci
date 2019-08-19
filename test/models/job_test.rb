@@ -36,6 +36,24 @@ class JobCreationTest < ActiveSupport::TestCase
   end
 end
 
+class JobRunningTest < ActiveSupport::TestCase
+  test 'runs queued job' do
+    job = jobs(:lyra_queued_lra_optimizations)
+    stub_request(:get, 'http://127.0.0.1:3031/')
+
+    count = broadcasts_size('logs_channel')
+
+    # Using the worker because that's where all the job running logic is
+    # currently implemented. This should be refactored to an instance method
+    # on Job.
+    assert PerfCheckJobWorker.new.perform(job.id)
+
+    # We don't know how many messages are written to the channel because it
+    # depends on the number of log lines. We expect more than one.
+    assert broadcasts_size('logs_channel') > count
+  end
+end
+
 class JobBranchTest < ActiveSupport::TestCase
   test 'does not parse branch from blank arguments' do
     assert_nil Job.parse_branch(nil)

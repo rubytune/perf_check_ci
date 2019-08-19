@@ -36,11 +36,14 @@ class Job < ApplicationRecord
   end
 
   def run_perf_check!
-    perf_check = PerfCheck.new(File.expand_path(APP_CONFIG[:app_dir]))
+    job_output = JobOutput.new(id)
+    job_logger = Logger.new(job_output)
+    perf_check = PerfCheck.new(app_dir)
+    job_logger.formatter = perf_check.logger.formatter
+    perf_check.logger = job_logger
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
-    perf_check_test_results = perf_check.run
-    parse_and_save_test_results!(perf_check_test_results)
+    parse_and_save_test_results!(perf_check.run)
     true
   end
 
@@ -52,32 +55,13 @@ class Job < ApplicationRecord
 
   def run_benchmarks!
     if run! # Move statemachine status to running
-      log_to(full_log_path) do
-        Bundler.with_clean_env do
-          run_perf_check!
-        end
+      Bundler.with_clean_env do
+        run_perf_check!
       end
     else
-      return false
+      false
     end
   end
-
-  def test_logger
-    contents = ""
-    25.times do |t|
-      contents = contents + "\n" + ("*" * t)
-      File.write(full_log_path, contents)
-      sleep 0.5
-    end
-
-    25.times do |t|
-      contents = contents + "\n" + ("*" * 25)[0..(25-t)]
-      File.write(full_log_path, contents)
-      sleep 0.5
-    end
-    true
-  end
-
 
   ##############
   # Spawn Job
@@ -114,10 +98,6 @@ class Job < ApplicationRecord
   # Actioncable - Broadcast Logic #
   ################################
 
-  def broadcast_log_file!(log_contents = nil)
-    ActionCable.server.broadcast("perf_check_job_notifications_channel", {id: id, contents: log_contents || read_log_file, status: status, broadcast_type: 'log_file_stream'})
-  end
-
   def broadcast_new_perf_check!
     ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
   end
@@ -136,5 +116,11 @@ class Job < ApplicationRecord
       end
     end
     nil
+  end
+
+  private
+
+  def app_dir
+    File.expand_path(APP_CONFIG[:app_dir])
   end
 end
