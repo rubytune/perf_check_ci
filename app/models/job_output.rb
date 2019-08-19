@@ -4,6 +4,9 @@
 # writes its input to the Action Cable log channel and keeps its input for
 # storage.
 class JobOutput
+  include ActionView::Helpers::TagHelper
+  include JobHelper
+
   def initialize(job_id)
     @job_id = job_id
     @data = +''
@@ -16,7 +19,7 @@ class JobOutput
   def attributes
     {
       id: @job_id,
-      contents: @data
+      contents: render_log(@data)
     }
   end
 
