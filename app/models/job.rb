@@ -44,6 +44,7 @@ class Job < ApplicationRecord
     perf_check.load_config
     perf_check.parse_arguments(all_arguments)
     parse_and_save_test_results!(perf_check.run)
+    update_column(:output, job_output.to_s)
     true
   end
 

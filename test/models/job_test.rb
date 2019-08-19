@@ -51,6 +51,9 @@ class JobRunningTest < ActiveSupport::TestCase
     # We don't know how many messages are written to the channel because it
     # depends on the number of log lines. We expect more than one.
     assert broadcasts_size('logs_channel') > count
+
+    job.reload
+    assert_includes job.output, '☕️'
   end
 end
 
