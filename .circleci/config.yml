@@ -43,6 +43,8 @@ jobs:
       # Wait for Postgres and copy configuration
       - run: dockerize -wait tcp://localhost:5432 -timeout 10s
       - run: cp .circleci/database.yml config/database.yml
+      - run: git config --global user.email "john@example.com"
+      - run: git config --global user.name "John Parcival"
 
       # Yarn
       - restore_cache:
