@@ -1,8 +1,6 @@
 require 'github_mention'
 class Api::V1::WebhooksController < ApplicationController
   skip_before_action :verify_authenticity_token
-  skip_before_action :require_user
-  before_action :require_no_user
   before_action :verify_signature
 
   def github
@@ -21,5 +19,4 @@ class Api::V1::WebhooksController < ApplicationController
       end
     end
   end
-
 end
