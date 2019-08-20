@@ -1,7 +1,6 @@
 App.logs_channel = App.cable.subscriptions.create('StatusChannel', {
   received: function(data) {
-    console.log(data)
-    var element = $('.perf-check-status-' + data.id)
+    var element = $(`.perf-check-status-${data.id}`)
     if (element.length == 0) {
       $('.browser-app-results').prepend(`
         <li>
