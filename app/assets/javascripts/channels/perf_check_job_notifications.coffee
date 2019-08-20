@@ -1,8 +1,4 @@
 $(document).on 'turbolinks:load', ->
-  updateLogFileText = (data) ->
-    $('#log').html(data['contents'].replace("\n", "<br />"))
-    $('#log').scrollTop($('#log')[0].scrollHeight)
-
   updatePerfCheckStatus = (data) ->
     statusElems = $('.perf-check-status-' + data['id'])
     statusElems.html(data['status'])
@@ -34,8 +30,6 @@ $(document).on 'turbolinks:load', ->
       console.log("PerfCheckJobNotificationsChannel: Received")
       console.log(data)
       updatePerfCheckStatus(data) # Updates sidenav and the currently viewed page if applicable
-      if $('#log').data('broadcast') && $('#log').data('perfCheckId') == data['id'] && data['broadcast_type'] == 'log_file_stream'
-        updateLogFileText(data)
       if data['broadcast_type'] == 'new_perf_check'
         addNewPerfcheckJobToSidenav(data)
   }

@@ -28,9 +28,5 @@
       <% end %>
     </div>
   <% end %>
-  <pre id="log" data-perf-check-id="<%= @job.id %>" 
-    data-log-filename="<%= @job.log_filename %>" 
-    data-broadcast="<%= @job.should_broadcast_log_file? %>">
-   <%= @job.should_broadcast_log_file? ? "Loading #{@job.relative_log_path} ..." : @job.read_log_file %>
-  </pre>
+  <pre id="log" data-perf-check-id="<%= @job.id %>" data-log-filename="<%= @job.log_filename %>" data-broadcast="<%= @job.should_broadcast_log_file? %>"><%== render_log(@job.output.presence || "Waiting for job to start...") %></pre>
 </div>
