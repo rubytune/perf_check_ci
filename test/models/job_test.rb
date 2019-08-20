@@ -34,6 +34,17 @@ class JobCreationTest < ActiveSupport::TestCase
     assert_equal arguments, job.arguments
     assert_not_nil job.queued_at
   end
+
+  test 'returns status attribute' do
+    user = users(:lyra)
+    arguments = '--shell -n 20 --branch master      '
+
+    job = user.jobs.create!(arguments: arguments)
+    assert_equal(
+      { id: job.id, status: 'queued', branch: 'master', user_name: 'Lyra Belaqua' },
+      job.status_attributes
+    )
+  end
 end
 
 class JobRunningTest < ActiveSupport::TestCase
@@ -41,19 +52,29 @@ class JobRunningTest < ActiveSupport::TestCase
     job = jobs(:lyra_queued_lra_optimizations)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
-    count = broadcasts_size('logs_channel')
+    logs_count = broadcasts_size('logs_channel')
+    status_count = broadcasts_size('status_channel')
 
     # Using the worker because that's where all the job running logic is
     # currently implemented. This should be refactored to an instance method
     # on Job.
     assert PerfCheckJobWorker.new.perform(job.id)
 
-    # We don't know how many messages are written to the channel because it
-    # depends on the number of log lines. We expect more than one.
-    assert broadcasts_size('logs_channel') > count
+    # We don't know how many messages are written to the channels because it
+    # depends on the number of status changes and log lines.
+    assert broadcasts_size('logs_channel') > logs_count
+    assert broadcasts_size('status_channel') > status_count
 
     job.reload
     assert_includes job.output, '☕️'
+  end
+
+  test 'returns status attribute' do
+    job = jobs(:lyra_queued_lra_optimizations)
+    assert_equal(
+      { id: job.id, status: 'queued', branch: 'lra/optimizations', user_name: 'Lyra Belaqua' },
+      job.status_attributes
+    )
   end
 end
 
