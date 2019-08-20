@@ -241,11 +241,8 @@ a {
   font-size: .8em;
   display: inline-block;
   width: 50px;
-  margin-right: 9px;
   padding: 3px 1px;
   text-align: center;
-  /*border: 1px solid #DDD;*/
-  /*border-radius: 2px;*/
   background-color: #EFEFEF;
   text-shadow: 1px 0px 1px #666;
   margin-right: 9px;
@@ -260,6 +257,10 @@ a {
   cursor: default;
 }
 
+.status
+{
+  text-transform: capitalize;
+}
 .status-label.running,
 .status.running {
   color: #FFF;

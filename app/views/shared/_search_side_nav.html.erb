@@ -11,14 +11,14 @@
   <% else %>
     <% @jobs_records.each do |job| %>
       <li>
-          <%= link_to job_path(job) do %>
-            <div data-link-to="<%= job_path(job) %>">
-              <small class="pull-left status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status.humanize %></small>
-              <strong class="branch"><%= job.branch %></strong>
-              <small class="time"><%= fa_icon 'clock-o' %> <%= time_ago(job.created_at) %></small>
-              <small class="name">by <%= job.user_name %></small>
-            </div>
-          <% end %>
+        <%= link_to job_path(job) do %>
+          <div data-link-to="<%= job_path(job) %>">
+            <small class="pull-left status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status %></small>
+            <strong class="branch"><%= job.branch %></strong>
+            <small class="time"><%= fa_icon 'clock-o' %> <%= time_ago(job.created_at) %></small>
+            <small class="name">by <%= job.user_name %></small>
+          </div>
+        <% end %>
       </li>
     <% end %>
   <% end %>
