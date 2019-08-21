@@ -22,7 +22,7 @@
   <% end %>
 
   <% if @test_cases.any? %>
-    <div id="test-cases">
+    <div class="test-cases">
       <% @test_cases.each do |test_case| %>
         <%= render 'test_case', test_case: test_case %>
       <% end %>

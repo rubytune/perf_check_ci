@@ -11,7 +11,7 @@ class Job < ApplicationRecord
     using: %i[tsearch trigram]
   )
 
-  after_commit :enqueue!, :broadcast_new_perf_check!
+  after_commit :enqueue!, :broadcast_status
   after_create :create_empty_log_file!
 
   belongs_to :user
@@ -99,8 +99,8 @@ class Job < ApplicationRecord
   # Actioncable - Broadcast Logic #
   ################################
 
-  def broadcast_new_perf_check!
-    ActionCable.server.broadcast("perf_check_job_notifications_channel", attributes.merge(user_name: user_name, broadcast_type: 'new_perf_check'))
+  def status_attributes
+    { id: id, status: status, branch: branch, user_name: user_name }
   end
 
   def should_broadcast_log_file?
@@ -123,5 +123,9 @@ class Job < ApplicationRecord
 
   def app_dir
     File.expand_path(APP_CONFIG[:app_dir])
+  end
+
+  def broadcast_status
+    ActionCable.server.broadcast('status_channel', status_attributes)
   end
 end

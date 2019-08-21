@@ -1,14 +1,14 @@
 lyra_queued_lra_optimizations:
   user: lyra
   branch: lra/optimizations
-  arguments: -n 2 --branch lra/optimizations /
+  arguments: --shell -n 2 --branch lra/optimizations /
   status: queued
   created_at: <%= 15.seconds.ago %>
   updated_at: <%= 12.seconds.ago %>
 lyra_completed_lra_optimizations:
   user: lyra
   branch: lra/optimizations
-  arguments: -n 2 --branch lra/optimizations /
+  arguments: --shell -n 2 --branch lra/optimizations /
   status: completed
   run_at: <%= 1.month.ago %>
   completed_at: <%= 1.month.ago %>

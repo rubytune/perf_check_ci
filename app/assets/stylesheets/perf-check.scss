@@ -241,11 +241,8 @@ a {
   font-size: .8em;
   display: inline-block;
   width: 50px;
-  margin-right: 9px;
   padding: 3px 1px;
   text-align: center;
-  /*border: 1px solid #DDD;*/
-  /*border-radius: 2px;*/
   background-color: #EFEFEF;
   text-shadow: 1px 0px 1px #666;
   margin-right: 9px;
@@ -260,6 +257,10 @@ a {
   cursor: default;
 }
 
+.status
+{
+  text-transform: capitalize;
+}
 .status-label.running,
 .status.running {
   color: #FFF;
@@ -454,35 +455,35 @@ ul.browser-app-results:hover {
   color: #E99835;
 }
 
-#test-cases .test-case {
+.test-cases .test-case {
   background: #EFEFEF;
   padding: 12px;
   border-radius: 5px;
   margin: 10px 0;
 }
 
-#test-cases .test-case pre {
+.test-cases .test-case pre {
   margin: 0;
   font-size: 12px !important;
 }
 
-#test-cases .test-case.test-case-success-increase {
+.test-cases .test-case.test-case-success-increase {
   background: #9ADD91;
 }
 
-#test-cases .test-case.test-case-success-same {
+.test-cases .test-case.test-case-success-same {
   background: #9ADD91;
 }
 
-#test-cases .test-case.test-case-success-decrease {
+.test-cases .test-case.test-case-success-decrease {
   background: #E69848;
 }
 
-#test-cases .test-case.test-case-failed {
+.test-cases .test-case.test-case-failed {
   background: #E58D92;
 }
 
-#test-cases .test-case a {
+.test-cases .test-case a {
   color: #000;
 }
 
