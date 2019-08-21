@@ -38,14 +38,19 @@ class Job < ApplicationRecord
   def run_perf_check!
     job_output = JobOutput.new(id)
     job_logger = Logger.new(job_output)
-    perf_check = PerfCheck.new(app_dir)
-    job_logger.formatter = perf_check.logger.formatter
-    perf_check.logger = job_logger
-    perf_check.load_config
-    perf_check.parse_arguments(all_arguments)
-    parse_and_save_test_results!(perf_check.run)
-    update_column(:output, job_output.to_s)
-    true
+    begin
+      perf_check = PerfCheck.new(app_dir)
+      perf_check.load_config
+      job_logger.formatter = perf_check.logger.formatter
+      perf_check.logger = job_logger
+      perf_check.parse_arguments(all_arguments)
+      parse_and_save_test_results!(perf_check.run)
+      true
+    rescue
+      false
+    ensure
+      update_column(:output, job_output.to_s)
+    end
   end
 
   def parse_and_save_test_results!(perf_check_test_results)
