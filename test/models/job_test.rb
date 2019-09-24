@@ -55,10 +55,7 @@ class JobRunningTest < ActiveSupport::TestCase
     logs_count = broadcasts_size('logs_channel')
     status_count = broadcasts_size('status_channel')
 
-    # Using the worker because that's where all the job running logic is
-    # currently implemented. This should be refactored to an instance method
-    # on Job.
-    assert PerfCheckJobWorker.new.perform(job.id)
+    assert job.run_benchmarks!
 
     # We don't know how many messages are written to the channels because it
     # depends on the number of status changes and log lines.
@@ -67,6 +64,20 @@ class JobRunningTest < ActiveSupport::TestCase
 
     job.reload
     assert_includes job.output, '☕️'
+  end
+
+  test 'stores output of a job when Perf Check throws an exception' do
+    job = jobs(:lyra_queued_master_broken)
+    stub_request(:get, 'http://127.0.0.1:3031/')
+
+    logs_count = broadcasts_size('logs_channel')
+    status_count = broadcasts_size('status_channel')
+
+    # The method should probably return false when anything goes wrong, but it doesn't.
+    assert job.run_benchmarks!
+
+    job.reload
+    assert_includes job.output, Time.zone.now.year.to_s
   end
 
   test 'returns status attribute' do

@@ -5,6 +5,13 @@ lyra_queued_lra_optimizations:
   status: queued
   created_at: <%= 15.seconds.ago %>
   updated_at: <%= 12.seconds.ago %>
+lyra_queued_master_broken:
+  user: lyra
+  branch: lra/optimizations
+  arguments: -n 1 --branch unknown
+  status: queued
+  created_at: <%= 15.seconds.ago %>
+  updated_at: <%= 12.seconds.ago %>
 lyra_completed_lra_optimizations:
   user: lyra
   branch: lra/optimizations
