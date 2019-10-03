@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '~> 6.0.0.rc1'
+gem 'rails', '~> 6.0'
 
 # Database
 gem 'pg'
@@ -37,7 +37,7 @@ gem 'sinatra', require: false
 gem 'sidekiq'
 
 # Perf Check
-gem 'perf_check', github: 'rubytune/perf_check'
+gem 'perf_check', github: 'rubytune/perf_check', branch: 'mst/47-spec-stability'
 
 # Markdown
 gem 'kramdown'
