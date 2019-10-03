@@ -11,7 +11,7 @@ branches = %w[master feature-x feature-y sudara/bug-fix-a bug-fix-b staging]
   name = Faker::Name.name
   User.create(
     name: name,
-    github_login: Faker::Internet.username(name),
+    github_login: Faker::Internet.username(specifier: name),
     github_avatar_url: "https://avatars3.githubusercontent.com/u/#{rand(1024)}?v=4"
   )
 end
