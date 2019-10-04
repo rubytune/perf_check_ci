@@ -34,7 +34,9 @@ gem 'state_machines-activerecord'
 
 # Background Jobs
 gem 'sinatra', require: false
-gem 'sidekiq'
+# Sidekiq is version locked because the production server has an ancient version
+# of Redis.
+gem 'sidekiq', '< 6'
 
 # Perf Check
 gem 'perf_check', github: 'rubytune/perf_check', branch: 'mst/47-spec-stability'
