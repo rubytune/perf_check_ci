@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require_relative '../test_helper'
+require_relative '../../test_helper'
 
-class SidekiqsControllerTest < ActionDispatch::IntegrationTest
+class Status::SidekiqsControllerTest < ActionDispatch::IntegrationTest
   test 'authenticated user sees Sidekiq status' do
     login :lyra
-    get '/sidekiq'
+    get '/status/sidekiq'
     # Mocking Redis or Sidekiq::ProcessSet seems out of scope for this
     # feature, so we're just going to test that it returns one of both
     # supported values.
@@ -13,7 +13,7 @@ class SidekiqsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'visitor does not see Sidekiq status' do
-    get '/sidekiq'
+    get '/status/sidekiq'
     assert_redirected_to new_session_url
   end
 end
