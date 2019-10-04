@@ -7,8 +7,8 @@ lyra_queued_lra_optimizations:
   updated_at: <%= 12.seconds.ago %>
 lyra_queued_master_broken:
   user: lyra
-  branch: lra/optimizations
-  arguments: -n 1 --branch unknown
+  branch: broken
+  arguments: -n 1 --branch broken /
   status: queued
   created_at: <%= 15.seconds.ago %>
   updated_at: <%= 12.seconds.ago %>
