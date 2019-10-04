@@ -23,6 +23,10 @@ class JobOutput
     }
   end
 
+  def puts(message)
+    write(message + "\n")
+  end
+
   def write(message)
     @data << message
     @job.update_column(:output, @data)

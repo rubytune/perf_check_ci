@@ -46,7 +46,12 @@ class Job < ApplicationRecord
       perf_check.parse_arguments(all_arguments)
       parse_and_save_test_results!(perf_check.run)
       true
-    rescue
+    rescue StandardError => e
+      job_output.puts("JOB FAILED")
+      job_output.puts(e.message)
+      e.backtrace.each do |line|
+        job_output.puts(line)
+      end
       false
     end
   end
