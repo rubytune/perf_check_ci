@@ -6,7 +6,8 @@ class JobOutputTest < ActiveSupport::TestCase
   include JobHelper
 
   setup do
-    @job_output = JobOutput.new(42)
+    @job = jobs(:lyra_queued_lra_optimizations)
+    @job_output = JobOutput.new(@job)
   end
 
   test 'starts empty' do
@@ -23,16 +24,26 @@ class JobOutputTest < ActiveSupport::TestCase
     assert_equal lines.join, @job_output.to_s
   end
 
+  test 'stores output to the jobs output colum' do
+    lines = [
+      "[2005-04-01 12:34:00] Hi!\n",
+      "[2005-04-01 12:34:00] Bye!\n"
+    ]
+
+    lines.each { |line| @job_output.write(line) }
+    assert_equal lines.join, @job.reload.output
+  end
+
   test 'returns attributes to send to Action Cable channel' do
     assert_equal(
-      { id: 42, contents: '' },
+      { id: @job.id, contents: '' },
       @job_output.attributes
     )
 
     @job_output.write("[2005-04-01 12:34:00] Hi!\n")
 
     assert_equal(
-      { id: 42, contents: '[2005-04-01 12:34:00] Hi!<br>' },
+      { id: @job.id, contents: '[2005-04-01 12:34:00] Hi!<br>' },
       @job_output.attributes
     )
   end
@@ -40,7 +51,7 @@ class JobOutputTest < ActiveSupport::TestCase
   test 'broadcasts contents to Action Cable channel' do
     assert_broadcast_on(
       'logs_channel',
-      id: 42,
+      id: @job.id,
       contents: '[2005-04-01 12:34:00] Hi!<br>'
     ) do
       @job_output.write("[2005-04-01 12:34:00] Hi!\n")
@@ -50,7 +61,7 @@ class JobOutputTest < ActiveSupport::TestCase
   test 'renders ANSI colors as HTML to Action Cable channel' do
     assert_broadcast_on(
       'logs_channel',
-      id: 42,
+      id: @job.id,
       contents: '[2005-04-01 12:34:00] <span style="color: blue;">' \
                 'request</span>!<br>'
     ) do

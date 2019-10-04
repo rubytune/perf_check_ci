@@ -7,8 +7,8 @@ class JobOutput
   include ActionView::Helpers::TagHelper
   include JobHelper
 
-  def initialize(job_id)
-    @job_id = job_id
+  def initialize(job)
+    @job = job
     @data = +''
   end
 
@@ -18,13 +18,14 @@ class JobOutput
 
   def attributes
     {
-      id: @job_id,
+      id: @job.id,
       contents: render_log(@data)
     }
   end
 
   def write(message)
     @data << message
+    @job.update_column(:output, @data)
     ActionCable.server.broadcast('logs_channel', attributes)
   end
 
