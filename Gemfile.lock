@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rubytune/perf_check.git
-  revision: 3211f679fec7141a84409925df3faef6fe6d1bbb
+  revision: 96ec693f5749e7225a5615fad9b75acfcfad4660
   branch: mst/47-spec-stability
   specs:
     perf_check (0.10.5)
