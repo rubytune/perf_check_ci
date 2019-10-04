@@ -36,7 +36,7 @@ class Job < ApplicationRecord
   end
 
   def run_perf_check!
-    job_output = JobOutput.new(id)
+    job_output = JobOutput.new(self)
     job_logger = Logger.new(job_output)
     begin
       perf_check = PerfCheck.new(app_dir)
@@ -48,8 +48,6 @@ class Job < ApplicationRecord
       true
     rescue
       false
-    ensure
-      update_column(:output, job_output.to_s)
     end
   end
 
