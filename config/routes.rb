@@ -13,11 +13,14 @@ end
 Rails.application.routes.draw do
   root to: 'jobs#index'
 
-  resource :session
-  resource :sidekiq, only: %i[show]
-  resource :user
   resources :jobs do
     get :clone_and_rerun
+  end
+  resource :session
+  resource :user
+
+  namespace :status do
+    resource :sidekiq, only: %i[show]
   end
 
   if !Rails.env.production?
