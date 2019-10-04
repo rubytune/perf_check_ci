@@ -34,6 +34,11 @@ class JobOutputTest < ActiveSupport::TestCase
     assert_equal lines.join, @job.reload.output
   end
 
+  test 'responds to puts for convenience' do
+    @job_output.puts('Hi')
+    assert_equal "Hi\n", @job.reload.output
+  end
+
   test 'returns attributes to send to Action Cable channel' do
     assert_equal(
       { id: @job.id, contents: '' },
