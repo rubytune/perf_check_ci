@@ -39,7 +39,7 @@ gem 'sinatra', require: false
 gem 'sidekiq', '< 6'
 
 # Perf Check
-gem 'perf_check', github: 'rubytune/perf_check', branch: 'mst/47-spec-stability'
+gem 'perf_check', github: 'rubytune/perf_check'
 
 # Markdown
 gem 'kramdown'
