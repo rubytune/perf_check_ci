@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_19_161127) do
+ActiveRecord::Schema.define(version: 2019_10_30_162103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2019_08_19_161127) do
 
   create_table "jobs", force: :cascade do |t|
     t.string "status"
-    t.string "arguments"
+    t.text "custom_arguments"
     t.string "log_filename"
     t.datetime "queued_at"
     t.datetime "run_at"
@@ -27,11 +27,18 @@ ActiveRecord::Schema.define(version: 2019_08_19_161127) do
     t.datetime "canceled_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "branch"
+    t.text "experimental_branch"
     t.text "result_details"
     t.integer "user_id"
     t.string "github_html_url"
     t.text "output"
+    t.text "reference_branch", default: "master"
+    t.string "compare", default: "branches"
+    t.json "paths"
+    t.string "user_role"
+    t.text "user_email"
+    t.integer "number_of_requests", default: 20
+    t.boolean "run_migrations", default: true
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
