@@ -1,0 +1,32 @@
+require: rubocop-rails
+
+AllCops:
+  Exclude:
+    # Exclude generated files.
+    - config/**/*
+    - db/migrate/*
+    - db/schema.rb
+    - db/seeds.rb
+Style/Documentation:
+  Enabled: false
+Metrics/LineLength:
+  Max: 100
+Rails:
+  Enabled: true
+  Exclude:
+    # Files in lib, bin, and deploy scripts are not written to run as a web
+    # backend.
+    - lib/**/*
+    - bin/*
+    - config/deploy/*
+Rails/Exit:
+  Exclude:
+    # Using `exit' is fine in CLI.
+    - lib/**/*
+Rails/RefuteMethods:
+  # Prefer refute over assert_not.
+  Enabled: false
+Style/MixinUsage:
+  Exclude:
+    # Bin scripts include modules into the main context.
+    - bin/*
