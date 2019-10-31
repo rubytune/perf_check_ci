@@ -33,6 +33,11 @@ class Job < ApplicationRecord
   delegate :name, to: :user, prefix: :user
   delegate :arguments, to: :settings
 
+  # Translate all incoming custom arguments to regular job settings.
+  def custom_arguments=(custom_arguments)
+    self.attributes = Job::CustomArguments.new(custom_arguments).attributes
+  end
+
   # Returns true when the performance tests need to be performed using a
   # specific user in the target application.
   def specific_user?

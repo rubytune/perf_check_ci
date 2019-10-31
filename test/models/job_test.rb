@@ -37,26 +37,25 @@ end
 
 class JobCreationTest < ActiveSupport::TestCase
   test 'user creates jobs with just custom arguments' do
-    skip 'Broken until custom argument parsing is implemented'
-
     user = users(:lyra)
-    arguments = ' -n 20 --branch master      '
+    custom_arguments = ' -n 20 --branch master  /    '
 
-    job = user.jobs.create!(custom_arguments: arguments)
+    job = user.jobs.create!(custom_arguments: custom_arguments)
 
     assert_equal 'master', job.experimental_branch
     assert_equal 'queued', job.status
-    assert_equal arguments, job.arguments
+    assert_equal(
+      '--branch master --reference master --requests 20 --run-migrations /',
+      job.arguments
+    )
     assert_not_nil job.queued_at
   end
 
   test 'returns status attribute' do
-    skip 'Broken until custom argument parsing is implemented'
-
     user = users(:lyra)
-    arguments = '--shell -n 20 --branch master      '
+    custom_arguments = '--shell -n 20 --branch master  /    '
 
-    job = user.jobs.create!(custom_arguments: arguments)
+    job = user.jobs.create!(custom_arguments: custom_arguments)
     assert_equal(
       { id: job.id, status: 'queued', experimental_branch: 'master', user_name: 'Lyra Belaqua' },
       job.status_attributes
@@ -81,6 +80,21 @@ class JobArgumentsTest < ActiveSupport::TestCase
     )
     assert_equal(
       '--branch optimizations --reference develop --requests 4 --run-migrations ' \
+      '--user jenny@example.com /companies/1 /companies/2',
+      job.arguments
+    )
+  end
+
+  test 'merges custom arguments with other settings' do
+    job = Job.new(
+      compare: 'paths',
+      experimental_branch: 'optimizations',
+      run_migrations: true,
+      paths: %w[/companies/1 /companies/2],
+      custom_arguments: '--branch mst/optimize -n 2 --user jenny@example.com --shell'
+    )
+    assert_equal(
+      '--branch mst/optimize --reference master --requests 2 --run-migrations ' \
       '--user jenny@example.com /companies/1 /companies/2',
       job.arguments
     )
