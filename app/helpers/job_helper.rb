@@ -5,8 +5,8 @@ module JobHelper
     Job::USER_ROLES
   end
 
-  def user_role_options_for_select
-    options_for_select(user_type_options)
+  def user_role_options_for_select(selected)
+    options_for_select(user_type_options, selected)
   end
 
   # Turns raw log output into nice HTML.
