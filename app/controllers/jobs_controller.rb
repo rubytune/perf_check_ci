@@ -28,7 +28,7 @@ class JobsController < ApplicationController
   end
 
   def clone_and_rerun
-    @new_job = @job.create_clone_and_rerun!
+    @new_job = @job.create_clone_and_rerun!(current_user.id)
     redirect_to @new_job
   end
 

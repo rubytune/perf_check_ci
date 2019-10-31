@@ -86,21 +86,13 @@ class Job < ApplicationRecord
     })
   end
 
-  ##############
-  # Clone Logic
-  ##############
-
-  def clone_params
-    {
-      arguments: arguments,
-      user_id: user_id,
-      branch: branch,
-      github_html_url: github_html_url
-    }
-  end
-
-  def create_clone_and_rerun!
-    Job.create(clone_params)
+  def create_clone_and_rerun!(current_user_id)
+    Job.create!(
+      settings_attributes.merge(
+        'user_id' => current_user_id,
+        'custom_arguments' => custom_arguments
+      )
+    )
   end
 
   ################################
