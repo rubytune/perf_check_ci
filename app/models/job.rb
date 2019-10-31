@@ -49,6 +49,14 @@ class Job < ApplicationRecord
     compare == 'paths'
   end
 
+  def paths_for_form
+    if paths.length < 2
+      [*paths, '', ''][0, 2]
+    else
+      paths
+    end
+  end
+
   def settings
     Job::Settings.new(settings_attributes)
   end

@@ -20,6 +20,19 @@ class JobTest < ActiveSupport::TestCase
       job.status == 'completed'
     end)
   end
+
+  test 'returns at least two paths so we can build a form' do
+    assert_equal ['', ''], Job.new.paths_for_form
+    assert_equal ['/companies/1', ''], Job.new(paths: %w[/companies/1]).paths_for_form
+    assert_equal(
+      ['/companies/1', '/companies/2'],
+      Job.new(paths: %w[/companies/1 /companies/2]).paths_for_form
+    )
+    assert_equal(
+      ['/companies/1', '/companies/2', '/companies/3'],
+      Job.new(paths: %w[/companies/1 /companies/2 /companies/3]).paths_for_form
+    )
+  end
 end
 
 class JobCreationTest < ActiveSupport::TestCase
