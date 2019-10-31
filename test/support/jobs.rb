@@ -27,11 +27,13 @@ module Support
           completed_at = base_created_at + rand(30).minutes
         end
 
-        Job.create(
-          branch: branches.sample,
+        Job.create!(
+          experimental_branch: branches.sample,
+          number_of_requests: rand(18) + 2,
+          paths: %W[/url/to/check/#{sample_count}],
           status: status,
           log_filename: 'test-log-file.txt',
-          arguments: "-n#{rand(20)} --deployment /url/to/check/#{sample_count}",
+          custom_arguments: '--deployment',
           queued_at: base_created_at,
           failed_at: status == 'failed' ? (base_created_at + 1.minute) : nil,
           run_at: status == 'failed' ? (base_created_at + 10.seconds) : nil,

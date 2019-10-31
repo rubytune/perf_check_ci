@@ -50,4 +50,28 @@ class PerfCheckJobsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'form'
   end
+
+  test 'creates a job with basic settings' do
+    post(
+      '/jobs',
+      params: {
+        job: {
+          compare: 'branches',
+          experimental_branch: 'mst/faster',
+          paths: ['/companies']
+        }
+      }
+    )
+    assert_response :redirect
+    assert response.location.start_with?(jobs_url)
+  end
+
+  test 'shows validation errors when the job is not valid' do
+    post(
+      '/jobs',
+      params: { job: { compare: 'branches' } }
+    )
+    assert_response :ok
+    assert_select 'ul.error'
+  end
 end
