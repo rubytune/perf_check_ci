@@ -11,7 +11,7 @@ class JobHelperTest < ActionView::TestCase
   end
 
   test 'returns user type options for select' do
-    user_type_options_for_select.split("\n").each do |option|
+    user_role_options_for_select.split("\n").each do |option|
       assert option.start_with?('<option')
     end
   end

@@ -1,6 +1,15 @@
 # frozen_string_literal: true
 
 class Job < ApplicationRecord
+  USER_ROLES = {
+    'Not authenticated' => nil,
+    'User with e-mail address' => 'user',
+    'Any admin user' => 'admin',
+    'Any super user' => 'super',
+    'Any standard user' => 'standard',
+    'Any user with read-only access' => 'read'
+  }
+
   include PerfCheckJobStatemachine
   include JobLog
   include PgSearch::Model
@@ -117,6 +126,10 @@ class Job < ApplicationRecord
       end
     end
     nil
+  end
+
+  def self.user_roles
+    USER_ROLES
   end
 
   private
