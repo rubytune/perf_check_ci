@@ -26,8 +26,12 @@ class Job < ApplicationRecord
     # Can be set to false if migrations are not necessary for the test run.
     attr_accessor :run_migrations
 
+    BLANK_PATHS = ['/'].freeze
+
     def paths
-      @paths || ['/']
+      return BLANK_PATHS if @paths.blank? || @paths.all?(&:blank?)
+
+      @paths
     end
 
     def arguments

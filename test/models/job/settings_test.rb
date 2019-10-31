@@ -29,6 +29,20 @@ class Job
       )
     end
 
+    test 'generates PerfCheck arguments when selected paths are empty' do
+      assert_arguments(
+        '/',
+        paths: []
+      )
+    end
+
+    test 'generates PerfCheck arguments when selected paths are blank strings' do
+      assert_arguments(
+        '/',
+        paths: ['', '']
+      )
+    end
+
     test 'generates PerfCheck arguments for selected user role' do
       assert_arguments(
         '--admin /',
