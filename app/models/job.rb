@@ -29,6 +29,8 @@ class Job < ApplicationRecord
   validates :status, :arguments, presence: true
   scope :most_recent, -> { order(created_at: :desc) }
 
+  serialize :paths, Array
+
   delegate :name, to: :user, prefix: :user
 
   def arguments=(arguments)
