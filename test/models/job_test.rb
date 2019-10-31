@@ -27,7 +27,6 @@ class JobCreationTest < ActiveSupport::TestCase
     user = users(:lyra)
     arguments = ' -n 20 --branch master      '
 
-    job = user.jobs.create!(arguments: arguments)
     job = user.jobs.create!(custom_arguments: arguments)
 
     assert_equal 'master', job.experimental_branch
@@ -40,7 +39,7 @@ class JobCreationTest < ActiveSupport::TestCase
     user = users(:lyra)
     arguments = '--shell -n 20 --branch master      '
 
-    job = user.jobs.create!(arguments: arguments)
+    job = user.jobs.create!(custom_arguments: arguments)
     assert_equal(
       { id: job.id, status: 'queued', experimental_branch: 'master', user_name: 'Lyra Belaqua' },
       job.status_attributes
@@ -84,7 +83,12 @@ class JobRunningTest < ActiveSupport::TestCase
   test 'returns status attribute' do
     job = jobs(:lyra_queued_lra_optimizations)
     assert_equal(
-      { id: job.id, status: 'queued', branch: 'lra/optimizations', user_name: 'Lyra Belaqua' },
+      {
+        id: job.id,
+        status: 'queued',
+        experimental_branch: 'lra/optimizations',
+        user_name: 'Lyra Belaqua'
+      },
       job.status_attributes
     )
   end
