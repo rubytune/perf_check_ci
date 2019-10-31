@@ -31,6 +31,7 @@ class Job < ApplicationRecord
   serialize :paths, Array
 
   delegate :name, to: :user, prefix: :user
+  delegate :arguments, to: :settings
 
   # Returns true when the performance tests need to be performed using a
   # specific user in the target application.
@@ -47,6 +48,9 @@ class Job < ApplicationRecord
   def compare_paths?
     compare == 'paths'
   end
+
+  def settings
+    Job::Settings.new(settings_attributes)
   end
 
   def perform_perf_check_benchmarks!
@@ -137,6 +141,21 @@ class Job < ApplicationRecord
 
   def app_dir
     File.expand_path(APP_CONFIG[:app_dir])
+  end
+
+  def settings_attributes
+    attributes.slice(
+      *%w[
+        compare
+        experimental_branch
+        reference_branch
+        user_role
+        user_email
+        number_of_requests
+        run_migrations
+        paths
+      ]
+    ).delete_if { |_, value| value.blank? }
   end
 
   def broadcast_status

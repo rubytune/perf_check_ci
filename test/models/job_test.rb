@@ -51,6 +51,29 @@ class JobCreationTest < ActiveSupport::TestCase
   end
 end
 
+class JobArgumentsTest < ActiveSupport::TestCase
+  test 'returns arguments for its defaults' do
+    assert_equal '--reference master --requests 20 --run-migrations /', Job.new.arguments
+  end
+
+  test 'returns arguments based on its settings' do
+    job = Job.new(
+      experimental_branch: 'optimizations',
+      reference_branch: 'develop',
+      number_of_requests: 4,
+      run_migrations: true,
+      user_role: 'user',
+      user_email: 'jenny@example.com',
+      paths: %w[/companies/1 /companies/2]
+    )
+    assert_equal(
+      '--branch optimizations --reference develop --requests 4 --run-migrations ' \
+      '--user jenny@example.com /companies/1 /companies/2',
+      job.arguments
+    )
+  end
+end
+
 class JobRunningTest < ActiveSupport::TestCase
   test 'runs queued job' do
     skip if ENV['FAST']
