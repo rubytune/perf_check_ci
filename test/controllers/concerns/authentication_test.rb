@@ -4,9 +4,20 @@ require_relative '../../test_helper'
 
 module Support
   module AuthenticationTestConcern
+    extend ActiveSupport::Concern
+
     private
 
     attr_reader :session
+
+    class_methods do
+      attr_reader :helper_methods
+
+      def helper_method(name)
+        @helper_methods ||= []
+        @helper_methods << name
+      end
+    end
   end
 end
 
@@ -30,6 +41,10 @@ class AuthenticationNotAuthenticatedTest < ActiveSupport::TestCase
     user = users(:lyra)
     login(user.id)
     assert_equal user, current_user
+  end
+
+  test 'installs current_user as helper method' do
+    assert_equal [:current_user], self.class.helper_methods
   end
 end
 

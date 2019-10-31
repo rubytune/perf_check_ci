@@ -3,7 +3,11 @@
 # Implements controller helper methods to manage an authenticated session
 # based on a user ID.
 module Authentication
-  protected
+  extend ActiveSupport::Concern
+
+  included do
+    helper_method :current_user
+  end
 
   def authenticated?
     session[:user_id].to_i.positive? && current_user
