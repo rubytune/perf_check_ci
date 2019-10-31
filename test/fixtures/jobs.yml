@@ -1,7 +1,9 @@
 lyra_queued_lra_optimizations:
   user: lyra
+  compare: branches
   experimental_branch: lra/optimizations
-  custom_arguments: --shell -n 2 --branch lra/optimizations /
+  number_of_requests: 2
+  custom_arguments: --shell
   paths:
     - /
   status: queued
@@ -9,8 +11,10 @@ lyra_queued_lra_optimizations:
   updated_at: <%= 12.seconds.ago %>
 lyra_queued_master_broken:
   user: lyra
+  compare: branches
   experimental_branch: broken
-  custom_arguments: -n 1 --branch broken /
+  number_of_requests: 1
+  custom_arguments: --shell
   paths:
     - /
   status: queued
@@ -18,8 +22,10 @@ lyra_queued_master_broken:
   updated_at: <%= 12.seconds.ago %>
 lyra_completed_lra_optimizations:
   user: lyra
+  compare: branches
   experimental_branch: lra/optimizations
-  custom_arguments: --shell -n 2 --branch lra/optimizations /
+  number_of_requests: 2
+  custom_arguments: --shell
   paths:
     - /
   status: completed
