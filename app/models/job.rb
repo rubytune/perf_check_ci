@@ -26,24 +26,31 @@ class Job < ApplicationRecord
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
 
-  validates :status, :arguments, presence: true
   scope :most_recent, -> { order(created_at: :desc) }
 
   serialize :paths, Array
 
   delegate :name, to: :user, prefix: :user
 
-  def arguments=(arguments)
-    super
-    self.branch ||= self.class.parse_branch(arguments)
+  # Returns true when the performance tests need to be performed using a
+  # specific user in the target application.
+  def specific_user?
+    user_role == 'user'
+  end
+
+  # Returns true when we will be comparing branches.
+  def compare_branches?
+    compare == 'branches'
+  end
+
+  # Returns true when we will be comparing paths.
+  def compare_paths?
+    compare == 'paths'
+  end
   end
 
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
-  end
-
-  def all_arguments
-    [APP_CONFIG[:default_arguments], arguments].compact.join(' ')
   end
 
   def run_perf_check!
@@ -54,7 +61,7 @@ class Job < ApplicationRecord
       perf_check.load_config
       job_logger.formatter = perf_check.logger.formatter
       perf_check.logger = job_logger
-      perf_check.parse_arguments(all_arguments)
+      perf_check.parse_arguments(arguments)
       parse_and_save_test_results!(perf_check.run)
       true
     rescue StandardError => e
@@ -83,10 +90,6 @@ class Job < ApplicationRecord
     end
   end
 
-  ##############
-  # Spawn Job
-  ##############
-
   def self.spawn_from_github_mention(job_params)
     user = User.find_by(github_login: job_params[:github_holder]["user"]["login"])
     Job.create({
@@ -105,10 +108,6 @@ class Job < ApplicationRecord
       )
     )
   end
-
-  ################################
-  # Actioncable - Broadcast Logic #
-  ################################
 
   def status_attributes
     { id: id, status: status, experimental_branch: experimental_branch, user_name: user_name }
@@ -143,4 +142,35 @@ class Job < ApplicationRecord
   def broadcast_status
     ActionCable.server.broadcast('status_channel', status_attributes)
   end
+
+  def usable_paths
+    return if errors[:paths].present?
+    return if paths.all? { |path| path.start_with?('/') }
+
+    errors.add(:paths, :not_all_usable)
+  end
+
+  def number_of_paths
+    return if errors[:paths].present?
+    return unless compare_paths? && paths.length < 2
+
+    errors.add(:paths, :fewer_than, count: 2, value: paths.length)
+  end
+
+  validates :status, presence: true
+  validates :compare, inclusion: { in: %w[branches paths] }, allow_nil: true
+  validates :experimental_branch, presence: true
+  validates :reference_branch, presence: true, if: :compare_branches?
+  validates :paths, presence: true
+  validate :usable_paths
+  validate :number_of_paths
+  validates :user_role, inclusion: { in: Job.user_roles.values }
+  validates :user_email, presence: true, if: :specific_user?
+  validates(
+    :number_of_requests,
+    numericality: {
+      only_integer: true, greater_than: 0, less_than: 100
+    }
+  )
+  validates :run_migrations, inclusion: { in: [true, false] }
 end

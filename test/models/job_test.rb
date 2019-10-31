@@ -109,9 +109,148 @@ class JobBranchTest < ActiveSupport::TestCase
 end
 
 class JobValidationTest < ActiveSupport::TestCase
+  setup do
+    @job = Job.new(
+      user: users(:lyra),
+      experimental_branch: 'lrz/improve-load-times',
+      paths: ['/companies']
+    )
+  end
+
   test 'can be valid' do
     Job.all.each do |job|
+      job.valid?
       assert job.valid?
     end
+  end
+
+  test 'allows no comparison' do
+    @job.compare = nil
+    assert @job.valid?
+  end
+
+  test 'requires a valid compare mode' do
+    @job.compare = 'unknown'
+    refute @job.valid?
+  end
+
+  test 'requires an experimental branch' do
+    @job.experimental_branch = nil
+    refute @job.valid?
+  end
+
+  test 'requires at least one path to test against' do
+    @job.paths = nil
+    refute @job.valid?
+
+    @job.paths = []
+    refute @job.valid?
+  end
+
+  test 'requires all paths to start with a /' do
+    @job.paths = ['/path', 'path']
+    refute @job.valid?
+    assert_equal [:paths], @job.errors.details.keys
+    assert_equal [error: :not_all_usable], @job.errors.details[:paths]
+  end
+
+  test 'requires a valid user role' do
+    @job.user_role = 'unknown'
+    refute @job.valid?
+  end
+
+  test 'allows valid users roles' do
+    @job.user_role = 'admin'
+    assert @job.valid?
+  end
+
+  test 'allows an empty user email' do
+    @job.user_email = nil
+    assert @job.valid?
+  end
+
+  test 'requires a user email when the user role requires an email address' do
+    @job.user_role = 'user'
+    @job.user_email = nil
+    refute @job.valid?
+
+    @job.user_email = 'jolene@example.com'
+    assert @job.valid?
+  end
+
+  test 'requires an integer for the number of requests to perform' do
+    @job.number_of_requests = '5.2'
+    refute @job.valid?
+    assert_equal(
+      [error: :not_an_integer, value: '5.2'],
+      @job.errors.details[:number_of_requests]
+    )
+  end
+
+  test 'requires a positive integer for the number of requests to perform' do
+    @job.number_of_requests = -1
+    refute @job.valid?
+    assert_equal(
+      [error: :greater_than, count: 0, value: -1],
+      @job.errors.details[:number_of_requests]
+    )
+  end
+
+  test 'requires a reasonable number of requests to perform' do
+    @job.number_of_requests = 10_000
+    refute @job.valid?
+    assert_equal(
+      [error: :less_than, count: 100, value: 10_000],
+      @job.errors.details[:number_of_requests]
+    )
+  end
+
+  test 'requires a valid decision whether to run migrations' do
+    @job.run_migrations = ''
+    refute @job.valid?
+  end
+end
+
+class JobBranchesValidationTest < ActiveSupport::TestCase
+  setup do
+    @job = Job.new(
+      user: users(:lyra),
+      compare: 'branches',
+      experimental_branch: 'lrz/improve-load-times',
+      paths: ['/companies']
+    )
+  end
+
+  test 'can be valid' do
+    assert @job.valid?
+  end
+
+  test 'requires a reference branch when attempting to compare branches' do
+    @job.reference_branch = nil
+    refute @job.valid?
+  end
+end
+
+class JobPathsValidationTest < ActiveSupport::TestCase
+  setup do
+    @job = Job.new(
+      user: users(:lyra),
+      compare: 'paths',
+      experimental_branch: 'lrz/improve-load-times',
+      paths: ['/companies/1', '/companies/1']
+    )
+  end
+
+  test 'can be valid' do
+    assert @job.valid?
+  end
+
+  test 'requires at least two paths' do
+    @job.paths = ['/companies']
+    refute @job.valid?
+    assert_equal(
+      [error: :fewer_than, count: 2, value: 1],
+      @job.errors.details[:paths]
+    )
   end
 end
