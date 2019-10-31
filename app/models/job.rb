@@ -113,12 +113,12 @@ class Job < ApplicationRecord
   end
 
   def create_clone_and_rerun!(current_user_id)
-    Job.create!(
-      settings_attributes.merge(
-        'user_id' => current_user_id,
-        'custom_arguments' => custom_arguments
-      )
-    )
+    attributes = settings_attributes.merge(
+      'user_id' => current_user_id,
+      'custom_arguments' => custom_arguments
+    ).compact
+    Rails.logger.debug("Cloning job with attributes #{attributes}")
+    Job.create!(attributes)
   end
 
   def status_attributes
