@@ -7,7 +7,7 @@ class OptionParser
   # arguments as a list.
   #
   #   OptionParser.parse(%w(create -a 1 --username manfred chicken)) #=>
-  #     [{"a => "1", ""username"=>"manfred"}, ["create", "chicken"]]
+  #     [{"a => "1", "username"=>"manfred"}, ["create", "chicken"]]
   def self.parse(argv)
     return [{}, []] if argv.empty?
 

@@ -634,6 +634,22 @@ ul.tabs li.current a
   border-bottom: 2px solid hsl(0, 100%, 100%);
 }
 
+form ul.error
+{
+  padding: 0.5em 1em;
+  background-color: hsl(0, 80%, 70%);
+  color: hsl(0, 100%, 100%);
+}
+form .field_with_errors
+{
+  display: inline;
+}
+form .field_with_errors input,
+form .field_with_errors select
+{
+  border: 1px solid hsl(0, 80%, 70%);
+}
+
 form > div
 {
   margin-top: .5em;
@@ -676,6 +692,7 @@ form input[type=submit]:active
   -webkit-box-shadow: inset 0px 1px 2px hsla(0, 0%, 0%, .5);
   -moz-box-shadow: inset 0px 1px 2px hsla(0, 0%, 0%, .5);
 }
+
 form .select-user input[type=text]
 {
   padding: .2em .2em;
@@ -691,18 +708,7 @@ form p.help
   margin: 0;
   color: hsla(0, 0%, 0%, .3);
 }
-form .field_with_errors
+form #job_custom_arguments
 {
-  display: inline;
-}
-form .field_with_errors input,
-form .field_with_errors select
-{
-  border: 1px solid hsl(0, 80%, 70%);
-}
-form ul.error
-{
-  padding: 0.5em 1em;
-  background-color: hsl(0, 80%, 70%);
-  color: hsl(0, 100%, 100%);
+  width: 100%;
 }

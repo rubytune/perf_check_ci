@@ -79,9 +79,12 @@
   <% end %>
 
   <%= form_with url: jobs_path(anchor: 'custom'), model: @job, remote: false, name: 'custom', data: { target: 'tabs.content' } do |form| %>
+    <% unless @job.errors.empty? %>
     <div>
+      <pre class="command">perf_check <%= @job.arguments %></pre>
       <%= error_messages @job.errors %>
     </div>
+    <% end %>
     <div>
       <%= form.text_field :custom_arguments %>
     </div>

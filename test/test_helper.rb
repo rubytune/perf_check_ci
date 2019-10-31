@@ -21,7 +21,7 @@ Minitest.after_run { FileUtils.rm_rf(app.app_dir) }
 
 APP_CONFIG.update(
   app_dir: app.app_dir,
-  default_arguments: '-n 2 --deployment',
+  default_arguments: '--shell',
   limits: { queries: 5, latency: 4000, change_factor: 0.09 },
   github_client_id: 'xxxxxxxxxxxxxxxxxxxx',
   github_client_secret: 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',

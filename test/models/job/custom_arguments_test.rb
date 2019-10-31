@@ -21,14 +21,48 @@ class Job
       )
     end
 
+    test 'parses a command that instructs to compile an output diff' do
+      assert_attributes(
+        {
+          run_migrations: false,
+          verify: 'same-output',
+          paths: ['/user/45/posts']
+        },
+        '/user/45/posts --diff'
+      )
+    end
+
     test 'parses a relatively complex command' do
       assert_attributes(
         {
           experimental_branch: 'HG-345345/optimize_report',
-          number_of_requests: 5
+          number_of_requests: 5,
+          user_role: 'standard',
+          deployment: true,
+          shell: true,
+          consider_succesful_status: ['302'],
+          run_migrations: false,
+          paths: ['/4799/company/custom_reports/158035']
         },
-        '--deployment --shell --standard -n 5 --branch HG-345345/optimize_report  --302-success ' \
+        '--deployment --shell --standard -n 5 --branch HG-345345/optimize_report --302-success ' \
         '--verify-no-diff /4799/company/custom_reports/158035'
+      )
+    end
+
+    test 'needs an explicit option to run migrations' do
+      assert_attributes(
+        {
+          experimental_branch: 'HG-345345/optimize_report',
+          number_of_requests: 5,
+          user_role: 'standard',
+          deployment: true,
+          shell: true,
+          consider_succesful_status: ['302'],
+          run_migrations: false,
+          paths: ['/4799/company/custom_reports/158035']
+        },
+        '--deployment --shell --standard -n 5 --branch HG-345345/optimize_report --302-success ' \
+        '--run-migrations --verify-no-diff /4799/company/custom_reports/158035'
       )
     end
 
