@@ -3,3 +3,11 @@ en:
     attributes:
       authorization:
         github_user: GitHub user
+  activerecord:
+    errors:
+      models:
+        job:
+          attributes:
+            paths:
+              not_all_usable: can't be blank and should all start with a /
+              fewer_than: require at least %{count} values in order to compare them
