@@ -164,7 +164,7 @@ class Job < ApplicationRecord
   validates :paths, presence: true
   validate :usable_paths
   validate :number_of_paths
-  validates :user_role, inclusion: { in: Job.user_roles.values }
+  validates :user_role, inclusion: { in: Job.user_roles.values }, allow_blank: true
   validates :user_email, presence: true, if: :specific_user?
   validates(
     :number_of_requests,

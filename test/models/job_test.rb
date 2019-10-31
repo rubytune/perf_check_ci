@@ -176,6 +176,14 @@ class JobValidationTest < ActiveSupport::TestCase
     assert @job.valid?
   end
 
+  test 'allows empty users roles' do
+    @job.user_role = ''
+    assert @job.valid?
+
+    @job.user_role = nil
+    assert @job.valid?
+  end
+
   test 'allows an empty user email' do
     @job.user_email = nil
     assert @job.valid?
