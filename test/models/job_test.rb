@@ -28,8 +28,9 @@ class JobCreationTest < ActiveSupport::TestCase
     arguments = ' -n 20 --branch master      '
 
     job = user.jobs.create!(arguments: arguments)
+    job = user.jobs.create!(custom_arguments: arguments)
 
-    assert_equal 'master', job.branch
+    assert_equal 'master', job.experimental_branch
     assert_equal 'queued', job.status
     assert_equal arguments, job.arguments
     assert_not_nil job.queued_at
@@ -41,7 +42,7 @@ class JobCreationTest < ActiveSupport::TestCase
 
     job = user.jobs.create!(arguments: arguments)
     assert_equal(
-      { id: job.id, status: 'queued', branch: 'master', user_name: 'Lyra Belaqua' },
+      { id: job.id, status: 'queued', experimental_branch: 'master', user_name: 'Lyra Belaqua' },
       job.status_attributes
     )
   end

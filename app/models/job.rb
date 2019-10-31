@@ -7,7 +7,7 @@ class Job < ApplicationRecord
 
   pg_search_scope(
     :search,
-    against: %i[branch status],
+    against: %i[experimental_branch status],
     using: %i[tsearch trigram]
   )
 
@@ -100,7 +100,7 @@ class Job < ApplicationRecord
   ################################
 
   def status_attributes
-    { id: id, status: status, branch: branch, user_name: user_name }
+    { id: id, status: status, experimental_branch: experimental_branch, user_name: user_name }
   end
 
   def should_broadcast_log_file?
