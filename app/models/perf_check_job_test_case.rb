@@ -1,4 +1,8 @@
 class PerfCheckJobTestCase < ApplicationRecord
+  MINIMAL_CHANGE = 0.1
+  INCREASE_THRESHOLD = 1.0 + MINIMAL_CHANGE
+  DECREASE_THRESHOLD = 1.0 - MINIMAL_CHANGE
+
   STATUSES = ['success', 'failed']
   HTTP_STATUSES = ['200', '404', '500']
 
@@ -16,16 +20,20 @@ class PerfCheckJobTestCase < ApplicationRecord
     status == 'failed'
   end
 
+  def relative_speedup
+    [1.0, speedup_factor].sort.reverse.inject(:/).round(1)
+  end
+
   def speedup_factor_increased?
-    speedup_factor > 1.0
+    speedup_factor > INCREASE_THRESHOLD
   end
 
   def speedup_factor_decreased?
-    speedup_factor < -1.0
+    speedup_factor < DECREASE_THRESHOLD
   end
 
   def speedup_factor_about_the_same?
-    speedup_factor < 1.0 && speedup_factor > -1.0
+    !speedup_factor_increased? && !speedup_factor_decreased?
   end
 
   def status_class
@@ -37,7 +45,7 @@ class PerfCheckJobTestCase < ApplicationRecord
       return 'success-same'
     elsif speedup_factor_decreased?
       return 'success-decrease'
-    end      
+    end
   end
 
   def self.add_test_case!(job, test_case)
@@ -60,5 +68,4 @@ class PerfCheckJobTestCase < ApplicationRecord
       resource_benchmarked: test_case.resource
     })
   end
-
 end

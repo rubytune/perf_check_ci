@@ -3,7 +3,7 @@ development: &default
   app_dir: ../perf_check/test_app
 
   # These are passed to the perf_check CLI
-  default_arguments: -n20 --deployment
+  default_arguments: --shell
 
   # Alert thresholds specify how to qualify performance regression/improvemens
   limits:

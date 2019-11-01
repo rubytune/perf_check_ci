@@ -8,8 +8,10 @@
     <%= content_tag(:li, data: { action: 'click->tabs#select', target: "tabs.tab" }) do %>
       <a href="#compare-paths"><%= fa_icon 'road' %> Compare paths</a>
     <% end %>
+    <% if false %>
     <%= content_tag(:li, data: { action: 'click->tabs#select', target: "tabs.tab" }) do %>
       <a href="#custom"><%= fa_icon 'sliders-h' %> Custom</a>
+    <% end %>
     <% end %>
   </ul>
 

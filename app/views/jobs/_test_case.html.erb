@@ -1,18 +1,13 @@
-<% speedup_factor =  test_case.speedup_factor.round(1) %>
 <div class="test-case test-case-<%= test_case.status_class %>">
-  <a href="#" class="pull-right show-more-info">
-    <%= fa_icon 'plus' %>
-    More Info
-  </a>
   <strong>
     <% if test_case.failed? %>
       <%= fa_icon 'times-circle' %> This test case failed to run.
     <% elsif test_case.speedup_factor_increased? %>
       <%= fa_icon 'check-circle' %>
-      Performance is <%= speedup_factor %> times faster!
+      Performance is <%= test_case.relative_speedup %> times better!
     <% elsif test_case.speedup_factor_decreased? %>
       <%= fa_icon 'exclamation-triangle' %>
-      Performance is <%= speedup_factor.abs %> times slower.
+      Performance is <%= test_case.relative_speedup %> times worse!
     <% else %>
       <%= fa_icon 'check-circle' %>
       Performance is about the same!
@@ -21,33 +16,28 @@
   <br />
   <small>
     <strong>Resource Benchmarked: <%= test_case.resource_benchmarked %></strong>
+    <span class="test-case-http-status">
+      <strong>HTTP Status:</strong>
+      <%= test_case.http_status %>
+    </span>
+
+    <% if test_case.success? %>
+      <br />
+      <strong>Max Memory:</strong>
+      <%= test_case.max_memory.round(2).to_s %>MB
+      <br />
+      <strong>Latency Difference</strong>
+      <%= test_case.latency_difference.abs.round %>ms
+      <br />
+      <strong>Query Count</strong>
+      <%= test_case.branch_query_count %> (branch) vs. <%= test_case.reference_query_count %> (reference)
+    <% end %>
+
+    <% if test_case.error_backtrace.present? %>
+      <br />
+      <strong>Error Backtrace:</strong>
+      <pre><%= test_case.error_backtrace  %>
+      </pre>
+    <% end %>
   </small>
-
-  <div class="more-info" style="display: none">
-    <small>
-      <span class="test-case-http-status">
-        <strong>HTTP Status:</strong>
-        <%= test_case.http_status %>
-      </span>
-
-      <% if test_case.success? %>
-        <br />
-        <strong>Max Memory:</strong>
-        <%= test_case.max_memory.round(2).to_s %>MB
-        <br />
-        <strong>Latency Difference</strong>
-        <%= test_case.latency_difference.abs.round %>ms
-        <br />
-        <strong>Query Count</strong>
-        <%= test_case.branch_query_count %> (branch) vs. <%= test_case.reference_query_count %> (reference)
-      <% end %>
-
-      <% if test_case.error_backtrace.present? %>
-        <br />
-        <strong>Error Backtrace:</strong>
-        <pre><%= test_case.error_backtrace  %>
-        </pre>
-      <% end %>
-    </small>
-  </div>
 </div>

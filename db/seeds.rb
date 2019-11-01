@@ -23,8 +23,8 @@ RECORDS_TO_POPULATE.times do |sample_count|
 
   status = statusses.sample
   Job.create(
-    branch: branches.sample,
     status: status,
+    experimental_branch: branches.sample,
     log_filename: 'test-log-file.txt',
     arguments: "-n#{rand(20)} --deployment --super /url/to/check/#{sample_count}",
     queued_at: base_created_at ,

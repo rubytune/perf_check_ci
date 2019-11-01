@@ -36,6 +36,7 @@ class Job < ApplicationRecord
 
     def arguments
       Shellwords.join(
+        default_arguments_as_switches +
         options_as_switches +
         migrations_as_switches +
         user_as_switches +
@@ -44,6 +45,13 @@ class Job < ApplicationRecord
     end
 
     private
+
+    def default_arguments_as_switches
+      default_arguments = APP_CONFIG[:default_arguments]
+      return [] unless default_arguments
+
+      Shellwords.split(default_arguments)
+    end
 
     def options
       {

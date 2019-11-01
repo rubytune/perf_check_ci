@@ -1,6 +1,5 @@
-GIT
-  remote: https://github.com/rubytune/perf_check.git
-  revision: 5febf4525563c6b573d8d6e9597b53bb083e1a77
+PATH
+  remote: ../perf_check
   specs:
     perf_check (0.10.5)
       colorize
@@ -116,7 +115,7 @@ GEM
     multipart-post (2.1.1)
     mustermann (1.0.3)
     nio4r (2.5.2)
-    nokogiri (1.10.4)
+    nokogiri (1.10.5)
       mini_portile2 (~> 2.4.0)
     octokit (4.14.0)
       sawyer (~> 0.8.0, >= 0.5.3)
@@ -223,7 +222,7 @@ GEM
     websocket-driver (0.7.1)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.4)
-    zeitwerk (2.2.0)
+    zeitwerk (2.2.1)
 
 PLATFORMS
   ruby
