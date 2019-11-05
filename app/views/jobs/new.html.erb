@@ -54,7 +54,6 @@
 
     <%= form_for @job do |f| %>
       <h4>Final Command:</h4>
-      <%= f.text_field :arguments, class: 'text-field', required: 'required', data: {target: 'perf-check-wizard.finalCommand'} %>
       <br />
       <%= submit_tag 'Create & Run Job', class: 'submit' %>
     <% end %>
