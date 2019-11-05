@@ -26,6 +26,25 @@ class JobTest < ActiveSupport::TestCase
     refute Job.new(request_user_role: 'admin').specific_request_user?
     assert Job.new(request_user_role: 'user').specific_request_user?
   end
+
+  test 'knows when the task is to compare branches' do
+    assert Job.new.compare_branches?
+    refute Job.new(task: nil).compare_branches?
+    refute Job.new(task: 'benchmark').compare_branches?
+    assert Job.new(task: 'compare_branches').compare_branches?
+  end
+
+  test 'knows when the task is to compare paths' do
+    refute Job.new.compare_paths?
+    refute Job.new(task: 'benchmark').compare_paths?
+    assert Job.new(task: 'compare_paths').compare_paths?
+  end
+
+  test 'knows when the task is to benchmark' do
+    refute Job.new.benchmark?
+    refute Job.new(task: 'compare_paths').benchmark?
+    assert Job.new(task: 'benchmark').benchmark?
+  end
 end
 
 class JobCreationTest < ActiveSupport::TestCase

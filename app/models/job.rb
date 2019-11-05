@@ -37,6 +37,21 @@ class Job < ApplicationRecord
     request_user_role == 'user'
   end
 
+  # Returns true when we will be comparing branches.
+  def compare_branches?
+    task == 'compare_branches'
+  end
+
+  # Returns true when we will be comparing paths.
+  def compare_paths?
+    task == 'compare_paths'
+  end
+
+  # Returns true when this is only a benchmark run without comparison.
+  def benchmark?
+    task == 'benchmark'
+  end
+
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
   end
