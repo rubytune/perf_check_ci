@@ -17,9 +17,7 @@ class JobsController < ApplicationController
   end
 
   def create
-    @job = Job.new(job_params)
-    @job.user = current_user
-
+    @job = Job.new(job_params.merge(user: current_user))
     if @job.save
       redirect_to @job
     else
@@ -35,7 +33,16 @@ class JobsController < ApplicationController
   private
 
   def job_params
-    params.require(:job).permit(:arguments, :branch)
+    params.require(:job).permit(
+      :task,
+      :experiment_branch,
+      :reference_branch,
+      :request_user_role,
+      :request_user_email,
+      :number_of_requests,
+      :run_migrations,
+      request_paths: []
+    )
   end
 
   def job_id

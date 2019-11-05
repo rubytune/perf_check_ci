@@ -50,4 +50,33 @@ class PerfCheckJobsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'form'
   end
+
+  test 'creates a new job' do
+    post(
+      '/jobs',
+      params: {
+        job: {
+          task: 'compare_branches',
+          experiment_branch: 'lrz/optimize',
+          reference_branch: 'master',
+          request_paths: ['/', '', ''],
+          request_user_role: '',
+          request_user_email: '',
+          number_of_requests: '20',
+          run_migrations: '1'
+        }
+      }
+    )
+    assert_response :redirect
+    assert response.location.start_with?(jobs_url)
+  end
+
+  test 'sees a form with error messages when job failed to create' do
+    post(
+      '/jobs',
+      params: { job: { task: 'compare_branches' } }
+    )
+    assert_response :ok
+    assert_select 'ul.error'
+  end
 end
