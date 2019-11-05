@@ -7,7 +7,7 @@ class Job < ApplicationRecord
 
   pg_search_scope(
     :search,
-    against: %i[branch status],
+    against: %i[experiment_branch status],
     using: %i[tsearch trigram]
   )
 
@@ -17,22 +17,13 @@ class Job < ApplicationRecord
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
 
-  validates :status, :arguments, presence: true
+  validates :status, presence: true
   scope :most_recent, -> { order(created_at: :desc) }
 
   delegate :name, to: :user, prefix: :user
 
-  def arguments=(arguments)
-    super
-    self.branch ||= self.class.parse_branch(arguments)
-  end
-
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
-  end
-
-  def all_arguments
-    [APP_CONFIG[:default_arguments], arguments].compact.join(' ')
   end
 
   def run_perf_check!
@@ -43,7 +34,11 @@ class Job < ApplicationRecord
       perf_check.load_config
       job_logger.formatter = perf_check.logger.formatter
       perf_check.logger = job_logger
-      perf_check.parse_arguments(all_arguments)
+
+      perf_check.options.spawn_shell = true
+      perf_check.options.branch = experiment_branch
+      request_paths.each { |path| perf_check.add_test_case(path) }
+
       parse_and_save_test_results!(perf_check.run)
       true
     rescue StandardError => e
@@ -81,7 +76,7 @@ class Job < ApplicationRecord
     Job.create({
       arguments: job_params[:arguments],
       user: user,
-      branch: job_params[:branch],
+      experiment_branch: job_params[:experiment_branch],
       github_html_url: job_params[:issue_html_url]
     })
   end
@@ -94,7 +89,7 @@ class Job < ApplicationRecord
     {
       arguments: arguments,
       user_id: user_id,
-      branch: branch,
+      experiment_branch: branch,
       github_html_url: github_html_url
     }
   end
@@ -108,7 +103,12 @@ class Job < ApplicationRecord
   ################################
 
   def status_attributes
-    { id: id, status: status, branch: branch, user_name: user_name }
+    {
+      id: id,
+      status: status,
+      experiment_branch: experiment_branch,
+      user_name: user_name
+    }
   end
 
   def should_broadcast_log_file?
