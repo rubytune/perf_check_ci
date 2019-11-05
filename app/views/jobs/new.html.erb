@@ -1,61 +1,42 @@
-<div id="aligner" data-controller="perf-check-wizard">
-  <div id="new-perf-check-job">
-    <h1><%= fa_icon 'motorcycle' %> New Perf Check </h1>
-    <hr />
+<div>
+  <h1>New Perf Check</h1>
 
-    <div class="number-of-runs">
-      <%= number_field_tag :number_of_runs, params[:number_of_runs], class: 'text-field', data: {target: 'perf-check-wizard.numberOfRuns', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
-      <label>Runs</label>
+  <%= form_with(
+    url: jobs_path(anchor: 'compare-branches'),
+    model: @job,
+    local: true
+  ) do |form| %>
+    <div>
+      <%= error_messages @job.errors %>
     </div>
-
-    <div class="branch-name">
-      <%= text_field_tag :branch, params[:branch], class: 'text-field', placeholder: 'Branch Name', data: {target: 'perf-check-wizard.branchName', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}%>
-
-      <label class="pull-left">
-        <%= check_box_tag :only_bench_branch, true, false, {data: {target: 'perf-check-wizard.onlyBenchBranch', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
-        Only Bench Branch
-      </label>  
+    <%= form.hidden_field :task, value: 'compare_branches' %>
+    <div>
+      <div><%= form.label :experiment_branch, 'Experiment on branch' %></div>
+      <%= form.text_field :experiment_branch, placeholder: 'lrz/optimize-load-times' %>
     </div>
-
-    <ul id="urls-to-benchmark">
-      <li>
-        <%= text_field_tag :url, nil, class: 'text-field url-to-benchmark', placeholder: '/path/to/benchmark', data: {action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
-      </li>
-      <li>
-        <%= text_field_tag :url, nil, class: 'text-field url-to-benchmark', placeholder: '/path/to/benchmark', data: {action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
-      </li>
-    </ul>
-
-    <div class="add-url">
-      <a href="#" class="styled-button pull-right" data-action="click->perf-check-wizard#addUrl" >+ Add URL</a>
+    <div>
+      <div><%= form.label :reference_branch, 'Reference against' %></div>
+      <%= form.text_field :reference_branch %>
     </div>
-
-    <div class="run-as-user">
-      <%= select_tag :run_as_user, user_type_options_for_select,  class: 'text-field', data: {target: 'perf-check-wizard.runAsUserSelect', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
-      <span>- or -</span>
-      <%= email_field_tag :email, nil, class: 'text-field', placeholder: 'example@example.com', data: {target: 'perf-check-wizard.runAsUserEmail', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'} %>
+    <div>
+      <div><%= form.label :request_paths %></div>
+      <% form.object.request_paths_for_form.each do |request_path| %>
+        <div><%= text_field_tag "job[request_paths][]", request_path, placeholder: '/request/path' %></div>
+      <% end %>
     </div>
-
-    <br />
-
-    <div class="perf-check-options">
-      <label>
-        <%= check_box_tag :run_migrations, true, false, {data: {target: 'perf-check-wizard.runMigrations', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
-        Run Migrations
-      </label>
-      <br />
-      <label>
-        <%= check_box_tag :verify_no_diff, true, false, {data: {target: 'perf-check-wizard.verifyNoDiff', action: 'keyup->perf-check-wizard#setFinalCommand change->perf-check-wizard#setFinalCommand'}} %>
-        Verify No Diff
-      </label>
-      <br />
-    
+    <div class="select-user" data-controller="user-selection">
+      <%= form.select :request_user_role, user_role_options_for_select(@job.request_user_role), {}, data: { action: 'change->user-selection#change' } %>
+      <%= form.text_field :user_email, placeholder: 'marcia@example.com', disabled: true, data: { target: 'user-selection.text' } %>
     </div>
-
-    <%= form_for @job do |f| %>
-      <h4>Final Command:</h4>
-      <br />
-      <%= submit_tag 'Create & Run Job', class: 'submit' %>
-    <% end %>
-  </div>
+    <div>
+      <%= form.number_field :number_of_requests %> requests
+    </div>
+    <div>
+      <label><%= form.check_box :run_migrations %> Run migrations</label>
+      <p class="help">Runs migrations introduced in the branch and rolls back afterwards.</p>
+    </div>
+    <div>
+      <%= form.submit 'Create & Run Job' %>
+    </div>
+  <% end %>
 </div>
