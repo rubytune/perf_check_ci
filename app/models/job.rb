@@ -52,6 +52,12 @@ class Job < ApplicationRecord
     task == 'benchmark'
   end
 
+  # Returns all current request paths and some blanks as a simple hack to allow
+  # multiple fields without JavaScript in the front-end.
+  def request_paths_for_form
+    (request_paths || []) + [nil, nil]
+  end
+
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
   end

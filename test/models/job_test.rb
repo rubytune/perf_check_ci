@@ -45,6 +45,17 @@ class JobTest < ActiveSupport::TestCase
     refute Job.new(task: 'compare_paths').benchmark?
     assert Job.new(task: 'benchmark').benchmark?
   end
+
+  test 'returns a number of blank request paths for form building' do
+    job = Job.new
+    assert_equal [nil, nil], job.request_paths_for_form
+
+    job.request_paths = ['/']
+    assert_equal ['/', nil, nil], job.request_paths_for_form
+
+    job.request_paths = ['/', '/companies']
+    assert_equal ['/', '/companies', nil, nil], job.request_paths_for_form
+  end
 end
 
 class JobCreationTest < ActiveSupport::TestCase
