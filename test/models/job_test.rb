@@ -20,6 +20,12 @@ class JobTest < ActiveSupport::TestCase
       job.status == 'completed'
     end)
   end
+
+  test 'knows when a Job is requesting as a specific user' do
+    refute Job.new.specific_request_user?
+    refute Job.new(request_user_role: 'admin').specific_request_user?
+    assert Job.new(request_user_role: 'user').specific_request_user?
+  end
 end
 
 class JobCreationTest < ActiveSupport::TestCase

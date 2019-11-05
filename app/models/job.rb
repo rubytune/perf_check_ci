@@ -31,6 +31,12 @@ class Job < ApplicationRecord
 
   delegate :name, to: :user, prefix: :user
 
+  # Returns true when the performance tests need to be performed using a
+  # specific user in the target application.
+  def specific_request_user?
+    request_user_role == 'user'
+  end
+
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
   end
