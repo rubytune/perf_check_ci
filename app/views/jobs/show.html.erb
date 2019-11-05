@@ -7,7 +7,7 @@
     <h2>Job <%= @job.id %></h2>
     <hr style="background-color: #EEE;" />
     <span class="pull-right perf-check-status-<%= @job.id %> status <%= @job.status %>"><%= @job.status %></span>
-    <h3><%= @job.branch %></h3>
+    <h3><%= @job.experiment_branch %></h3>
     <div class="created-by">
       <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@job.created_at) %></span>
       by

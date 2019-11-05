@@ -30,7 +30,7 @@
             <% @user_jobs_records.each do |job| %>
               <tr>
                 <td><%= job.id %></td>
-                <td><%= job.branch %></td>
+                <td><%= job.experiment_branch %></td>
                 <td><%= job.arguments %></td>
                 <td class="status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status %></td>
                 <td><%= job.created_at.stamp("Aug 5th at 3:35 PM") %></td>
