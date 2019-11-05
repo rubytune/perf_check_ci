@@ -58,6 +58,14 @@ class Job < ApplicationRecord
     (request_paths || []) + [nil, nil]
   end
 
+  def request_paths=(request_paths)
+    if request_paths
+      super(request_paths.reject { |path| path.blank? })
+    else
+      super
+    end
+  end
+
   def perform_perf_check_benchmarks!
     PerfCheckJobWorker.perform_async(id)
   end

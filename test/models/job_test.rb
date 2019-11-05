@@ -56,6 +56,18 @@ class JobTest < ActiveSupport::TestCase
     job.request_paths = ['/', '/companies']
     assert_equal ['/', '/companies', nil, nil], job.request_paths_for_form
   end
+
+  test 'strips blank values from request paths on assignment' do
+    job = Job.new
+    job.request_paths = ['', nil, nil]
+    assert_equal [], job.request_paths
+
+    job.request_paths = ['/companies', '', '']
+    assert_equal ['/companies'], job.request_paths
+
+    job.request_paths = ['/companies', '/projects']
+    assert_equal ['/companies', '/projects'], job.request_paths
+  end
 end
 
 class JobCreationTest < ActiveSupport::TestCase
