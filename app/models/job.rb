@@ -26,7 +26,6 @@ class Job < ApplicationRecord
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
 
-  validates :status, presence: true
   scope :most_recent, -> { order(created_at: :desc) }
 
   delegate :name, to: :user, prefix: :user
@@ -172,4 +171,46 @@ class Job < ApplicationRecord
   def broadcast_status
     ActionCable.server.broadcast('status_channel', status_attributes)
   end
+
+  def usable_request_paths
+    return if errors[:request_paths].present?
+    return if request_paths.all? { |path| path.start_with?('/') }
+
+    errors.add(:request_paths, :not_all_usable)
+  end
+
+  def number_of_request_paths
+    return if errors[:request_paths].present?
+    return unless compare_paths? && request_paths.length < 2
+
+    errors.add(
+      :request_paths, :fewer_than,
+      count: 2, value: request_paths.length
+    )
+  end
+
+  validates :status, presence: true
+  validates(
+    :task,
+    inclusion: { in: %w[compare_branches compare_paths benchmark] },
+    allow_nil: true
+  )
+  validates :experiment_branch, presence: true
+  validates :reference_branch, presence: true, if: :compare_branches?
+  validates :request_paths, presence: true
+  validate :usable_request_paths
+  validate :number_of_request_paths
+  validates(
+    :request_user_role,
+    inclusion: { in: Job.user_roles.values },
+    allow_blank: true
+  )
+  validates :request_user_email, presence: true, if: :specific_request_user?
+  validates(
+    :number_of_requests,
+    numericality: {
+      only_integer: true, greater_than: 0, less_than: 100
+    }
+  )
+  validates :run_migrations, inclusion: { in: [true, false] }
 end
