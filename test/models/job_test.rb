@@ -90,21 +90,6 @@ class JobRunningTest < ActiveSupport::TestCase
 end
 
 class JobBranchTest < ActiveSupport::TestCase
-  test 'does not parse branch from blank arguments' do
-    assert_nil Job.parse_branch(nil)
-    assert_nil Job.parse_branch('')
-  end
-
-  test 'does not parse branch when missing in arguments' do
-    assert_nil Job.parse_branch('-n 20')
-  end
-
-  test 'returns branch from arguments' do
-    assert_equal(
-      'lra/optimizations',
-      Job.parse_branch('-n 20 --branch lra/optimizations')
-    )
-  end
 end
 
 class JobValidationTest < ActiveSupport::TestCase

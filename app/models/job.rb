@@ -115,18 +115,6 @@ class Job < ApplicationRecord
     !(completed? || failed? || canceled?)
   end
 
-  def self.parse_branch(arguments)
-    return if arguments.blank?
-
-    parts = Shellwords.shellsplit(arguments)
-    parts.each_with_index do |part, index|
-      if part == '--branch'
-        return parts[index + 1]
-      end
-    end
-    nil
-  end
-
   private
 
   def app_dir
