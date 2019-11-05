@@ -1,18 +1,30 @@
 lyra_queued_lra_optimizations:
   user: lyra
   experiment_branch: lra/optimizations
+  number_of_requests: 2
+  request_paths:
+    - /
+  request_headers: {}
   status: queued
   created_at: <%= 15.seconds.ago %>
   updated_at: <%= 12.seconds.ago %>
 lyra_queued_master_broken:
   user: lyra
   experiment_branch: broken
+  number_of_requests: 1
+  request_paths:
+    - /
+  request_headers: {}
   status: queued
   created_at: <%= 15.seconds.ago %>
   updated_at: <%= 12.seconds.ago %>
 lyra_completed_lra_optimizations:
   user: lyra
   experiment_branch: lra/optimizations
+  number_of_requests: 2
+  request_paths:
+    - /
+  request_headers: {}
   status: completed
   run_at: <%= 1.month.ago %>
   completed_at: <%= 1.month.ago %>
