@@ -9,9 +9,9 @@ $(document).on 'turbolinks:load', ->
           <a href='/jobs/" + data['id'] + "'>
             <div data-link-to='/jobs/" + data['id'] + "'>
               <small class='pull-left status perf-check-status-" + data['id'] + " " + data['status'] + "'>" + data['status'] + "</small>
-              <strong class='branch'>" + data['branch'] + "</strong>
+              <strong class='branch'>" + data['experiment_branch'] + "</strong>
               <small class='time'><i class='fa fa-clock-o'></i> less than a minute ago</small>
-              <small class='name'>by " + data['username'] + "</small>
+              <small class='name'>by " + data['user_name'] + "</small>
             </div>
           </a>
         </li>")

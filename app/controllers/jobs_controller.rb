@@ -8,7 +8,7 @@ class JobsController < ApplicationController
   def index
     respond_to do |wants|
       wants.html
-      wants.json { render json: {jobs: @jobs_records}}
+      wants.json { render json: { jobs: jobs_as_json } }
     end
   end
 
@@ -54,6 +54,18 @@ class JobsController < ApplicationController
 
   def load_jobs
     @jobs, @jobs_records = pagy(jobs)
+  end
+
+  def jobs_as_json
+    @jobs_records.map do |record|
+      {
+        id: record.id,
+        status: record.status,
+        experiment_branch: record.experiment_branch,
+        created_at: record.created_at,
+        user_name: record.user_name
+      }
+    end
   end
 
   def jobs
