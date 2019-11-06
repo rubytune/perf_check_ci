@@ -12,12 +12,22 @@
     <h2>Job <%= @job.id %></h2>
     <hr>
     <span class="pull-right perf-check-status-<%= @job.id %> status <%= @job.status %>"><%= @job.status %></span>
-    <h3><%= @job.experiment_branch %></h3>
-    <div class="created-by">
-      <span class="time-ago"><%= fa_icon 'clock-o' %> <%= time_ago(@job.created_at) %></span>
-      by
-      <span><strong><%= @job.user_name %></strong></span>
+    <h3>
+      <%= fa_icon 'code-branch' %>
+      <%= @job.experiment_branch %>
+      <% if @job.compare_branches? %>vs. <%= @job.reference_branch %><% end %>
+    </h3>
+    <div>
+      created <%= time_ago(@job.created_at) %> by <%= @job.user_name %>
     </div>
+    <div><i>
+      <%= pluralize(@job.number_of_requests, 'request') %>
+      <% if @job.specific_request_user? %>
+        authenticated as <%= @job.request_user_email %>
+      <% elsif @job.request_user_role.present? %>
+        authenticated as <%= @job.request_user_role.start_with?('a') ? 'an' : 'a'%> <%= @job.request_user_role %>
+      <% end %>
+     </i></div>
   </header>
   <% if @job.result_details.present?  %>
     <div class="details">
