@@ -1,7 +1,6 @@
 GIT
   remote: https://github.com/rubytune/perf_check.git
-  revision: 785df8b1e6cce27ede2522fd9f6c5d848475e0a3
-  branch: mst/47-spec-stability
+  revision: 9c8ff4807e53ce8e038379a75fead08f596e17bc
   specs:
     perf_check (0.10.5)
       colorize
