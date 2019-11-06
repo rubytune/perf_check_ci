@@ -68,6 +68,26 @@ class JobTest < ActiveSupport::TestCase
     job.request_paths = ['/companies', '/projects']
     assert_equal ['/companies', '/projects'], job.request_paths
   end
+
+  test 'returns attributes to use when cloning a job' do
+    job = jobs(:lyra_completed_lra_optimizations)
+    assert_equal(
+      {
+        'task' => 'compare_branches',
+        'experiment_branch' => 'lra/optimizations',
+        'reference_branch' => 'master',
+        'number_of_requests' => 2,
+        'request_headers' => {},
+        'request_paths' => ['/'],
+        'use_fragment_cache' => true,
+        'run_migrations' => true,
+        'diff_response' => true,
+        'request_user_role' => nil,
+        'request_user_email' => nil
+      },
+      job.cloning_attributes
+    )
+  end
 end
 
 class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
