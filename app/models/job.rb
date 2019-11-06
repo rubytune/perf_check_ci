@@ -147,6 +147,8 @@ class Job < ApplicationRecord
     ])
   end
 
+  def clone(current_user)
+    current_user.jobs.new(cloning_attributes)
   end
 
   ################################

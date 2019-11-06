@@ -88,6 +88,27 @@ class JobTest < ActiveSupport::TestCase
       job.cloning_attributes
     )
   end
+
+  test 'sets the current user as the creator on a cloned job' do
+    roger = users(:roger)
+    existing = jobs(:lyra_completed_lra_optimizations)
+    job = existing.clone(roger)
+    assert_equal roger, job.user
+    assert job.valid?
+    refute job.persisted?
+  end
+
+  test 'can clone any job' do
+    Job.find_each do |job|
+      job = job.clone(users(:roger))
+      assert job.errors.empty?
+    end
+  end
+
+  test 'invalid jobs clone into invalid jobs' do
+    job = Job.new.clone(users(:roger))
+    refute job.valid?
+  end
 end
 
 class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
