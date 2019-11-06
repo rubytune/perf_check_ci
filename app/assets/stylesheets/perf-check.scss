@@ -10,6 +10,15 @@ a {
   color: #658EBF;
 }
 
+.job header.job-header hr {
+}
+hr {
+  border: none;
+  background-color: #eee;
+  height: 1px;
+  margin: 1em 0;
+}
+
 #content {
   padding-top: 120px;
   box-sizing: border-box;
@@ -102,13 +111,6 @@ a {
 #content #new-perf-check-job h1 {
   text-align: center;
   font-size: 36px;
-}
-
-#content #new-perf-check-job hr {
-  border: none;
-  border-bottom: 1px solid #C1C1C1;
-  margin: 25px 0;
-  text-shadow: 1px 0px 1px #000;
 }
 
 #content #new-perf-check-job label {
@@ -231,14 +233,11 @@ a {
 
 .status-label,
 .browser-app-results li .status {
-  font-size: .8em;
   display: inline-block;
-  width: 50px;
-  padding: 3px 1px;
+  font-size: .8em;
   text-align: center;
-  background-color: #EFEFEF;
-  text-shadow: 1px 0px 1px #666;
-  margin-right: 9px;
+  padding: .3em .5em;
+  min-width: 6.5em;
 }
 
 .browser-app-results li:hover {
@@ -252,37 +251,29 @@ a {
 
 .status
 {
+  border-radius: 2px; 
   text-transform: capitalize;
+  color: hsl(0, 100%, 100%);
+}
+.status-label.queued,
+.status.queued {
+  background-color: hsl(0, 0%, 80%);
 }
 .status-label.running,
 .status.running {
-  color: #FFF;
-  background-color: #19B81D !important;
+  background-color: hsl(209, 40%, 70%);
 }
-
-.status-label.queued,
-.status.queued {
-  color: #FFF;
-  background-color: #E99835 !important;
-}
-
 .status-label.completed,
 .status.completed {
-  color: #000;
-  background-color: #EBEBEB !important;
-  text-shadow: 0 !important;
+  background-color: hsl(0, 0%, 40%);
 }
-
 .status-label.failed,
 .status.failed {
-  color: #FFF;
-  background-color: #E17376 !important;
+  background-color: hsl(55, 40%, 70%);
 }
-
 .status-label.canceled,
 .status.canceled {
-  color: #FFF;
-  background-color: #E17376 !important;
+  background-color: hsl(55, 40%, 70%);
 }
 
 ul.browser-app-results {
@@ -376,34 +367,8 @@ ul.browser-app-results:hover {
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
 }
 
-
-.job header.job-header pre.command {
-  display: inline-block;
-  background-color: #EFEFEF;
-  border: 1px solid #CCC;
-  margin-top: 10px;
-  margin-bottom: 0;
-  font-size: .7em;
-  padding: 2px 8px 2px 7px;
-  color: #000;
-}
-
-.job header.job-header hr {
-  background-color: #eee;
-  border: 0;
-  height: 1px;
-  margin-top: 14px;
-}
-
 .job header.job-header .status {
-  padding: 5px 80px;
-  text-shadow: 1px 0px 1px #666;
-}
-
-
-.job header.job-header .created-by {
-  font-size: .8em;
-  color: #333;
+  padding: .2em .5em;
 }
 
 .job .status label {
@@ -414,11 +379,6 @@ ul.browser-app-results:hover {
 
 .job .details {
   padding-top: 20px;
-}
-
-.job .details pre {
-  font-size: .7rem;
-  line-height: 1.5rem;
 }
 
 .job .details p code {
@@ -456,20 +416,20 @@ ul.browser-app-results:hover {
   font-size: 12px !important;
 }
 
-.test-cases .test-case.test-case-success-increase {
-  background: #9ADD91;
+.test-cases .test-case.test-case-success-increase
+{
+  background-color: hsl(108, 40%, 70%);
 }
 
-.test-cases .test-case.test-case-success-same {
-  background: #9ADD91;
+.test-cases .test-case.test-case-success-same,
+.test-cases .test-case.test-case-failed
+{
+  background-color: hsl(0, 0%, 70%);
 }
 
-.test-cases .test-case.test-case-success-decrease {
-  background: #E69848;
-}
-
-.test-cases .test-case.test-case-failed {
-  background: #E58D92;
+.test-cases .test-case.test-case-success-decrease
+{
+  background-color: hsl(0, 40%, 70%);
 }
 
 .test-cases .test-case a {
