@@ -26,7 +26,7 @@
     </div>
     <div class="select-user" data-controller="user-selection">
       <%= form.select :request_user_role, user_role_options_for_select(@job.request_user_role), {}, data: { action: 'change->user-selection#change' } %>
-      <%= form.text_field :user_email, placeholder: 'marcia@example.com', disabled: true, data: { target: 'user-selection.text' } %>
+      <%= form.text_field :request_user_email, placeholder: 'marcia@example.com', disabled: true, data: { target: 'user-selection.text' } %>
     </div>
     <div>
       <%= form.number_field :number_of_requests %> requests
