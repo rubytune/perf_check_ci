@@ -105,7 +105,7 @@ end
 
 class JobRunningTest < ActiveSupport::TestCase
   test 'runs queued job' do
-    job = jobs(:lyra_queued_lra_optimizations)
+    job = jobs(:lyra_queued_slower)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
     logs_count = broadcasts_size('logs_channel')
@@ -126,10 +126,11 @@ class JobRunningTest < ActiveSupport::TestCase
     job = jobs(:lyra_queued_master_broken)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
-    logs_count = broadcasts_size('logs_channel')
-    status_count = broadcasts_size('status_channel')
+    broadcasts_size('logs_channel')
+    broadcasts_size('status_channel')
 
-    # The method should probably return false when anything goes wrong, but it doesn't.
+    # The method should probably return false when anything goes wrong, but it
+    # doesn't.
     assert job.run_benchmarks!
 
     job.reload
@@ -148,9 +149,6 @@ class JobRunningTest < ActiveSupport::TestCase
       job.status_attributes
     )
   end
-end
-
-class JobBranchTest < ActiveSupport::TestCase
 end
 
 class JobValidationTest < ActiveSupport::TestCase

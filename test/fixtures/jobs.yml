@@ -30,3 +30,14 @@ lyra_completed_lra_optimizations:
   completed_at: <%= 1.month.ago %>
   created_at: <%= 1.month.ago %>
   updated_at: <%= 1.month.ago %>
+lyra_queued_slower:
+  user: lyra
+  experiment_branch: slower
+  reference_branch: master
+  number_of_requests: 2
+  request_paths:
+    - /
+  request_headers: {}
+  status: queued
+  created_at: <%= 60.seconds.ago %>
+  updated_at: <%= 60.seconds.ago %>
