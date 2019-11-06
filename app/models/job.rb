@@ -69,32 +69,41 @@ class Job < ApplicationRecord
     PerfCheckJobWorker.perform_async(id)
   end
 
-  def run_perf_check!
-    job_output = JobOutput.new(self)
-    job_logger = Logger.new(job_output)
-    begin
-      perf_check = PerfCheck.new(app_dir)
-      perf_check.load_config
-      job_logger.formatter = perf_check.logger.formatter
-      perf_check.logger = job_logger
+  def build_perf_check
+    perf_check = PerfCheck.new(app_dir)
+    # Apply options from the application configuration.
+    APP_CONFIG[:perf_check_options].each do |name, value|
+      perf_check.options[name] = value
+    end
+    # Load config/perf_check.rb from target application.
+    perf_check.load_config
+    # Control options
+    perf_check.options.deployment = true
+    # Job specific options
+    perf_check.options.branch = experiment_branch
+    perf_check.options.reference_branch = reference_branch
+    perf_check.options.number_of_requests = number_of_requests
+    perf_check.options.run_migrations = run_migrations
+    # Authentication
+    if request_user_email
+      perf_check.options.login_user = request_user_email
+    else
+      perf_check.options.login_type = request_user_role&.to_sym
+    end
+    # Add request paths as test cases
+    request_paths.each { |path| perf_check.add_test_case(path) }
+    perf_check
+  end
 
-      perf_check.options.spawn_shell = true
-      perf_check.options.branch = experiment_branch
-      request_paths.each { |path| perf_check.add_test_case(path) }
-
-      parse_and_save_test_results!(perf_check.run)
-      true
-    rescue StandardError => e
-      job_output.puts("JOB FAILED")
-      job_output.puts(e.message)
-      e.backtrace.each do |line|
-        job_output.puts(line)
-      end
-      false
+  def run_perf_check
+    with_job_output do |logger|
+      perf_check = build_perf_check
+      perf_check.logger = logger
+      parse_and_save_test_results(perf_check.run)
     end
   end
 
-  def parse_and_save_test_results!(perf_check_test_results)
+  def parse_and_save_test_results(perf_check_test_results)
     perf_check_test_results.each do |perf_check_test_result|
       PerfCheckJobTestCase.add_test_case!(self, perf_check_test_result)
     end
@@ -102,9 +111,7 @@ class Job < ApplicationRecord
 
   def run_benchmarks!
     if run! # Move statemachine status to running
-      Bundler.with_clean_env do
-        run_perf_check!
-      end
+      Bundler.with_clean_env { run_perf_check }
     else
       false
     end
@@ -163,6 +170,25 @@ class Job < ApplicationRecord
   end
 
   private
+
+  def with_job_output
+    job_output = JobOutput.new(self)
+    job_logger = Logger.new(job_output)
+    job_logger.formatter = ->(_, time, _, message) {
+      time.strftime("%Y-%m-%d %H:%M:%S] #{message}\n")
+    }
+    begin
+      yield job_logger
+      true
+    rescue StandardError => e
+      job_output.puts("JOB FAILED")
+      job_output.puts(e.message)
+      e.backtrace.each do |line|
+        job_output.puts(line)
+      end
+      false
+    end
+  end
 
   def app_dir
     File.expand_path(APP_CONFIG[:app_dir])

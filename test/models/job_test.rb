@@ -70,36 +70,108 @@ class JobTest < ActiveSupport::TestCase
   end
 end
 
-class JobCreationTest < ActiveSupport::TestCase
-  test 'user creates jobs with just arguments' do
-    skip "Pending job options refactoring."
-
-    user = users(:lyra)
-    arguments = ' -n 20 --branch master      '
-
-    job = user.jobs.create!(arguments: arguments)
-
-    assert_equal 'master', job.experiment_branch
-    assert_equal 'queued', job.status
-    assert_not_nil job.queued_at
+class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
+  setup do
+    @job = Job.new(
+      task: 'compare_branches',
+      experiment_branch: 'slower',
+      request_paths: %w[/]
+    )
+    @vanilla = PerfCheck.new('')
   end
 
-  test 'returns status attribute' do
-    skip "Pending job options refactoring."
+  test 'applies all the options from the application configuration' do
+    refute @vanilla.options.verbose
+    refute @vanilla.options.spawn_shell
 
+    perf_check = @job.build_perf_check
+    assert perf_check.options.verbose
+    assert perf_check.options.spawn_shell
+  end
+
+  test 'runs PerfCheck in deployment mode' do
+    refute @vanilla.options.deployment
+    perf_check = @job.build_perf_check
+    assert perf_check.options.deployment
+  end
+
+  test 'configures the selected experiment branch' do
+    assert_nil @vanilla.options.branch
+    perf_check = @job.build_perf_check
+    assert_equal @job.experiment_branch, perf_check.options.branch
+  end
+
+  test 'configures the selected reference branch' do
+    assert_nil @vanilla.options.reference_branch
+    perf_check = @job.build_perf_check
+    assert_equal @job.reference_branch, perf_check.options.reference_branch
+  end
+
+  test 'configures the selected number of requests' do
+    assert_equal 20, @vanilla.options.number_of_requests
+    @job.number_of_requests = 42
+    perf_check = @job.build_perf_check
+    assert_equal 42, perf_check.options.number_of_requests
+  end
+
+  test 'configures when migrations are turned off' do
+    assert_nil @vanilla.options.run_migrations
+    @job.run_migrations = false
+    perf_check = @job.build_perf_check
+    refute perf_check.options.run_migrations
+  end
+
+  test 'configures the selected user role' do
+    assert_nil @vanilla.options.login_type
+    @job.request_user_role = 'admin'
+    perf_check = @job.build_perf_check
+    assert_equal :admin, perf_check.options.login_type
+  end
+
+  test 'configures the selected user' do
+    assert_nil @vanilla.options.login_user
+    @job.request_user_email = 'someone@example.com'
+    perf_check = @job.build_perf_check
+    assert_equal 'someone@example.com', perf_check.options.login_user
+  end
+
+  test 'does not configure the selected role when selected user' do
+    assert_nil @vanilla.options.login_type
+    assert_nil @vanilla.options.login_user
+    @job.request_user_role = 'admin'
+    @job.request_user_email = 'jenny@example.com'
+    perf_check = @job.build_perf_check
+    assert_nil perf_check.options.login_type
+    assert_equal 'jenny@example.com', perf_check.options.login_user
+  end
+
+  test 'creates a test case for the request path' do
+    assert @vanilla.test_cases.empty?
+    perf_check = @job.build_perf_check
+    assert_equal 1, perf_check.test_cases.length
+    assert_equal '/', perf_check.test_cases.first.resource
+  end
+
+  test 'creates a test case for each request path' do
+    paths = %w[/companies /projects /session]
+    assert @vanilla.test_cases.empty?
+    @job.request_paths = paths
+    perf_check = @job.build_perf_check
+    assert_equal 3, perf_check.test_cases.length
+    assert_equal paths, perf_check.test_cases.map(&:resource)
+  end
+end
+
+class JobCreationTest < ActiveSupport::TestCase
+  test 'user creates jobs with minimal attributes' do
     user = users(:lyra)
-    arguments = '--shell -n 20 --branch master      '
-
-    job = user.jobs.create!(arguments: arguments)
-    assert_equal(
-      {
-        id: job.id,
-        status: 'queued',
-        experiment_branch: 'master',
-        user_name: 'Lyra Belaqua'
-      },
-      job.status_attributes
+    job = user.jobs.create!(
+      experiment_branch: 'slower',
+      request_paths: %w[/]
     )
+    assert_equal 'slower', job.experiment_branch
+    assert_equal 'queued', job.status
+    assert_not_nil job.queued_at
   end
 end
 
