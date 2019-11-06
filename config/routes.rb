@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   root to: 'jobs#index'
 
   resources :jobs do
+    resource :clone, only: %i[create]
   end
   resource :session
   resource :user
