@@ -3,9 +3,6 @@
 require_relative '../test_helper'
 
 class ApplicationHelperTest < ActionView::TestCase
-  # Returns the currently authenticated user and nil otherwise.
-  attr_reader :current_user
-
   test 'does not return current user when nobody is authenticated' do
     assert_nil current_user
   end

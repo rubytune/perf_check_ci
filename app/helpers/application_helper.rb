@@ -3,6 +3,7 @@
 module ApplicationHelper
   include Pagy::Frontend
 
+  # Returns the currently authenticated user and nil otherwise.
   attr_reader :current_user
 
   def time_ago(datetime)
