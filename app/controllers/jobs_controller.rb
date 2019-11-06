@@ -25,11 +25,6 @@ class JobsController < ApplicationController
     end
   end
 
-  def clone_and_rerun
-    @new_job = @job.create_clone_and_rerun!
-    redirect_to @new_job
-  end
-
   private
 
   def job_params
