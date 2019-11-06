@@ -10,7 +10,7 @@
       <%= link_to "#{fa_icon 'github', type: 'brand'} View".html_safe, @job.github_html_url, class: 'styled-button re-run pull-right' %>
     <% end %>
     <h2>Job <%= @job.id %></h2>
-    <hr style="background-color: #EEE;" />
+    <hr>
     <span class="pull-right perf-check-status-<%= @job.id %> status <%= @job.status %>"><%= @job.status %></span>
     <h3><%= @job.experiment_branch %></h3>
     <div class="created-by">
