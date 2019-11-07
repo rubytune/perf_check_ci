@@ -23,10 +23,11 @@ RECORDS_TO_POPULATE.times do |sample_count|
 
   status = statusses.sample
   Job.create(
-    branch: branches.sample,
     status: status,
-    log_filename: 'test-log-file.txt',
-    arguments: "-n#{rand(20)} --deployment --super /url/to/check/#{sample_count}",
+    experiment_branch: branches.sample,
+    number_of_requests: rand(20),
+    request_paths: %W[/url/to/check/#{sample_count}],
+    request_headers: {},
     queued_at: base_created_at ,
     failed_at: status == 'failed' ? (base_created_at + 1.minute) : nil,
     run_at: status == 'failed' ? (base_created_at + 10.seconds) : nil,

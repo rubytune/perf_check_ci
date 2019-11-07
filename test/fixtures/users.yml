@@ -5,3 +5,9 @@ lyra:
   github_avatar_url: https://avatars3.githubusercontent.com/u/42?v=4
   created_at: <%= 1.year.ago %>
   updated_at: <%= 2.seconds.ago %>
+roger:
+  name: Roger Parslow
+  github_login: roger432
+  github_avatar_url: https://avatars3.githubusercontent.com/u/42?v=4
+  created_at: <%= 1.year.ago %>
+  updated_at: <%= 2.seconds.ago %>

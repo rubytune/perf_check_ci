@@ -8,7 +8,7 @@ class JobsController < ApplicationController
   def index
     respond_to do |wants|
       wants.html
-      wants.json { render json: {jobs: @jobs_records}}
+      wants.json { render json: { jobs: jobs_as_json } }
     end
   end
 
@@ -17,9 +17,7 @@ class JobsController < ApplicationController
   end
 
   def create
-    @job = Job.new(job_params)
-    @job.user = current_user
-
+    @job = Job.new(job_params.merge(user: current_user))
     if @job.save
       redirect_to @job
     else
@@ -27,15 +25,19 @@ class JobsController < ApplicationController
     end
   end
 
-  def clone_and_rerun
-    @new_job = @job.create_clone_and_rerun!
-    redirect_to @new_job
-  end
-
   private
 
   def job_params
-    params.require(:job).permit(:arguments, :branch)
+    params.require(:job).permit(
+      :task,
+      :experiment_branch,
+      :reference_branch,
+      :request_user_role,
+      :request_user_email,
+      :number_of_requests,
+      :run_migrations,
+      request_paths: []
+    )
   end
 
   def job_id
@@ -52,6 +54,18 @@ class JobsController < ApplicationController
 
   def load_jobs
     @jobs, @jobs_records = pagy(jobs)
+  end
+
+  def jobs_as_json
+    @jobs_records.map do |record|
+      {
+        id: record.id,
+        status: record.status,
+        experiment_branch: record.experiment_branch,
+        created_at: record.created_at,
+        user_name: record.user_name
+      }
+    end
   end
 
   def jobs

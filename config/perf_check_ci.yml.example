@@ -2,8 +2,10 @@ development: &default
   # The directory that we will be performance testing
   app_dir: ../perf_check/test_app
 
-  # These are passed to the perf_check CLI
-  default_arguments: -n20 --deployment
+  # All configured keys are added to the PerfCheck options.
+  perf_check_options:
+    environment: development
+    spawn_shell: true
 
   # Alert thresholds specify how to qualify performance regression/improvemens
   limits:

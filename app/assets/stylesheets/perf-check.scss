@@ -10,6 +10,15 @@ a {
   color: #658EBF;
 }
 
+.job header.job-header hr {
+}
+hr {
+  border: none;
+  background-color: #eee;
+  height: 1px;
+  margin: 1em 0;
+}
+
 #content {
   padding-top: 120px;
   box-sizing: border-box;
@@ -27,7 +36,6 @@ a {
 }
 
 #content #default-content h1 {
-  color: #000;
   text-align: center;
   font-size: 36px;
 }
@@ -43,7 +51,7 @@ a {
   max-width: 50%;
   border: 1px solid #ccc;
   padding: 45px;
-  border-radius: 15px;
+  border-radius: 6px;
   margin: 0 25px;
 }
 
@@ -101,16 +109,8 @@ a {
 }
 
 #content #new-perf-check-job h1 {
-  color: #000;
   text-align: center;
   font-size: 36px;
-}
-
-#content #new-perf-check-job hr {
-  border: none;
-  border-bottom: 1px solid #C1C1C1;
-  margin: 25px 0;
-  text-shadow: 1px 0px 1px #000;
 }
 
 #content #new-perf-check-job label {
@@ -129,8 +129,6 @@ a {
   margin: 0;
   font-size: 1.15em;
   display: block;
-  text-decoration: none;
-  color: #000;
   background: #3498db;
   background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
   background-image: -moz-linear-gradient(top, #3498db, #2980b9);
@@ -162,7 +160,6 @@ a {
   padding-top: 30px;
   padding-left: 12px;
   letter-spacing: 1.3px;
-  color: #000;
   text-shadow: 1px 0px 1px #000;
 }
 
@@ -183,8 +180,6 @@ a {
   display: block;
   margin-left: 8px;
   padding: 10px;
-  text-decoration: none;
-  color: #000;
   background: #3498db;
   background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
   background-image: -moz-linear-gradient(top, #3498db, #2980b9);
@@ -238,14 +233,11 @@ a {
 
 .status-label,
 .browser-app-results li .status {
-  font-size: .8em;
   display: inline-block;
-  width: 50px;
-  padding: 3px 1px;
+  font-size: .8em;
   text-align: center;
-  background-color: #EFEFEF;
-  text-shadow: 1px 0px 1px #666;
-  margin-right: 9px;
+  padding: .3em .5em;
+  min-width: 6.5em;
 }
 
 .browser-app-results li:hover {
@@ -259,37 +251,29 @@ a {
 
 .status
 {
+  border-radius: 2px; 
   text-transform: capitalize;
+  color: hsl(0, 100%, 100%);
+}
+.status-label.queued,
+.status.queued {
+  background-color: hsl(0, 0%, 80%);
 }
 .status-label.running,
 .status.running {
-  color: #FFF;
-  background-color: #19B81D !important;
+  background-color: hsl(209, 40%, 70%);
 }
-
-.status-label.queued,
-.status.queued {
-  color: #FFF;
-  background-color: #E99835 !important;
-}
-
 .status-label.completed,
 .status.completed {
-  color: #000;
-  background-color: #EBEBEB !important;
-  text-shadow: 0 !important;
+  background-color: hsl(0, 0%, 40%);
 }
-
 .status-label.failed,
 .status.failed {
-  color: #FFF;
-  background-color: #E17376 !important;
+  background-color: hsl(55, 40%, 70%);
 }
-
 .status-label.canceled,
 .status.canceled {
-  color: #FFF;
-  background-color: #E17376 !important;
+  background-color: hsl(55, 40%, 70%);
 }
 
 ul.browser-app-results {
@@ -340,18 +324,12 @@ ul.browser-app-results:hover {
 }
 
 .job header.job-header h2 {
-  color: #000;
   font-size: 28px;
 }
 
 .job header.job-header h3 {
-  color: #000;
   margin-top: 12px;
   margin-bottom: -1px;
-}
-
-.job header.job-header span.time-ago {
-  color: #527AB1;
 }
 
 .styled-button {
@@ -359,8 +337,6 @@ ul.browser-app-results:hover {
   display: block;
   margin-left: 8px;
   padding: 3px;
-  text-decoration: none;
-  color: #000;
   background: #3498db;
   background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
   background-image: -moz-linear-gradient(top, #3498db, #2980b9);
@@ -387,34 +363,8 @@ ul.browser-app-results:hover {
   background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
 }
 
-
-.job header.job-header pre.command {
-  display: inline-block;
-  background-color: #EFEFEF;
-  border: 1px solid #CCC;
-  margin-top: 10px;
-  margin-bottom: 0;
-  font-size: .7em;
-  padding: 2px 8px 2px 7px;
-  color: #000;
-}
-
-.job header.job-header hr {
-  background-color: #eee;
-  border: 0;
-  height: 1px;
-  margin-top: 14px;
-}
-
 .job header.job-header .status {
-  padding: 5px 80px;
-  text-shadow: 1px 0px 1px #666;
-}
-
-
-.job header.job-header .created-by {
-  font-size: .8em;
-  color: #333;
+  padding: .2em .5em;
 }
 
 .job .status label {
@@ -425,11 +375,6 @@ ul.browser-app-results:hover {
 
 .job .details {
   padding-top: 20px;
-}
-
-.job .details pre {
-  font-size: .7rem;
-  line-height: 1.5rem;
 }
 
 .job .details p code {
@@ -467,20 +412,20 @@ ul.browser-app-results:hover {
   font-size: 12px !important;
 }
 
-.test-cases .test-case.test-case-success-increase {
-  background: #9ADD91;
+.test-cases .test-case.test-case-success-increase
+{
+  background-color: hsl(108, 40%, 70%);
 }
 
-.test-cases .test-case.test-case-success-same {
-  background: #9ADD91;
+.test-cases .test-case.test-case-success-same,
+.test-cases .test-case.test-case-failed
+{
+  background-color: hsl(0, 0%, 70%);
 }
 
-.test-cases .test-case.test-case-success-decrease {
-  background: #E69848;
-}
-
-.test-cases .test-case.test-case-failed {
-  background: #E58D92;
+.test-cases .test-case.test-case-success-decrease
+{
+  background-color: hsl(0, 40%, 70%);
 }
 
 .test-cases .test-case a {
@@ -499,18 +444,6 @@ ul.browser-app-results:hover {
   border: 1px solid #CCC;
   font-size: .7em;
   line-height: 1.5em;
-}
-
-h1 {
-  font-size: 32px;
-  font-weight: 700;
-  margin-top: 0;
-  color: #676767;
-}
-
-h2 {
-  font-size: 16px;
-  color: #676767;
 }
 
 #load-more-results-container {
@@ -548,7 +481,7 @@ h2 {
   position: absolute;
   background-color: #f1f1f1;
   min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,.2);
   z-index: 1;
   margin-left: -85px;
 }
@@ -587,4 +520,145 @@ h2 {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+
+html
+{
+  box-sizing: border-box;
+}
+*, *:before, *:after
+{
+  box-sizing: inherit;
+}
+
+input,
+select
+{
+  font-size: 100%;
+}
+
+ul
+{
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+h1
+{
+  font-size: 200%;
+  font-weight: bold;
+}
+
+div[data-controller="tabs"] form
+{
+  display: none;
+}
+
+ul.tabs
+{
+  padding: .2em .5em 0 .5em;
+  border-bottom: 1px solid hsl(0, 0%, 90%);
+  background-color: hsl(215, 50%, 98%);
+  white-space: nowrap;
+}
+ul.tabs li
+{
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+ul.tabs li a
+{
+  padding: .5em 1em;
+  display: inline-block;
+  color: hsl(0, 0%, 53%);
+  border: 1px solid hsla(0, 0%, 0%, 0);
+  margin-bottom: -2px;
+}
+ul.tabs li.current
+{
+  background-color: hsl(0, 100%, 100%);
+}
+ul.tabs li.current a
+{
+  color: hsl(0, 0%, 20%);
+  border-radius: 3px 3px 0 0;
+  border-top: 1px solid hsl(0, 0%, 90%);
+  border-left: 1px solid hsl(0, 0%, 90%);
+  border-right: 1px solid hsl(0, 0%, 90%);
+  border-bottom: 2px solid hsl(0, 100%, 100%);
+}
+
+form > div
+{
+  margin-top: .5em;
+}
+form input[type=text]
+{
+  width: 50em;
+  max-width: 100%;
+  padding: .5em;
+}
+form input[type=number]
+{
+  width: 6em;
+  padding: .2em .5em;
+}
+form input[type=submit]
+{
+  padding: .5em 1em;
+  margin: 0;
+  display: block;
+  border: none;
+  color: hsl(0, 100%, 100%);
+  background: #3498db;
+  background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
+  background-image: -moz-linear-gradient(top, #3498db, #2980b9);
+  background-image: -ms-linear-gradient(top, #3498db, #2980b9);
+  background-image: -o-linear-gradient(top, #3498db, #2980b9);
+  background-image: linear-gradient(to bottom, #3498db, #2980b9);
+  border-radius: 8px;
+  -webkit-border-radius: 8;
+  -moz-border-radius: 8;
+  box-shadow: 0px 1px 2px hsla(0, 0%, 0%, .7);
+  -webkit-box-shadow: 0px 1px 2px hsla(0, 0%, 0%, .7);
+  -moz-box-shadow: 0px 1px 2px hsla(0, 0%, 0%, .7);
+  text-decoration: none;
+}
+form input[type=submit]:active
+{
+  box-shadow: inset 0px 1px 2px hsla(0, 0%, 0%, .5);
+  -webkit-box-shadow: inset 0px 1px 2px hsla(0, 0%, 0%, .5);
+  -moz-box-shadow: inset 0px 1px 2px hsla(0, 0%, 0%, .5);
+}
+form .select-user input[type=text]
+{
+  padding: .2em .2em;
+  width: 30em;
+}
+
+form .cli input:focus
+{
+  outline: none;
+}
+form p.help
+{
+  margin: 0;
+  color: hsla(0, 0%, 0%, .3);
+}
+form .field_with_errors
+{
+  display: inline;
+}
+form .field_with_errors input,
+form .field_with_errors select
+{
+  border: 1px solid hsl(0, 80%, 70%);
+}
+form ul.error
+{
+  padding: 0.5em 1em;
+  background-color: hsl(0, 80%, 70%);
+  color: hsl(0, 100%, 100%);
 }

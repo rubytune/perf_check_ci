@@ -1,17 +1,26 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
+  include Pagy::Frontend
+
   # Returns the currently authenticated user and nil otherwise.
   attr_reader :current_user
 
-  include Pagy::Frontend
-  def yes_no(bool)
-    bool ? 'Yes' : 'No'
-  end
-
-  def none_text(text)
-    text.blank? ? '-' : text
-  end
-
   def time_ago(datetime)
-    datetime > 1.day.ago ? time_ago_in_words(datetime) + ' ago' : datetime.stamp("Aug 5th at 3:35 PM")
+    if datetime > 1.day.ago
+      time_ago_in_words(datetime) + ' ago'
+    else
+      datetime.strftime('%b #{datetime.day.ordinalize} at %l:%M %p')
+    end
+  end
+
+  def error_messages(errors)
+    return '' if errors.empty?
+
+    content_tag(:ul, class: 'error') do
+      errors.full_messages.inject(ActiveSupport::SafeBuffer.new) do |out, message|
+        out << content_tag(:li, message)
+      end
+    end
   end
 end
