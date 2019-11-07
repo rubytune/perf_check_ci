@@ -10,7 +10,7 @@ module ApplicationHelper
     if datetime > 1.day.ago
       time_ago_in_words(datetime) + ' ago'
     else
-      datetime.strftime('%b #{datetime.day.ordinalize} at %l:%M %p')
+      datetime.strftime("%b #{datetime.day.ordinalize} at %l:%M %p")
     end
   end
 

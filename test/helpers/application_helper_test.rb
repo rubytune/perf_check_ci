@@ -15,6 +15,7 @@ class ApplicationHelperTest < ActionView::TestCase
   test 'formats time ago' do
     assert time_ago(2.minutes.ago).include?('minutes')
     assert time_ago(5.days.ago).include?('at')
+    assert time_ago(5.days.ago).include?(5.days.ago.day.to_s)
   end
 
   test 'formats validation errors' do
