@@ -9,7 +9,6 @@ require 'sidekiq/testing'
 
 Dir.glob(Rails.root.join('test/support/**/*.rb')).each { |file| require file }
 
-
 # Create a Rails application directory by unpacking it to a directory. The setup
 # class is responsible for cleaning up the temporary directory.
 app = PerfCheck::App.new(
@@ -36,6 +35,7 @@ module ActiveSupport
     fixtures :all
 
     include ActionCable::TestHelper
+    include Support::AppSetup
   end
 end
 
