@@ -76,7 +76,7 @@ class Job < ApplicationRecord
       perf_check.options[name] = value
     end
     # Load config/perf_check.rb from target application.
-    perf_check.load_config
+    silence_warnings { perf_check.load_config }
     # Control options
     perf_check.options.deployment = true
     # Job specific options
@@ -183,7 +183,9 @@ class Job < ApplicationRecord
     begin
       yield job_logger
       true
-    rescue StandardError => e
+    # We have to capture absolutely every exception here because anything can
+    # happen in the target application.
+    rescue Exception => e
       job_output.puts("JOB FAILED")
       job_output.puts(e.message)
       e.backtrace.each do |line|
