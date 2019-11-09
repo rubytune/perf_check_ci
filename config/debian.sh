@@ -4,8 +4,12 @@
 
 # Add the PostgreSQL Apt repository for the shiny new versions.
 apt install -y gnupg
-cp system/pgdg.list /etc/apt/sources.list.d/pgdg.list
+cp system/pgdg.list /etc/apt/sources.list.d/
 curl -o - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add
+
+# Add the Yarn Apt repository for the shiny new versions.
+cp system/yarn.list /etc/apt/sources.list.d/
+curl -o - https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
 
 apt update
 apt upgrade -y
@@ -43,6 +47,9 @@ apt install -y libssl-dev libreadline-dev libyaml-dev libffi-dev zlib1g-dev
 # Git is used to install Rbenv and the application during deployment.
 apt install -y git
 
+# Yarn and NodeJS are used to compile front-end code.
+apt install -y yarn
+
 # The main applications and some related tool are written in Ruby and we use
 # Rbenv to manage Ruby versions because the packages are usually horribly out
 # of date.
@@ -66,9 +73,15 @@ rbenv global 2.6.5
 gem install bundler
 
 # PostgreSQL is the database server for all applications.
-apt install postgresql-12
+apt install -y postgresql-12 postgresql-server-dev-12
 cp system/pg_hba.conf /etc/postgresql/12/main/pg_hba.conf
 systemctl restart postgresql
+
+echo "[install] The following may print errors but will be successful"
+sudo -s -u postgres createuser -s app
+sudo -s -u postgres createuser -s deploy
+sudo -s -u postgres createdb --owner=app perf_check_ci_production
+sudo -s -u postgres createdb --owner=app perf_check_ci_target_production
 
 # Yeah, I know…
 curl https://getcaddy.com | bash -s personal
@@ -105,3 +118,7 @@ systemctl daemon-reload
 systemctl enable caddy
 systemctl enable puma
 systemctl enable sidekiq
+
+systemctl start caddy
+systemctl start puma
+systemctl start sidekiq

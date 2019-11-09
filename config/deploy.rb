@@ -1,6 +1,8 @@
 # Usage: gem install mina; mina -T
 
+require 'mina/bundler'
 require 'mina/rails'
+require 'mina/rbenv'
 require 'mina/git'
 
 set :user, 'deploy'
@@ -11,6 +13,7 @@ set :repository, 'git@github.com:rubytune/perf_check_ci.git'
 set :domain, 'perf-check'
 set :branch, -> { `git rev-parse --abbrev-ref HEAD`.strip }
 set :rails_env, 'production'
+set :rbenv_path, '/usr/local/rbenv'
 
 set :forward_agent, true
 
@@ -32,6 +35,7 @@ end
 desc "Deploy to the server"
 task :deploy do
   deploy do
+    invoke :'rbenv:load'
     invoke :'git:clone'
     invoke :'deploy:link_shared_paths'
     invoke :'bundle:install'
@@ -46,9 +50,6 @@ task :deploy do
 
         comment %(Restart Sidekiq)
         command %(sudo /usr/bin/systemctl restart sidekiq)
-
-        comment %(Clear Rails cache)
-        command %(sudo -u app /usr/local/rbenv/shims/bundle exec bin/rails runner --environment=#{fetch(:rails_env)} "Rails.cache.clear")
       end
     end
   end
