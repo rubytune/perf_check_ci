@@ -1,0 +1,8 @@
+perf-check.erm.im {
+  root /var/www/perf_check_ci/current/public
+  gzip
+  proxy / unix://var/www/perf_check_ci/shared/tmp/sockets/puma.sock {
+    transparent
+    websocket
+  }
+}

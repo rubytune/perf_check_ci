@@ -1,0 +1,36 @@
+[Unit]
+Description=puma
+After=syslog.target network.target
+
+[Socket]
+ListenStream=/var/www/perf_check_ci/shared/tmp/sockets/puma.sock
+NoDelay=true
+ReusePort=true
+Backlog=1024
+
+[Service]
+Environment=RAILS_ENV=production
+Environment=RACK_ENV=production
+Environment=RAILS_MAX_THREADS=4
+Environment=WEB_CONCURRENCY=4
+
+Type=simple
+WorkingDirectory=/var/www/perf_check_ci/current
+ExecStart=/usr/local/rbenv/bin/rbenv exec bundle exec puma --bind unix:///var/www/perf_check_ci/shared/tmp/sockets/puma.sock
+ExecStop=/user/local/rbenv/bin/rbenv exec bundle exec pumactl stop
+
+User=app
+Group=app
+UMask=0002
+
+RestartSec=1
+Restart=on-failure
+
+StandardOutput=syslog
+StandardError=syslog
+
+# This will default to "bundler" if we don't specify it
+SyslogIdentifier=puma
+
+[Install]
+WantedBy=sockets.target

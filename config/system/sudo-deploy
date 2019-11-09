@@ -1,0 +1,4 @@
+# Allow users in the deploy group to deploy new versions.
+%deploy ALL=NOPASSWD: /bin/systemctl restart puma
+%deploy ALL=NOPASSWD: /bin/systemctl restart sidekiq
+%deploy ALL=(app) NOPASSWD: ALL
