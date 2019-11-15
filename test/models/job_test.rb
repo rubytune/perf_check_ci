@@ -221,10 +221,14 @@ class JobCreationTest < ActiveSupport::TestCase
 
   test 'user creates jobs with minimal attributes' do
     user = users(:lyra)
+
+    assert_equal 0, PerfCheckJobWorker.jobs.size
     job = user.jobs.create!(
       experiment_branch: 'slower',
       request_paths: %w[/]
     )
+    assert_equal 1, PerfCheckJobWorker.jobs.size
+
     assert_equal user, job.user
     assert_equal 'slower', job.experiment_branch
     assert_equal 'queued', job.status
@@ -239,7 +243,7 @@ class JobRunningTest < ActiveSupport::TestCase
     logs_count = broadcasts_size('logs_channel')
     status_count = broadcasts_size('status_channel')
 
-    assert job.run_benchmarks!
+    assert job.perform_now
 
     # We don't know how many messages are written to the channels because it
     # depends on the number of status changes and log lines.
@@ -248,6 +252,7 @@ class JobRunningTest < ActiveSupport::TestCase
 
     job.reload
     assert_includes job.output, '☕️'
+    assert_equal 'completed', job.status
   end
 
   test 'stores output of a job when Perf Check throws an exception' do
@@ -259,7 +264,7 @@ class JobRunningTest < ActiveSupport::TestCase
 
     # The method should probably return false when anything goes wrong, but it
     # doesn't.
-    assert job.run_benchmarks!
+    assert job.perform_now
 
     job.reload
     assert_includes job.output, Time.zone.now.year.to_s

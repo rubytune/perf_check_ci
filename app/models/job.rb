@@ -19,6 +19,7 @@ class Job < ApplicationRecord
   )
 
   after_initialize -> { self.status ||= 'new' if new_record? }
+  after_commit :perform_later, on: :create
   after_commit :broadcast_status
 
   belongs_to :user
@@ -69,10 +70,6 @@ class Job < ApplicationRecord
     end
   end
 
-  def perform_perf_check_benchmarks!
-    PerfCheckJobWorker.perform_async(id)
-  end
-
   def build_perf_check
     perf_check = PerfCheck.new(app_dir)
     # Apply options from the application configuration.
@@ -99,31 +96,28 @@ class Job < ApplicationRecord
     perf_check
   end
 
-  def run_perf_check
+  def perform_now
+    update_status('running')
     with_job_output do |logger|
       perf_check = build_perf_check
       perf_check.logger = logger
-      parse_and_save_test_results(perf_check.run)
+      if results = Bundler.with_clean_env { perf_check.run }
+        results.each do |result|
+          PerfCheckJobTestCase.add_test_case!(self, result)
+        end
+        update_status('completed')
+      else
+        update_status('failed')
+      end
     end
+    status == 'completed'
   end
 
-  def parse_and_save_test_results(perf_check_test_results)
-    perf_check_test_results.each do |perf_check_test_result|
-      PerfCheckJobTestCase.add_test_case!(self, perf_check_test_result)
+  def perform_later
+    PerfCheckJobWorker.perform_async(id).tap do
+      update_status('queued')
     end
   end
-
-  def run_benchmarks!
-    if run! # Move statemachine status to running
-      Bundler.with_clean_env { run_perf_check }
-    else
-      false
-    end
-  end
-
-  ##############
-  # Spawn Job
-  ##############
 
   def self.spawn_from_github_mention(job_params)
     user = User.find_by(github_login: job_params[:github_holder]["user"]["login"])
@@ -155,10 +149,6 @@ class Job < ApplicationRecord
     current_user.jobs.new(cloning_attributes)
   end
 
-  ################################
-  # Actioncable - Broadcast Logic #
-  ################################
-
   def status_attributes
     {
       id: id,
@@ -174,6 +164,13 @@ class Job < ApplicationRecord
 
   private
 
+  def update_status(status)
+    update_columns(
+      status: self.status = status,
+      updated_at: self.updated_at = Time.zone.now
+    ).tap { broadcast_status }
+  end
+
   def with_job_output
     job_output = JobOutput.new(self)
     job_logger = Logger.new(job_output)
@@ -182,7 +179,6 @@ class Job < ApplicationRecord
     }
     begin
       yield job_logger
-      true
     # We have to capture absolutely every exception here because anything can
     # happen in the target application.
     rescue Exception => e
@@ -191,7 +187,7 @@ class Job < ApplicationRecord
       e.backtrace.each do |line|
         job_output.puts(line)
       end
-      false
+      update_status('failed')
     end
   end
 
