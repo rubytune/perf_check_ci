@@ -222,12 +222,12 @@ class JobCreationTest < ActiveSupport::TestCase
   test 'user creates jobs with minimal attributes' do
     user = users(:lyra)
 
-    assert_equal 0, PerfCheckJobWorker.jobs.size
+    assert_equal 0, JobWorker.jobs.size
     job = user.jobs.create!(
       experiment_branch: 'slower',
       request_paths: %w[/]
     )
-    assert_equal 1, PerfCheckJobWorker.jobs.size
+    assert_equal 1, JobWorker.jobs.size
 
     assert_equal user, job.user
     assert_equal 'slower', job.experiment_branch
