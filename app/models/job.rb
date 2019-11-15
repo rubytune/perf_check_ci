@@ -114,7 +114,7 @@ class Job < ApplicationRecord
   end
 
   def perform_later
-    PerfCheckJobWorker.perform_async(id).tap do
+    JobWorker.perform_async(id).tap do
       update_status('queued')
     end
   end
