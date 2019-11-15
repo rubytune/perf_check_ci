@@ -10,7 +10,6 @@ class Job < ApplicationRecord
     'Any user with read-only access' => 'read'
   }
 
-  include PerfCheckJobStatemachine
   include PgSearch::Model
 
   pg_search_scope(
