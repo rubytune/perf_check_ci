@@ -28,6 +28,9 @@
         authenticated as <%= @job.request_user_role.start_with?('a') ? 'an' : 'a' %> <%= @job.request_user_role %>
       <% end %>
      </i></div>
+     <% @job.request_paths.each do |request_path| %>
+       <div><%= request_path %>
+     <% end %>
   </header>
   <% if @job.result_details.present?  %>
     <div class="details">
