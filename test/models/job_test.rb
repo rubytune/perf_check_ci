@@ -204,15 +204,21 @@ class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
 end
 
 class JobCreationTest < ActiveSupport::TestCase
+  test 'user initializes jobs' do
+    user = users(:lyra)
+    job = user.jobs.new
+    assert_equal 'new', job.status
+  end
+
   test 'user creates jobs with minimal attributes' do
     user = users(:lyra)
     job = user.jobs.create!(
       experiment_branch: 'slower',
       request_paths: %w[/]
     )
+    assert_equal user, job.user
     assert_equal 'slower', job.experiment_branch
     assert_equal 'queued', job.status
-    assert_not_nil job.queued_at
   end
 end
 

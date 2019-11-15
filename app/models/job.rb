@@ -18,7 +18,8 @@ class Job < ApplicationRecord
     using: %i[tsearch trigram]
   )
 
-  after_commit :enqueue!, :broadcast_status
+  after_initialize -> { self.status ||= 'new' if new_record? }
+  after_commit :broadcast_status
 
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
