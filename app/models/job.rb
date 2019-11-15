@@ -11,7 +11,6 @@ class Job < ApplicationRecord
   }
 
   include PerfCheckJobStatemachine
-  include JobLog
   include PgSearch::Model
 
   pg_search_scope(
@@ -21,7 +20,6 @@ class Job < ApplicationRecord
   )
 
   after_commit :enqueue!, :broadcast_status
-  after_create :create_empty_log_file!
 
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
