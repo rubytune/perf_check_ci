@@ -49,6 +49,12 @@ class Job < ApplicationRecord
     task == 'benchmark'
   end
 
+  # Returns true when the views have to configure themselves to watch for
+  # status updates for this job.
+  def expects_status_updates?
+    %w[new queued running].include?(status)
+  end
+
   # Returns all current request paths and some blanks as a simple hack to allow
   # multiple fields without JavaScript in the front-end.
   def request_paths_for_form
@@ -160,10 +166,6 @@ class Job < ApplicationRecord
       experiment_branch: experiment_branch,
       user_name: user_name
     }
-  end
-
-  def should_broadcast_log_file?
-    !(completed? || failed? || canceled?)
   end
 
   def self.user_roles

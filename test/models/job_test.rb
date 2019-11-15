@@ -46,6 +46,15 @@ class JobTest < ActiveSupport::TestCase
     assert Job.new(task: 'benchmark').benchmark?
   end
 
+  test 'knows when to expect status updates' do
+    assert Job.new.expects_status_updates?
+    assert Job.new(status: 'queued').expects_status_updates?
+    assert Job.new(status: 'running').expects_status_updates?
+    refute Job.new(status: 'failed').expects_status_updates?
+    refute Job.new(status: 'completed').expects_status_updates?
+    refute Job.new(status: 'canceled').expects_status_updates?
+  end
+
   test 'returns a number of blank request paths for form building' do
     job = Job.new
     assert_equal [nil, nil], job.request_paths_for_form
