@@ -29,9 +29,6 @@ gem 'pagy'
 # Convenient Datestamps
 gem 'stamp'
 
-# State Machine
-gem 'state_machines-activerecord'
-
 # Background Jobs
 gem 'sinatra', require: false
 # Sidekiq is version locked because the production server has an ancient version

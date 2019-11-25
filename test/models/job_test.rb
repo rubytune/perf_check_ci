@@ -46,6 +46,15 @@ class JobTest < ActiveSupport::TestCase
     assert Job.new(task: 'benchmark').benchmark?
   end
 
+  test 'knows when to expect status updates' do
+    assert Job.new.expects_status_updates?
+    assert Job.new(status: 'queued').expects_status_updates?
+    assert Job.new(status: 'running').expects_status_updates?
+    refute Job.new(status: 'failed').expects_status_updates?
+    refute Job.new(status: 'completed').expects_status_updates?
+    refute Job.new(status: 'canceled').expects_status_updates?
+  end
+
   test 'returns a number of blank request paths for form building' do
     job = Job.new
     assert_equal [nil, nil], job.request_paths_for_form
@@ -204,15 +213,25 @@ class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
 end
 
 class JobCreationTest < ActiveSupport::TestCase
+  test 'user initializes jobs' do
+    user = users(:lyra)
+    job = user.jobs.new
+    assert_equal 'new', job.status
+  end
+
   test 'user creates jobs with minimal attributes' do
     user = users(:lyra)
-    job = user.jobs.create!(
-      experiment_branch: 'slower',
-      request_paths: %w[/]
-    )
-    assert_equal 'slower', job.experiment_branch
-    assert_equal 'queued', job.status
-    assert_not_nil job.queued_at
+
+    assert_difference('JobWorker.jobs.size', +1) do
+      job = user.jobs.create!(
+        experiment_branch: 'slower',
+        request_paths: %w[/]
+      )
+
+      assert_equal user, job.user
+      assert_equal 'slower', job.experiment_branch
+      assert_equal 'queued', job.status
+    end
   end
 end
 
@@ -224,7 +243,7 @@ class JobRunningTest < ActiveSupport::TestCase
     logs_count = broadcasts_size('logs_channel')
     status_count = broadcasts_size('status_channel')
 
-    assert job.run_benchmarks!
+    assert job.perform_now
 
     # We don't know how many messages are written to the channels because it
     # depends on the number of status changes and log lines.
@@ -233,6 +252,7 @@ class JobRunningTest < ActiveSupport::TestCase
 
     job.reload
     assert_includes job.output, '☕️'
+    assert_equal 'completed', job.status
   end
 
   test 'stores output of a job when Perf Check throws an exception' do
@@ -244,7 +264,7 @@ class JobRunningTest < ActiveSupport::TestCase
 
     # The method should probably return false when anything goes wrong, but it
     # doesn't.
-    assert job.run_benchmarks!
+    assert job.perform_now
 
     job.reload
     assert_includes job.output, Time.zone.now.year.to_s

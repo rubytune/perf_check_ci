@@ -2,7 +2,7 @@
 
 require_relative '../test_helper'
 
-class PerfCheckJobWorkerTest < ActiveSupport::TestCase
+class JobWorkerTest < ActiveSupport::TestCase
   setup do
     stub_request(
       :get, 'http://127.0.0.1:3031/'
@@ -25,7 +25,7 @@ class PerfCheckJobWorkerTest < ActiveSupport::TestCase
 
     using_app('authenticated') do |app_dir|
       with_app_config('app_dir' => app_dir) do
-        PerfCheckJobWorker.new.perform(job.id)
+        JobWorker.new.perform(job.id)
       end
     end
 
@@ -45,7 +45,7 @@ class PerfCheckJobWorkerTest < ActiveSupport::TestCase
 
     using_app('authenticated') do |app_dir|
       with_app_config('app_dir' => app_dir) do
-        PerfCheckJobWorker.new.perform(job.id)
+        JobWorker.new.perform(job.id)
       end
     end
 
@@ -66,7 +66,7 @@ class PerfCheckJobWorkerTest < ActiveSupport::TestCase
 
     using_app('authenticated') do |app_dir|
       with_app_config('app_dir' => app_dir) do
-        PerfCheckJobWorker.new.perform(job.id)
+        JobWorker.new.perform(job.id)
       end
     end
 

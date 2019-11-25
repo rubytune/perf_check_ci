@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# @deprecated Keeping around until the Sidekiq queue is empty.
+# Runs jobs asynchronously.
 class JobWorker
   include Sidekiq::Worker
 

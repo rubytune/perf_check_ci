@@ -10,7 +10,6 @@ class Job < ApplicationRecord
     'Any user with read-only access' => 'read'
   }
 
-  include PerfCheckJobStatemachine
   include PgSearch::Model
 
   pg_search_scope(
@@ -19,7 +18,9 @@ class Job < ApplicationRecord
     using: %i[tsearch trigram]
   )
 
-  after_commit :enqueue!, :broadcast_status
+  after_initialize -> { self.status ||= 'new' if new_record? }
+  after_commit :perform_later, on: :create
+  after_commit :broadcast_status
 
   belongs_to :user
   has_many :test_cases, class_name: 'PerfCheckJobTestCase'
@@ -49,6 +50,12 @@ class Job < ApplicationRecord
     task == 'benchmark'
   end
 
+  # Returns true when the views have to configure themselves to watch for
+  # status updates for this job.
+  def expects_status_updates?
+    %w[new queued running].include?(status)
+  end
+
   # Returns all current request paths and some blanks as a simple hack to allow
   # multiple fields without JavaScript in the front-end.
   def request_paths_for_form
@@ -61,10 +68,6 @@ class Job < ApplicationRecord
     else
       super
     end
-  end
-
-  def perform_perf_check_benchmarks!
-    PerfCheckJobWorker.perform_async(id)
   end
 
   def build_perf_check
@@ -93,31 +96,28 @@ class Job < ApplicationRecord
     perf_check
   end
 
-  def run_perf_check
+  def perform_now
+    update_status('running')
     with_job_output do |logger|
       perf_check = build_perf_check
       perf_check.logger = logger
-      parse_and_save_test_results(perf_check.run)
+      if results = Bundler.with_clean_env { perf_check.run }
+        results.each do |result|
+          PerfCheckJobTestCase.add_test_case!(self, result)
+        end
+        update_status('completed')
+      else
+        update_status('failed')
+      end
     end
+    status == 'completed'
   end
 
-  def parse_and_save_test_results(perf_check_test_results)
-    perf_check_test_results.each do |perf_check_test_result|
-      PerfCheckJobTestCase.add_test_case!(self, perf_check_test_result)
+  def perform_later
+    JobWorker.perform_async(id).tap do
+      update_status('queued')
     end
   end
-
-  def run_benchmarks!
-    if run! # Move statemachine status to running
-      Bundler.with_clean_env { run_perf_check }
-    else
-      false
-    end
-  end
-
-  ##############
-  # Spawn Job
-  ##############
 
   def self.spawn_from_github_mention(job_params)
     user = User.find_by(github_login: job_params[:github_holder]["user"]["login"])
@@ -149,10 +149,6 @@ class Job < ApplicationRecord
     current_user.jobs.new(cloning_attributes)
   end
 
-  ################################
-  # Actioncable - Broadcast Logic #
-  ################################
-
   def status_attributes
     {
       id: id,
@@ -162,15 +158,18 @@ class Job < ApplicationRecord
     }
   end
 
-  def should_broadcast_log_file?
-    !(completed? || failed? || canceled?)
-  end
-
   def self.user_roles
     USER_ROLES
   end
 
   private
+
+  def update_status(status)
+    update_columns(
+      status: self.status = status,
+      updated_at: self.updated_at = Time.zone.now
+    ).tap { broadcast_status }
+  end
 
   def with_job_output
     job_output = JobOutput.new(self)
@@ -180,7 +179,6 @@ class Job < ApplicationRecord
     }
     begin
       yield job_logger
-      true
     # We have to capture absolutely every exception here because anything can
     # happen in the target application.
     rescue Exception => e
@@ -189,7 +187,7 @@ class Job < ApplicationRecord
       e.backtrace.each do |line|
         job_output.puts(line)
       end
-      false
+      update_status('failed')
     end
   end
 
