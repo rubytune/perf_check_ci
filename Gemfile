@@ -14,14 +14,13 @@ gem 'puma'
 gem 'pg_search'
 
 # CSS / Assets / JS
-gem 'webpacker'
+gem 'coffee-rails'
 gem 'font_awesome5_rails'
 gem 'jquery-rails'
-gem 'coffee-rails'
+gem 'sassc-rails'
 gem 'turbolinks'
-gem 'sass-rails'
 gem 'uglifier'
-gem 'momentjs-rails'
+gem 'webpacker'
 
 # Pagination
 gem 'pagy'
