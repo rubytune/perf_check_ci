@@ -266,6 +266,17 @@ class JobRunningTest < ActiveSupport::TestCase
     job.reload
     assert_includes job.output, '☕️'
     assert_equal 'completed', job.status
+    assert_equal %w[slower master], job.measurements.keys
+    assert_equal 2, job.measurements['slower'].length
+    assert_equal 2, job.measurements['master'].length
+    assert_equal(
+      Job::PROFILE_ATTRIBUTES,
+      job.measurements['slower'].first.keys
+    )
+    assert_equal(
+      Job::PROFILE_ATTRIBUTES,
+      job.measurements['master'].first.keys
+    )
   end
 
   test 'stores output of a job when Perf Check throws an exception' do

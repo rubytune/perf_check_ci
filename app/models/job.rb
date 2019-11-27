@@ -130,7 +130,7 @@ class Job < ApplicationRecord
         update_status('failed')
       end
     end
-    status == 'completed'
+    status == 'completed' && save
   end
 
   def perform_later
