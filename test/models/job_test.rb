@@ -297,6 +297,81 @@ class JobRunningTest < ActiveSupport::TestCase
       job.status_attributes
     )
   end
+
+  test 'stores PerfCheck test cases as measurements' do
+    job = Job.new(experiment_branch: 'slower')
+    job.test_cases = perf_check.test_cases
+    assert_equal(
+      {
+        'slower' => [
+          { 'latency' => 556.1, 'query_count' => 14, 'server_memory' => 566.0 },
+          { 'latency' => 366.1, 'query_count' => 14, 'server_memory' => 566.0 },
+          { 'latency' => 350.3, 'query_count' => 14, 'server_memory' => 567.0 },
+          { 'latency' => 344.8, 'query_count' => 14, 'server_memory' => 567.0 },
+          { 'latency' => 362.2, 'query_count' => 14, 'server_memory' => 567.0 }
+        ],
+        'master' => [
+          { 'latency' => 421.2, 'query_count' => 12, 'server_memory' => 565.0 },
+          { 'latency' => 345.8, 'query_count' => 12, 'server_memory' => 565.0 },
+          { 'latency' => 344.3, 'query_count' => 12, 'server_memory' => 565.0 },
+          { 'latency' => 323.1, 'query_count' => 12, 'server_memory' => 567.0 },
+          { 'latency' => 350.3, 'query_count' => 12, 'server_memory' => 567.0 }
+        ]
+      },
+      job.measurements
+    )
+  end
+
+  private
+
+  # rubocop:disable Metrics/MethodLength
+  def perf_check
+    perf_check = PerfCheck.new(Dir.pwd)
+    perf_check.options.number_of_requests = 5
+    perf_check.options.branch = 'slower'
+    perf_check.test_cases.concat [projects_home_test_case(perf_check)]
+    perf_check
+  end
+
+  def projects_home_path
+    '/projects/12/home'
+  end
+
+  def projects_home_test_case(perf_check)
+    test_case = PerfCheck::TestCase.new(perf_check, projects_home_path)
+    test_case.this_profiles = projects_home_slower_profiles
+    test_case.reference_profiles = projects_home_master_profiles
+    test_case
+  end
+
+  def projects_home_slower_profiles
+    [
+      { latency: 556.1, query_count: 14, server_memory: 566.0 },
+      { latency: 366.1, query_count: 14, server_memory: 566.0 },
+      { latency: 350.3, query_count: 14, server_memory: 567.0 },
+      { latency: 344.8, query_count: 14, server_memory: 567.0 },
+      { latency: 362.2, query_count: 14, server_memory: 567.0 }
+    ].map do |attributes|
+      profile = OpenStruct.new(attributes)
+      profile.profile_url = projects_home_path
+      profile
+    end
+  end
+
+  def projects_home_master_profiles
+    [
+      { latency: 421.2, query_count: 12, server_memory: 565.0 },
+      { latency: 345.8, query_count: 12, server_memory: 565.0 },
+      { latency: 344.3, query_count: 12, server_memory: 565.0 },
+      { latency: 323.1, query_count: 12, server_memory: 567.0 },
+      { latency: 350.3, query_count: 12, server_memory: 567.0 }
+    ].map do |attributes|
+      profile = OpenStruct.new(attributes)
+      profile.profile_url = projects_home_path
+      profile
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
 end
 
 class JobValidationTest < ActiveSupport::TestCase

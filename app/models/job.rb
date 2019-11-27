@@ -70,6 +70,21 @@ class Job < ApplicationRecord
     end
   end
 
+  def test_cases=(test_cases)
+    measurements = { experiment_branch => [], reference_branch => [] }
+    test_cases.each do |test_case|
+      PerfCheckJobTestCase.add_test_case!(self, test_case)
+      measurements[experiment_branch] = self.class.unpack_measurements(
+        test_case.this_profiles
+      )
+      measurements[reference_branch] = self.class.unpack_measurements(
+        test_case.reference_profiles
+      )
+    end
+    self.measurements = measurements
+    test_cases
+  end
+
   def build_perf_check
     perf_check = PerfCheck.new(app_dir)
     # Apply options from the application configuration.
@@ -101,10 +116,8 @@ class Job < ApplicationRecord
     with_job_output do |logger|
       perf_check = build_perf_check
       perf_check.logger = logger
-      if results = Bundler.with_clean_env { perf_check.run }
-        results.each do |result|
-          PerfCheckJobTestCase.add_test_case!(self, result)
-        end
+      if Bundler.with_clean_env { perf_check.run }
+        self.test_cases = perf_check.test_cases
         update_status('completed')
       else
         update_status('failed')
@@ -160,6 +173,16 @@ class Job < ApplicationRecord
 
   def self.user_roles
     USER_ROLES
+  end
+
+  def self.unpack_measurements(profiles)
+    profiles.map do |profile|
+      {
+        latency: profile.latency,
+        query_count: profile.query_count,
+        server_memory: profile.server_memory
+      }.compact
+    end
   end
 
   private
