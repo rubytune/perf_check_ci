@@ -237,6 +237,8 @@ end
 
 class JobRunningTest < ActiveSupport::TestCase
   test 'runs queued job' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = jobs(:lyra_queued_slower)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
@@ -256,6 +258,8 @@ class JobRunningTest < ActiveSupport::TestCase
   end
 
   test 'stores output of a job when Perf Check throws an exception' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = jobs(:lyra_queued_master_broken)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
