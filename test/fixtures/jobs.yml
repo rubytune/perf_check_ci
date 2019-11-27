@@ -41,3 +41,19 @@ lyra_queued_slower:
   status: queued
   created_at: <%= 60.seconds.ago %>
   updated_at: <%= 60.seconds.ago %>
+roger_completed_faster:
+  user: roger
+  experiment_branch: slower
+  reference_branch: master
+  number_of_requests: 20
+  request_paths:
+    - /
+  request_headers: {}
+  status: completed
+  measurements:
+    slower:
+      - latency: 200
+    master:
+      - latency: 200
+  created_at: <%= 60.seconds.ago %>
+  updated_at: <%= 60.seconds.ago %>

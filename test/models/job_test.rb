@@ -120,6 +120,17 @@ class JobTest < ActiveSupport::TestCase
   end
 end
 
+class JobMeasurementsTest < ActiveSupport::TestCase
+  test 'does not return measurements by default' do
+    assert_nil Job.new.measurements
+  end
+
+  test 'returns measurements when present' do
+    job = jobs(:roger_completed_faster)
+    assert_equal %w[slower master], job.measurements.keys
+  end
+end
+
 class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
   setup do
     @job = Job.new(
@@ -237,6 +248,8 @@ end
 
 class JobRunningTest < ActiveSupport::TestCase
   test 'runs queued job' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = jobs(:lyra_queued_slower)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
@@ -253,9 +266,22 @@ class JobRunningTest < ActiveSupport::TestCase
     job.reload
     assert_includes job.output, '☕️'
     assert_equal 'completed', job.status
+    assert_equal %w[slower master], job.measurements.keys
+    assert_equal 2, job.measurements['slower'].length
+    assert_equal 2, job.measurements['master'].length
+    assert_equal(
+      Job::PROFILE_ATTRIBUTES,
+      job.measurements['slower'].first.keys
+    )
+    assert_equal(
+      Job::PROFILE_ATTRIBUTES,
+      job.measurements['master'].first.keys
+    )
   end
 
   test 'stores output of a job when Perf Check throws an exception' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = jobs(:lyra_queued_master_broken)
     stub_request(:get, 'http://127.0.0.1:3031/')
 
@@ -282,6 +308,219 @@ class JobRunningTest < ActiveSupport::TestCase
       job.status_attributes
     )
   end
+
+  test 'does not break when PerfCheck test cases are nil' do
+    job = Job.new(experiment_branch: 'slower')
+    assert_nothing_raised do
+      job.test_cases = nil
+    end
+  end
+
+  test 'does not break when PerfCheck test cases are empty' do
+    job = Job.new(experiment_branch: 'slower')
+    assert_nothing_raised do
+      job.test_cases = []
+    end
+  end
+
+  test 'stores PerfCheck test cases as measurements' do
+    job = Job.new(experiment_branch: 'slower')
+    job.test_cases = perf_check.test_cases
+    assert_equal(
+      {
+        'slower' => [
+          {
+            'latency' => 556.1,
+            'query_count' => 14,
+            'server_memory' => 566.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 366.1,
+            'query_count' => 14,
+            'server_memory' => 566.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 350.3,
+            'query_count' => 14,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 344.8,
+            'query_count' => 14,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 362.2,
+            'query_count' => 14,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          }
+        ],
+        'master' => [
+          {
+            'latency' => 421.2,
+            'query_count' => 12,
+            'server_memory' => 565.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 345.8,
+            'query_count' => 12,
+            'server_memory' => 565.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 344.3,
+            'query_count' => 12,
+            'server_memory' => 565.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 323.1,
+            'query_count' => 12,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 350.3,
+            'query_count' => 12,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          }
+        ]
+      },
+      job.measurements
+    )
+  end
+
+  private
+
+  # rubocop:disable Metrics/MethodLength
+  def response_body
+    '<html></html>'
+  end
+
+  def perf_check
+    perf_check = PerfCheck.new(Dir.pwd)
+    perf_check.options.number_of_requests = 5
+    perf_check.options.branch = 'slower'
+    perf_check.test_cases.concat [projects_home_test_case(perf_check)]
+    perf_check
+  end
+
+  def projects_home_path
+    '/projects/12/home'
+  end
+
+  def projects_home_test_case(perf_check)
+    test_case = PerfCheck::TestCase.new(perf_check, projects_home_path)
+    test_case.this_profiles = projects_home_slower_profiles
+    test_case.reference_profiles = projects_home_master_profiles
+    test_case
+  end
+
+  def projects_home_slower_profiles
+    [
+      {
+        latency: 556.1,
+        query_count: 14,
+        server_memory: 566.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 366.1,
+        query_count: 14,
+        server_memory: 566.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 350.3,
+        query_count: 14,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 344.8,
+        query_count: 14,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 362.2,
+        query_count: 14,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      }
+    ].map do |attributes|
+      profile = OpenStruct.new(attributes)
+      profile.profile_url = projects_home_path
+      profile
+    end
+  end
+
+  def projects_home_master_profiles
+    [
+      {
+        latency: 421.2,
+        query_count: 12,
+        server_memory: 565.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 345.8,
+        query_count: 12,
+        server_memory: 565.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 344.3,
+        query_count: 12,
+        server_memory: 565.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 323.1,
+        query_count: 12,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 350.3,
+        query_count: 12,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      }
+    ].map do |attributes|
+      profile = OpenStruct.new(attributes)
+      profile.profile_url = projects_home_path
+      profile
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
 end
 
 class JobValidationTest < ActiveSupport::TestCase
@@ -295,7 +534,8 @@ class JobValidationTest < ActiveSupport::TestCase
 
   test 'can be valid' do
     Job.all.each do |job|
-      assert job.valid?
+      job.valid?
+      assert_empty job.errors.details
     end
   end
 

@@ -13,6 +13,8 @@ class JobWorkerTest < ActiveSupport::TestCase
   end
 
   test 'runs with authentication in callbacks with correct user email' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = Job.create!(
       user: users(:lyra),
       task: 'compare_branches',
@@ -33,6 +35,8 @@ class JobWorkerTest < ActiveSupport::TestCase
   end
 
   test 'catches exception when before callback fails in config/perf_check.rb' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = Job.create!(
       user: users(:lyra),
       task: 'compare_branches',
@@ -53,6 +57,8 @@ class JobWorkerTest < ActiveSupport::TestCase
   end
 
   test 'catches exception when after callback fails in config/perf_check.rb' do
+    skip 'Too slow' if ENV['SKIP_SLOW']
+
     job = Job.create!(
       user: users(:lyra),
       task: 'compare_branches',
