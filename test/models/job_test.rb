@@ -309,6 +309,20 @@ class JobRunningTest < ActiveSupport::TestCase
     )
   end
 
+  test 'does not break when PerfCheck test cases are nil' do
+    job = Job.new(experiment_branch: 'slower')
+    assert_nothing_raised do
+      job.test_cases = nil
+    end
+  end
+
+  test 'does not break when PerfCheck test cases are empty' do
+    job = Job.new(experiment_branch: 'slower')
+    assert_nothing_raised do
+      job.test_cases = []
+    end
+  end
+
   test 'stores PerfCheck test cases as measurements' do
     job = Job.new(experiment_branch: 'slower')
     job.test_cases = perf_check.test_cases

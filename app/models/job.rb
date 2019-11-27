@@ -78,6 +78,8 @@ class Job < ApplicationRecord
   end
 
   def test_cases=(test_cases)
+    return if test_cases.blank?
+
     measurements = { experiment_branch => [], reference_branch => [] }
     test_cases.each do |test_case|
       PerfCheckJobTestCase.add_test_case!(self, test_case)
