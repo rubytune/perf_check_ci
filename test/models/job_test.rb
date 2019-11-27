@@ -304,18 +304,78 @@ class JobRunningTest < ActiveSupport::TestCase
     assert_equal(
       {
         'slower' => [
-          { 'latency' => 556.1, 'query_count' => 14, 'server_memory' => 566.0 },
-          { 'latency' => 366.1, 'query_count' => 14, 'server_memory' => 566.0 },
-          { 'latency' => 350.3, 'query_count' => 14, 'server_memory' => 567.0 },
-          { 'latency' => 344.8, 'query_count' => 14, 'server_memory' => 567.0 },
-          { 'latency' => 362.2, 'query_count' => 14, 'server_memory' => 567.0 }
+          {
+            'latency' => 556.1,
+            'query_count' => 14,
+            'server_memory' => 566.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 366.1,
+            'query_count' => 14,
+            'server_memory' => 566.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 350.3,
+            'query_count' => 14,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 344.8,
+            'query_count' => 14,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 362.2,
+            'query_count' => 14,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          }
         ],
         'master' => [
-          { 'latency' => 421.2, 'query_count' => 12, 'server_memory' => 565.0 },
-          { 'latency' => 345.8, 'query_count' => 12, 'server_memory' => 565.0 },
-          { 'latency' => 344.3, 'query_count' => 12, 'server_memory' => 565.0 },
-          { 'latency' => 323.1, 'query_count' => 12, 'server_memory' => 567.0 },
-          { 'latency' => 350.3, 'query_count' => 12, 'server_memory' => 567.0 }
+          {
+            'latency' => 421.2,
+            'query_count' => 12,
+            'server_memory' => 565.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 345.8,
+            'query_count' => 12,
+            'server_memory' => 565.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 344.3,
+            'query_count' => 12,
+            'server_memory' => 565.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 323.1,
+            'query_count' => 12,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          },
+          {
+            'latency' => 350.3,
+            'query_count' => 12,
+            'server_memory' => 567.0,
+            'response_code' => 200,
+            'response_body' => response_body
+          }
         ]
       },
       job.measurements
@@ -325,6 +385,10 @@ class JobRunningTest < ActiveSupport::TestCase
   private
 
   # rubocop:disable Metrics/MethodLength
+  def response_body
+    '<html></html>'
+  end
+
   def perf_check
     perf_check = PerfCheck.new(Dir.pwd)
     perf_check.options.number_of_requests = 5
@@ -346,11 +410,41 @@ class JobRunningTest < ActiveSupport::TestCase
 
   def projects_home_slower_profiles
     [
-      { latency: 556.1, query_count: 14, server_memory: 566.0 },
-      { latency: 366.1, query_count: 14, server_memory: 566.0 },
-      { latency: 350.3, query_count: 14, server_memory: 567.0 },
-      { latency: 344.8, query_count: 14, server_memory: 567.0 },
-      { latency: 362.2, query_count: 14, server_memory: 567.0 }
+      {
+        latency: 556.1,
+        query_count: 14,
+        server_memory: 566.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 366.1,
+        query_count: 14,
+        server_memory: 566.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 350.3,
+        query_count: 14,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 344.8,
+        query_count: 14,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 362.2,
+        query_count: 14,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      }
     ].map do |attributes|
       profile = OpenStruct.new(attributes)
       profile.profile_url = projects_home_path
@@ -360,11 +454,41 @@ class JobRunningTest < ActiveSupport::TestCase
 
   def projects_home_master_profiles
     [
-      { latency: 421.2, query_count: 12, server_memory: 565.0 },
-      { latency: 345.8, query_count: 12, server_memory: 565.0 },
-      { latency: 344.3, query_count: 12, server_memory: 565.0 },
-      { latency: 323.1, query_count: 12, server_memory: 567.0 },
-      { latency: 350.3, query_count: 12, server_memory: 567.0 }
+      {
+        latency: 421.2,
+        query_count: 12,
+        server_memory: 565.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 345.8,
+        query_count: 12,
+        server_memory: 565.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 344.3,
+        query_count: 12,
+        server_memory: 565.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 323.1,
+        query_count: 12,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      },
+      {
+        latency: 350.3,
+        query_count: 12,
+        server_memory: 567.0,
+        response_code: 200,
+        response_body: response_body
+      }
     ].map do |attributes|
       profile = OpenStruct.new(attributes)
       profile.profile_url = projects_home_path

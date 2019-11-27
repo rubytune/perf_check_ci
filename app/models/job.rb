@@ -8,7 +8,14 @@ class Job < ApplicationRecord
     'Any super user' => 'super',
     'Any standard user' => 'standard',
     'Any user with read-only access' => 'read'
-  }
+  }.freeze
+  PROFILE_ATTRIBUTES = %w[
+    latency
+    query_count
+    server_memory
+    response_code
+    response_body
+  ]
 
   include PgSearch::Model
 
@@ -177,11 +184,10 @@ class Job < ApplicationRecord
 
   def self.unpack_measurements(profiles)
     profiles.map do |profile|
-      {
-        latency: profile.latency,
-        query_count: profile.query_count,
-        server_memory: profile.server_memory
-      }.compact
+      PROFILE_ATTRIBUTES.inject({}) do |attributes, name|
+        attributes[name] = profile[name]
+        attributes
+      end.compact
     end
   end
 
