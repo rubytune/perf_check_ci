@@ -295,7 +295,8 @@ class JobValidationTest < ActiveSupport::TestCase
 
   test 'can be valid' do
     Job.all.each do |job|
-      assert job.valid?
+      job.valid?
+      assert_empty job.errors.details
     end
   end
 
