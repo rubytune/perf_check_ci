@@ -120,6 +120,17 @@ class JobTest < ActiveSupport::TestCase
   end
 end
 
+class JobMeasurementsTest < ActiveSupport::TestCase
+  test 'does not return measurements by default' do
+    assert_nil Job.new.measurements
+  end
+
+  test 'returns measurements when present' do
+    job = jobs(:roger_completed_faster)
+    assert_equal %w[slower master], job.measurements.keys
+  end
+end
+
 class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
   setup do
     @job = Job.new(
