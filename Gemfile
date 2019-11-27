@@ -21,7 +21,6 @@ gem 'coffee-rails'
 gem 'turbolinks'
 gem 'sass-rails'
 gem 'uglifier'
-gem 'momentjs-rails'
 
 # Pagination
 gem 'pagy'
