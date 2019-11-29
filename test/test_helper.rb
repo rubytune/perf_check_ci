@@ -36,6 +36,7 @@ module ActiveSupport
 
     include ActionCable::TestHelper
     include Support::AppSetup
+    include Support::Measurements
   end
 end
 
