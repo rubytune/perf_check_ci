@@ -27,12 +27,27 @@ class SummaryStatistics
     def total
       @total ||= @values.inject(0, &:+)
     rescue TypeError
+      nil
     end
 
     def average
+      return @average if defined?(@average)
       return unless total && length.positive?
 
-      total.to_f / length
+      @average = total.to_f / length
+    end
+
+    def standard_deviation
+      return @standard_deviation if defined?(@standard_deviation)
+      return unless average
+
+      @standard_deviation = Math.sqrt(squared_difference_from_mean / (length - 1))
+    end
+
+    private
+
+    def squared_difference_from_mean
+      values.map { |value| (value - average)**2 }.inject(0, &:+)
     end
   end
 

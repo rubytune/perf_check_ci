@@ -89,6 +89,16 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
     assert_nil @statistics.request_path.average
   end
 
+  test 'returns standard deviation for a metrics' do
+    assert_equal 114.5, @statistics.latency.standard_deviation.round(1)
+    assert_equal 0.0, @statistics.query_count.standard_deviation.round(1)
+    assert_equal 0.6, @statistics.server_memory.standard_deviation.round(1)
+  end
+
+  test 'does not return standard deviation for a string metric' do
+    assert_nil @statistics.request_path.standard_deviation
+  end
+
   test 'filters statistics by branch' do
     branch = 'slower'
     statistics = @statistics.on_branch(branch)
@@ -141,13 +151,23 @@ class SummaryStatisticsRegressionTest < ActiveSupport::TestCase
     'project_summary_adl_fp_3455' => {
       'latency' => {
         total: 39_269.7,
-        average: 1_963.5
+        average: 1_963.5,
+        standard_deviation: 82.9
+      },
+      'server_memory' => {
+        average: 962.8,
+        standard_deviation: 10.2
       }
     },
     'project_summary_master' => {
       'latency' => {
         total: 38_622.2,
-        average: 1_931.1
+        average: 1_931.1,
+        standard_deviation: 76.4
+      },
+      'server_memory' => {
+        average: 970.2,
+        standard_deviation: 7.8
       }
     }
   }.each do |label, cases|
