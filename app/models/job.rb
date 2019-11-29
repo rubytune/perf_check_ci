@@ -80,13 +80,21 @@ class Job < ApplicationRecord
   def test_cases=(test_cases)
     return if test_cases.blank?
 
-    measurements = { experiment_branch => [], reference_branch => [] }
+    measurements = []
     test_cases.each do |test_case|
       PerfCheckJobTestCase.add_test_case!(self, test_case)
-      measurements[experiment_branch] = self.class.unpack_measurements(
+      measurements.concat self.class.unpack_measurements(
+        {
+          'branch' => experiment_branch,
+          'request_path' => test_case.resource
+        }.freeze,
         test_case.this_profiles
       )
-      measurements[reference_branch] = self.class.unpack_measurements(
+      measurements.concat self.class.unpack_measurements(
+        {
+          'branch' => reference_branch,
+          'request_path' => test_case.resource
+        }.freeze,
         test_case.reference_profiles
       )
     end
@@ -184,9 +192,9 @@ class Job < ApplicationRecord
     USER_ROLES
   end
 
-  def self.unpack_measurements(profiles)
+  def self.unpack_measurements(attributes, profiles)
     profiles.map do |profile|
-      PROFILE_ATTRIBUTES.inject({}) do |attributes, name|
+      PROFILE_ATTRIBUTES.inject(attributes.dup) do |attributes, name|
         attributes[name] = profile[name]
         attributes
       end.compact
