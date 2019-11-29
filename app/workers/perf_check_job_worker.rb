@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # @deprecated Keeping around until the Sidekiq queue is empty.
-class JobWorker
+class PerfCheckJobWorker
   include Sidekiq::Worker
 
   def perform(job_id)
