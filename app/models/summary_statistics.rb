@@ -20,6 +20,10 @@ class SummaryStatistics
       @values = values
     end
 
+    delegate :length, to: '@values'
+    delegate :first, to: '@values'
+    delegate :min, :max, to: '@values'
+
     def total
       @total ||= @values.inject(0, &:+)
     end

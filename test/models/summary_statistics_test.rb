@@ -49,6 +49,26 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
     assert_equal 3, @statistics.latency.values.length
   end
 
+  test 'returns length for a metric' do
+    assert_equal 3, @statistics.latency.length
+    assert_equal 3, @statistics.server_memory.length
+  end
+
+  test 'returns first value for a metric' do
+    assert_equal 556.1, @statistics.latency.first
+    assert_equal 'slower', @statistics.branch.first
+  end
+
+  test 'returns minimum value for a metric' do
+    assert_equal 350.3, @statistics.latency.min
+    assert_equal '/projects/56/home', @statistics.request_path.min
+  end
+
+  test 'returns maximum value for a metric' do
+    assert_equal 556.1, @statistics.latency.max
+    assert_equal '/projects/83/home', @statistics.request_path.max
+  end
+
   test 'returns total for a metric' do
     assert_equal 1272.5, @statistics.latency.total
   end
