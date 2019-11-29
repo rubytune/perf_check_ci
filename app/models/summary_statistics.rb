@@ -25,10 +25,14 @@ class SummaryStatistics
     end
   end
 
+  attr_reader :measurements
+
   def initialize(measurements)
     @measurements = measurements
     @metric = {}
   end
+
+  delegate :empty?, :blank?, :present?, to: '@measurements'
 
   def respond_to_missing?(method, include_private = false)
     metric?(method.to_s) || super
@@ -43,7 +47,19 @@ class SummaryStatistics
     end
   end
 
+  def on_branch(branch)
+    self.class.new(filter('branch', branch))
+  end
+
+  def on_request_path(request_path)
+    self.class.new(filter('request_path', request_path))
+  end
+
   private
+
+  def filter(key, value)
+    @measurements.select { |entry| entry[key] == value }
+  end
 
   def metric?(label)
     return false if @measurements.blank?

@@ -53,6 +53,30 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
     assert_equal 1272.5, @statistics.latency.total
   end
 
+  test 'filters statistics by branch' do
+    branch = 'slower'
+    statistics = @statistics.on_branch(branch)
+    refute statistics.empty?
+    statistics.measurements.each do |entry|
+      assert_equal branch, entry['branch']
+    end
+  end
+
+  test 'filters statistics by request path' do
+    request_path = '/projects/56/home'
+    statistics = @statistics.on_request_path(request_path)
+    refute statistics.empty?
+    statistics.measurements.each do |entry|
+      assert_equal request_path, entry['request_path']
+    end
+  end
+
+  test 'does not memoize after filtering' do
+    total = @statistics.latency.total
+    statistics = @statistics.on_branch('master')
+    refute_equal total, statistics.latency.total
+  end
+
   private
 
   def response_body
