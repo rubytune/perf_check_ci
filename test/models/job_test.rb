@@ -235,6 +235,25 @@ class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
   end
 end
 
+class JobCompareBranchesComparisonTest < ActiveSupport::TestCase
+  setup do
+    @job = Job.new(
+      measurements: measurements(:project_summary_adl_fp_3455, :project_summary_master),
+      experiment_branch: 'adl/fp-3455',
+      request_paths: %w[/projects/204174/summary]
+    )
+  end
+
+  test 'returns a report section for each request path' do
+    report_sections = @job.report_sections
+    assert_equal 1, report_sections.length
+    report_sections.each do |section|
+      assert_equal '/projects/204174/summary', section.title
+      assert section.observations.present?
+    end
+  end
+end
+
 class JobCreationTest < ActiveSupport::TestCase
   test 'user initializes jobs' do
     user = users(:lyra)
