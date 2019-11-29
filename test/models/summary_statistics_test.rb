@@ -7,6 +7,8 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
     @statistics = SummaryStatistics.new(
       [
         {
+          'branch' => 'slower',
+          'request_path' => '/projects/56/home',
           'latency' => 556.1,
           'query_count' => 14,
           'server_memory' => 566.0,
@@ -14,6 +16,8 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
           'response_body' => response_body
         },
         {
+          'branch' => 'slower',
+          'request_path' => '/projects/83/home',
           'latency' => 366.1,
           'query_count' => 14,
           'server_memory' => 566.0,
@@ -21,6 +25,8 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
           'response_body' => response_body
         },
         {
+          'branch' => 'master',
+          'request_path' => '/projects/56/home',
           'latency' => 350.3,
           'query_count' => 14,
           'server_memory' => 567.0,
@@ -66,6 +72,6 @@ class SummaryStatisticsEmptyTest < ActiveSupport::TestCase
   test 'does not return a metric' do
     assert_raises(NoMethodError) do
       @statistics.latency
-    end 
+    end
   end
 end
