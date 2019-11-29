@@ -28,22 +28,28 @@
         authenticated as <%= @job.request_user_role.start_with?('a') ? 'an' : 'a' %> <%= @job.request_user_role %>
       <% end %>
      </i></div>
-     <% @job.request_paths.each do |request_path| %>
-       <div><%= request_path %>
-     <% end %>
+     <% unless @job.statistics.present? %>
+       <% @job.request_paths.each do |request_path| %>
+         <div><%= request_path %></div>
+       <% end %>
+      <% end %>
   </header>
   <% if @job.result_details.present?  %>
     <div class="details">
       <%== markdown(@job.result_details) %>
     </div>
   <% end %>
-
-  <% if @test_cases.any? %>
-    <div class="test-cases">
-      <% @test_cases.each do |test_case| %>
-        <%= render 'test_case', test_case: test_case %>
-      <% end %>
-    </div>
+  <% if @job.measurements.present? && @job.statistics.present? %>
+    <%= render @job.report_sections %>
+    <hr>
+  <% else %>
+    <% if @test_cases.any? %>
+      <div class="test-cases">
+        <% @test_cases.each do |test_case| %>
+          <%= render 'test_case', test_case: test_case %>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
   <pre id="log" data-perf-check-id="<%= @job.id %>" data-log-filename="<%= @job.log_filename %>" data-broadcast="<%= @job.expects_status_updates? %>"><%== render_log(@job.output.presence || "Waiting for job to start...") %></pre>
 </div>
