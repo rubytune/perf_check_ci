@@ -41,7 +41,7 @@ lyra_queued_slower:
   status: queued
   created_at: <%= 60.seconds.ago %>
   updated_at: <%= 60.seconds.ago %>
-roger_completed_faster:
+roger_completed_slower:
   user: roger
   experiment_branch: slower
   reference_branch: master

@@ -126,7 +126,7 @@ class JobMeasurementsTest < ActiveSupport::TestCase
   end
 
   test 'returns measurements when present' do
-    job = jobs(:roger_completed_faster)
+    job = jobs(:roger_completed_slower)
     assert_equal 2, job.measurements.length
     job.measurements.each do |entry|
       assert_equal %w[branch latency], entry.keys
@@ -138,7 +138,7 @@ class JobMeasurementsTest < ActiveSupport::TestCase
   end
 
   test 'returns statistics when there are measurements present' do
-    statistics = jobs(:roger_completed_faster).statistics
+    statistics = jobs(:roger_completed_slower).statistics
     assert_kind_of SummaryStatistics, statistics
   end
 end
