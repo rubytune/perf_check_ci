@@ -132,6 +132,15 @@ class JobMeasurementsTest < ActiveSupport::TestCase
       assert_equal %w[branch latency], entry.keys
     end
   end
+
+  test 'does not return statistics by default' do
+    assert_nil Job.new.statistics
+  end
+
+  test 'returns statistics when there are measurements present' do
+    statistics = jobs(:roger_completed_faster).statistics
+    assert_kind_of SummaryStatistics, statistics
+  end
 end
 
 class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
@@ -336,7 +345,7 @@ class JobRunningTest < ActiveSupport::TestCase
     job = Job.new(experiment_branch: 'slower')
     job.test_cases = perf_check.test_cases
     assert_equal(
-     [
+      [
         {
           'branch' => 'slower',
           'request_path' => '/projects/12/home',

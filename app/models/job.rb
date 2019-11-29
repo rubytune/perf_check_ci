@@ -149,6 +149,12 @@ class Job < ApplicationRecord
     end
   end
 
+  def statistics
+    return unless measurements
+
+    @statistics ||= SummaryStatistics.new(self.measurements)
+  end
+
   def self.spawn_from_github_mention(job_params)
     user = User.find_by(github_login: job_params[:github_holder]["user"]["login"])
     Job.create({
