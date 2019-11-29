@@ -71,6 +71,22 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
 
   test 'returns total for a metric' do
     assert_equal 1272.5, @statistics.latency.total
+    assert_equal 42, @statistics.query_count.total
+    assert_equal 1699.0, @statistics.server_memory.total
+  end
+
+  test 'does not return total for a string metric' do
+    assert_nil @statistics.request_path.total
+  end
+
+  test 'returns average for a metric' do
+    assert_equal 424.2, @statistics.latency.average.round(1)
+    assert_equal 14.0, @statistics.query_count.average.round(1)
+    assert_equal 566.3, @statistics.server_memory.average.round(1)
+  end
+
+  test 'does not return average for a string metric' do
+    assert_nil @statistics.request_path.average
   end
 
   test 'filters statistics by branch' do

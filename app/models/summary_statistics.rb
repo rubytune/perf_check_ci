@@ -26,6 +26,13 @@ class SummaryStatistics
 
     def total
       @total ||= @values.inject(0, &:+)
+    rescue TypeError
+    end
+
+    def average
+      return unless total && length.positive?
+
+      total.to_f / length
     end
   end
 
