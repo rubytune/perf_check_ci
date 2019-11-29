@@ -42,7 +42,7 @@ class SummaryStatistics
     metric?(method.to_s) || super
   end
 
-  def method_missing(method)
+  def method_missing(method, *)
     label = method.to_s
     if metric?(label)
       @metric[label] ||= Metric.new(label, values(label))
