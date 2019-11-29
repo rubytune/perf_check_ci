@@ -135,3 +135,33 @@ class SummaryStatisticsEmptyTest < ActiveSupport::TestCase
     end
   end
 end
+
+class SummaryStatisticsRegressionTest < ActiveSupport::TestCase
+  {
+    'project_summary_adl_fp_3455' => {
+      'latency' => {
+        total: 39_269.7,
+        average: 1_963.5
+      }
+    },
+    'project_summary_master' => {
+      'latency' => {
+        total: 38_622.2,
+        average: 1_931.1
+      }
+    }
+  }.each do |label, cases|
+    test "computes statistics for #{label}" do
+      statistics = SummaryStatistics.new(measurements(label))
+      cases.each do |metric, examples|
+        examples.each do |method, expected|
+          assert_equal(
+            expected,
+            statistics.send(metric).send(method).round(1),
+            "Expected #{method} #{metric} to have the correct value for #{label}"
+          )
+        end
+      end
+    end
+  end
+end
