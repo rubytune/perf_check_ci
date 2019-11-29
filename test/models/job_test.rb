@@ -127,9 +127,12 @@ class JobMeasurementsTest < ActiveSupport::TestCase
 
   test 'returns measurements when present' do
     job = jobs(:roger_completed_slower)
-    assert_equal 2, job.measurements.length
+    assert_equal 6, job.measurements.length
     job.measurements.each do |entry|
-      assert_equal %w[branch latency], entry.keys
+      assert_equal(
+        %w[branch request_path] + Job::PROFILE_ATTRIBUTES,
+        entry.keys
+      )
     end
   end
 

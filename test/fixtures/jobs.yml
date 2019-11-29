@@ -47,13 +47,51 @@ roger_completed_slower:
   reference_branch: master
   number_of_requests: 20
   request_paths:
-    - /
+    - /projects/12/home
   request_headers: {}
   status: completed
   measurements:
     - branch: slower
-      latency: 200
+      request_path: /projects/12/home
+      latency: 325.2
+      query_count: 12
+      server_memory: 677
+      response_code: 200
+      response_body: <html></html>
+    - branch: slower
+      request_path: /projects/12/home
+      latency: 314.0
+      query_count: 12
+      server_memory: 678
+      response_code: 200
+      response_body: <html></html>
+    - branch: slower
+      request_path: /projects/12/home
+      latency: 356.7
+      query_count: 12
+      server_memory: 680
+      response_code: 200
+      response_body: <html></html>
     - branch: master
-      latency: 200
+      request_path: /projects/12/home
+      latency: 133.2
+      query_count: 5
+      server_memory: 554
+      response_code: 200
+      response_body: <html></html>
+    - branch: master
+      request_path: /projects/12/home
+      latency: 140.8
+      query_count: 5
+      server_memory: 556
+      response_code: 200
+      response_body: <html></html>
+    - branch: master
+      request_path: /projects/12/home
+      latency: 138.9
+      query_count: 5
+      server_memory: 540
+      response_code: 200
+      response_body: <html></html>
   created_at: <%= 60.seconds.ago %>
   updated_at: <%= 60.seconds.ago %>
