@@ -26,7 +26,6 @@ Perf Check CI is a web application to manage jobs that measure and compare perfo
 ## Social Proof
 
 * As a user, I want my GitHub PR to display an up-to-date concise summary of performance status that links to details of the latest Perf Check job for the branch.
-* As a user, I
 * As a user, I'd like to share my results summary with someone in slack.
 
 ## Error Handling
