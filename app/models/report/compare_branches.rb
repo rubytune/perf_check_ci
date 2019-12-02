@@ -60,7 +60,7 @@ class Report
       elsif slower?
         "❌ #{performance.round(1)}x slower than #{reference_branch_name}"
       else
-        "☑️ about the same as #{reference_branch_name}"
+        "✔️ about the same as #{reference_branch_name}"
       end
     end
 
@@ -74,7 +74,7 @@ class Report
 
     def query_count_observation
       if query_count_change.negative?
-        "☑️ reduced database queries from #{reference.query_count.average.round} to " \
+        "✔️ reduced database queries from #{reference.query_count.average.round} to " \
         "#{experiment.query_count.average.round}!"
       elsif query_count_change.positive? && reference.query_count.max >= limits.maximum_query_count
         "❌ increased database queries from #{reference.query_count.average.round} to " \

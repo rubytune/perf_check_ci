@@ -17,7 +17,7 @@ class Report
     test 'returns observations' do
       assert_equal(
         [
-          '☑️ about the same as master (1963.5ms vs 1931.1ms)',
+          '✔️ about the same as master (1963.5ms vs 1931.1ms)',
           '⚠️ 37 database queries were made'
         ],
         @report.observations
