@@ -99,6 +99,11 @@ class SummaryStatisticsTest < ActiveSupport::TestCase
     assert_nil @statistics.request_path.standard_deviation
   end
 
+  test 'coerces values to a set' do
+    assert_equal Set.new([200]), @statistics.response_code.to_set
+    assert_equal Set.new(%w[/projects/56/home /projects/83/home]), @statistics.request_path.to_set
+  end
+
   test 'filters statistics by branch' do
     branch = 'slower'
     statistics = @statistics.on_branch(branch)
