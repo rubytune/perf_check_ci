@@ -51,9 +51,9 @@ roger_completed_faster:
   request_headers: {}
   status: completed
   measurements:
-    slower:
-      - latency: 200
-    master:
-      - latency: 200
+    - branch: slower
+      latency: 200
+    - branch: master
+      latency: 200
   created_at: <%= 60.seconds.ago %>
   updated_at: <%= 60.seconds.ago %>

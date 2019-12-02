@@ -127,7 +127,19 @@ class JobMeasurementsTest < ActiveSupport::TestCase
 
   test 'returns measurements when present' do
     job = jobs(:roger_completed_faster)
-    assert_equal %w[slower master], job.measurements.keys
+    assert_equal 2, job.measurements.length
+    job.measurements.each do |entry|
+      assert_equal %w[branch latency], entry.keys
+    end
+  end
+
+  test 'does not return statistics by default' do
+    assert_nil Job.new.statistics
+  end
+
+  test 'returns statistics when there are measurements present' do
+    statistics = jobs(:roger_completed_faster).statistics
+    assert_kind_of SummaryStatistics, statistics
   end
 end
 
@@ -266,16 +278,22 @@ class JobRunningTest < ActiveSupport::TestCase
     job.reload
     assert_includes job.output, '☕️'
     assert_equal 'completed', job.status
-    assert_equal %w[slower master], job.measurements.keys
-    assert_equal 2, job.measurements['slower'].length
-    assert_equal 2, job.measurements['master'].length
+
+    assert_equal 4, job.measurements.length
+
+    branch_names = job.measurements.inject(Set.new) do |set, entry|
+      set << entry['branch']
+    end.to_a
+    assert_equal %w[slower master], branch_names
+
+    request_paths = job.measurements.inject(Set.new) do |set, entry|
+      set << entry['request_path']
+    end.to_a
+    assert_equal job.request_paths, request_paths
+
     assert_equal(
-      Job::PROFILE_ATTRIBUTES,
-      job.measurements['slower'].first.keys
-    )
-    assert_equal(
-      Job::PROFILE_ATTRIBUTES,
-      job.measurements['master'].first.keys
+      %w[branch request_path] + Job::PROFILE_ATTRIBUTES,
+      job.measurements.first.keys
     )
   end
 
@@ -327,82 +345,98 @@ class JobRunningTest < ActiveSupport::TestCase
     job = Job.new(experiment_branch: 'slower')
     job.test_cases = perf_check.test_cases
     assert_equal(
-      {
-        'slower' => [
-          {
-            'latency' => 556.1,
-            'query_count' => 14,
-            'server_memory' => 566.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 366.1,
-            'query_count' => 14,
-            'server_memory' => 566.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 350.3,
-            'query_count' => 14,
-            'server_memory' => 567.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 344.8,
-            'query_count' => 14,
-            'server_memory' => 567.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 362.2,
-            'query_count' => 14,
-            'server_memory' => 567.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          }
-        ],
-        'master' => [
-          {
-            'latency' => 421.2,
-            'query_count' => 12,
-            'server_memory' => 565.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 345.8,
-            'query_count' => 12,
-            'server_memory' => 565.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 344.3,
-            'query_count' => 12,
-            'server_memory' => 565.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 323.1,
-            'query_count' => 12,
-            'server_memory' => 567.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          },
-          {
-            'latency' => 350.3,
-            'query_count' => 12,
-            'server_memory' => 567.0,
-            'response_code' => 200,
-            'response_body' => response_body
-          }
-        ]
-      },
+      [
+        {
+          'branch' => 'slower',
+          'request_path' => '/projects/12/home',
+          'latency' => 556.1,
+          'query_count' => 14,
+          'server_memory' => 566.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'slower',
+          'request_path' => '/projects/12/home',
+          'latency' => 366.1,
+          'query_count' => 14,
+          'server_memory' => 566.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'slower',
+          'request_path' => '/projects/12/home',
+          'latency' => 350.3,
+          'query_count' => 14,
+          'server_memory' => 567.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'slower',
+          'request_path' => '/projects/12/home',
+          'latency' => 344.8,
+          'query_count' => 14,
+          'server_memory' => 567.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'slower',
+          'request_path' => '/projects/12/home',
+          'latency' => 362.2,
+          'query_count' => 14,
+          'server_memory' => 567.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'master',
+          'request_path' => '/projects/12/home',
+          'latency' => 421.2,
+          'query_count' => 12,
+          'server_memory' => 565.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'master',
+          'request_path' => '/projects/12/home',
+          'latency' => 345.8,
+          'query_count' => 12,
+          'server_memory' => 565.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'master',
+          'request_path' => '/projects/12/home',
+          'latency' => 344.3,
+          'query_count' => 12,
+          'server_memory' => 565.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'master',
+          'request_path' => '/projects/12/home',
+          'latency' => 323.1,
+          'query_count' => 12,
+          'server_memory' => 567.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        },
+        {
+          'branch' => 'master',
+          'request_path' => '/projects/12/home',
+          'latency' => 350.3,
+          'query_count' => 12,
+          'server_memory' => 567.0,
+          'response_code' => 200,
+          'response_body' => response_body
+        }
+      ],
       job.measurements
     )
   end
