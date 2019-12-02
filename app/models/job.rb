@@ -15,7 +15,7 @@ class Job < ApplicationRecord
     server_memory
     response_code
     response_body
-  ]
+  ].freeze
 
   include PgSearch::Model
 
@@ -153,6 +153,17 @@ class Job < ApplicationRecord
     return unless measurements
 
     @statistics ||= SummaryStatistics.new(self.measurements)
+  end
+
+  def report_sections
+    experiment = statistics.on_branch(experiment_branch)
+    reference = statistics.on_branch(reference_branch)
+    request_paths.map do |request_path|
+      Report::CompareBranches.new(
+        experiment: experiment.on_request_path(request_path),
+        reference: reference.on_request_path(request_path)
+      )
+    end
   end
 
   def self.spawn_from_github_mention(job_params)

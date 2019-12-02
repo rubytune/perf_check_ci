@@ -9,9 +9,9 @@ development: &default
 
   # Alert thresholds specify how to qualify performance regression/improvemens
   limits:
-    queries: 75         # max number of queries in a request before warning is raised
-    latency: 4000       # max request latency before warning is raised
-    change_factor: 0.09  # latency change threshold triggering alternate phrasing
+    relative_performance: 1.2 # threshold for relative performance change
+    maximum_latency: 4000 # maximum request latency before warning
+    maximum_query_count: 75 # maximum number of queries in a request before warning
 
   # github OAUTH config
   github_key: YOUR-GITHUB-KEY

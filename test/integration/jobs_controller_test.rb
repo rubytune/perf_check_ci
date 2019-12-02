@@ -79,4 +79,13 @@ class PerfCheckJobsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'ul.error'
   end
+
+  test 'sees a completed job with measurements' do
+    job = jobs(:roger_completed_slower)
+    get "/jobs/#{job.id}"
+    assert_response :ok
+    assert_select 'h3', '/projects/12/home'
+    assert_select 'ul > li', '❌ 2.4x slower than master (332.0ms vs 137.6ms)'
+    assert_select 'ul > li', '❌ increased database queries from 5 to 12!'
+  end
 end

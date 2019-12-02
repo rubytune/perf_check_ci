@@ -21,7 +21,7 @@ Minitest.after_run { FileUtils.rm_rf(app.app_dir) }
 APP_CONFIG.update(
   app_dir: app.app_dir,
   perf_check_options: { verbose: true, spawn_shell: true },
-  limits: { queries: 5, latency: 4000, change_factor: 0.09 },
+  limits: { maximum_query_count: 5, maximum_latency: 4000, relative_performance: 1.1 },
   github_client_id: 'xxxxxxxxxxxxxxxxxxxx',
   github_client_secret: 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy',
   github_token: 'zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz',

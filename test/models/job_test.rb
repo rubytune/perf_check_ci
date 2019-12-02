@@ -126,10 +126,13 @@ class JobMeasurementsTest < ActiveSupport::TestCase
   end
 
   test 'returns measurements when present' do
-    job = jobs(:roger_completed_faster)
-    assert_equal 2, job.measurements.length
+    job = jobs(:roger_completed_slower)
+    assert_equal 6, job.measurements.length
     job.measurements.each do |entry|
-      assert_equal %w[branch latency], entry.keys
+      assert_equal(
+        %w[branch request_path] + Job::PROFILE_ATTRIBUTES,
+        entry.keys
+      )
     end
   end
 
@@ -138,7 +141,7 @@ class JobMeasurementsTest < ActiveSupport::TestCase
   end
 
   test 'returns statistics when there are measurements present' do
-    statistics = jobs(:roger_completed_faster).statistics
+    statistics = jobs(:roger_completed_slower).statistics
     assert_kind_of SummaryStatistics, statistics
   end
 end
@@ -232,6 +235,25 @@ class JobCompareBranchesPerfCheckBuildTest < ActiveSupport::TestCase
     perf_check = @job.build_perf_check
     assert_equal 3, perf_check.test_cases.length
     assert_equal paths, perf_check.test_cases.map(&:resource)
+  end
+end
+
+class JobCompareBranchesComparisonTest < ActiveSupport::TestCase
+  setup do
+    @job = Job.new(
+      measurements: measurements(:project_summary_adl_fp_3455, :project_summary_master),
+      experiment_branch: 'adl/fp-3455',
+      request_paths: %w[/projects/204174/summary]
+    )
+  end
+
+  test 'returns a report section for each request path' do
+    report_sections = @job.report_sections
+    assert_equal 1, report_sections.length
+    report_sections.each do |section|
+      assert_equal '/projects/204174/summary', section.title
+      assert section.observations.present?
+    end
   end
 end
 

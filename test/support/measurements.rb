@@ -8,8 +8,10 @@ module Support
 
     # Returns raw measurements from fixture files meant for integration
     # testing.
-    def measurements(label)
-      YAML.load_file(measurements_filename(label))
+    def measurements(*labels)
+      labels.inject([]) do |measurements, label|
+        measurements + YAML.load_file(measurements_filename(label))
+      end
     end
   end
 end

@@ -44,6 +44,10 @@ class SummaryStatistics
       @standard_deviation = Math.sqrt(squared_difference_from_mean / (length - 1))
     end
 
+    def to_set
+      Set.new(@values)
+    end
+
     private
 
     def squared_difference_from_mean
