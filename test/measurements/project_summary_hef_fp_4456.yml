@@ -1,0 +1,7 @@
+# One response because it failed with a 500.
+- branch: hef/fp-4456
+  request_path: /projects/204174/summary
+  latency: 56.0
+  server_memory: 920
+  response_code: 500
+  query_count: 0

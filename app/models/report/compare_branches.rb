@@ -3,6 +3,8 @@
 class Report
   # Investigates performance between two branches and returns observations about it.
   class CompareBranches
+    SUCCESSFUL_HTTP_RESPONSE_SET = Set.new([200])
+
     include ActiveModel::Model
 
     def initialize(experiment:, reference:)
@@ -18,6 +20,7 @@ class Report
 
     def observations
       return [] if experiment.empty?
+      return failed_observations unless failed_observations.empty?
 
       [
         performance_observation + ' ' + performance_observation_averages,
@@ -30,6 +33,27 @@ class Report
 
     def limits
       @limits ||= Limits.new(APP_CONFIG[:limits])
+    end
+
+    def experiment_branch_success?
+      (experiment.response_code.to_set - SUCCESSFUL_HTTP_RESPONSE_SET).empty?
+    end
+
+    def reference_branch_success?
+      (reference.response_code.to_set - SUCCESSFUL_HTTP_RESPONSE_SET).empty?
+    end
+
+    def failed_observations
+      return @failed_observations if defined?(@failed_observations)
+
+      @failed_observations = []
+      unless experiment_branch_success?
+        @failed_observations << "❌ HTTP requests failed on #{experiment_branch_name}"
+      end
+      unless reference_branch_success?
+        @failed_observations << "❌ HTTP requests failed on #{reference_branch_name}"
+      end
+      @failed_observations
     end
 
     def positive?
@@ -48,6 +72,10 @@ class Report
       @performance ||= [
         experiment.latency.average, reference.latency.average
       ].sort.reverse.inject(&:/)
+    end
+
+    def experiment_branch_name
+      experiment.measurements.first['branch']
     end
 
     def reference_branch_name

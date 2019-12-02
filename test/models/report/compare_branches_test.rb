@@ -25,6 +25,27 @@ class Report
     end
   end
 
+  class CompareBranchesFailedTest < ActiveSupport::TestCase
+    setup do
+      @experiment = SummaryStatistics.new(measurements(:project_summary_hef_fp_4456))
+      @reference = SummaryStatistics.new(measurements(:project_summary_master))
+      @report = Report::CompareBranches.new(experiment: @experiment, reference: @reference)
+    end
+
+    test 'returns the request path as the title' do
+      assert_equal '/projects/204174/summary', @report.title
+    end
+
+    test 'returns observations' do
+      assert_equal(
+        [
+          '❌ HTTP requests failed on hef/fp-4456'
+        ],
+        @report.observations
+      )
+    end
+  end
+
   class CompareBranchesEmptyTest < ActiveSupport::TestCase
     setup do
       @experiment = SummaryStatistics.new([])
