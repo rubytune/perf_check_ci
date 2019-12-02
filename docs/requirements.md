@@ -33,9 +33,9 @@ Perf Check CI is a web application to manage jobs that measure and compare perfo
 
 * As a user, I want to know if everything on Perf Check CI is actually working right now.
 * As a Perf Check developer, I want to know if all specific components of the Perf Check CI system are functioning properly (db online, db last updated, queue status, target app bootable).
-* As the product owner, I need to communicate clearly to a user when a job failure or error was the result of problems with their branch or user supplied Job settings.
-* As a user, I need to know if the application did not boot on my branch, but did boot on master.
-* As a user, I need to know if the URL 404'd or 500'd on the target app, see the error in a format I'm used to, and receive guidance on whether that was a result of my branch's changes or if master had the same problem.
+* As the product owner, I want to communicate clearly to a user when a job failure or error was the result of problems with their branch or user supplied Job settings.
+* As a user, I want to know if the target application did not boot on my branch, but did boot on master.
+* As a user, I want to know if the URL 404'd or 500'd on the target app, see the error in a format I'm used to, and receive guidance on whether that was a result of my branch's changes or if master had the same problem.
 * As a user, I'd like to know when the error was the result of bugs/issues with the Perf Check CI stack that it's communicated to the Perf Check developers.
 
 ## Measurements and statistics
