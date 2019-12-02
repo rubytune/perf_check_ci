@@ -15,7 +15,7 @@ class Job < ApplicationRecord
     server_memory
     response_code
     response_body
-  ]
+  ].freeze
 
   include PgSearch::Model
 
