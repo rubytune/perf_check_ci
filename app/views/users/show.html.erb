@@ -32,9 +32,9 @@
                 <td><%= job.id %></td>
                 <td><%= job.experiment_branch %></td>
                 <td class="status perf-check-status-<%= job.id %> <%= job.status %>"><%= job.status %></td>
-                <td><%= job.created_at.stamp("Aug 5th at 3:35 PM") %></td>
+                <td><%= job.created_at.strftime("%b #{job.created_at.day}#{job.created_at.day.ordinal} at #{job.created_at.hour}:%M PM") %></td>
                 <td>
-                  <%= link_to " View Job".html_safe, job, class: 'styled-button re-run pull-right' %>                            
+                  <%= link_to " View Job".html_safe, job, class: 'styled-button re-run pull-right' %>
                 </td>
               </tr>
             <% end %>
