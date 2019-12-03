@@ -25,9 +25,6 @@ gem 'webpacker'
 # Pagination
 gem 'pagy'
 
-# Convenient Datestamps
-gem 'stamp'
-
 # Background Jobs
 gem 'sinatra', require: false
 # Sidekiq is version locked because the production server has an ancient version
