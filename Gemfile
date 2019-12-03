@@ -37,9 +37,6 @@ gem 'sidekiq', '< 6'
 # Perf Check
 gem 'perf_check', github: 'rubytune/perf_check'
 
-# Markdown
-gem 'kramdown'
-
 # GitHub APIs
 gem 'octokit'
 
