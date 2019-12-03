@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_11_27_153137) do
+ActiveRecord::Schema.define(version: 2019_12_03_094849) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
@@ -27,7 +27,6 @@ ActiveRecord::Schema.define(version: 2019_11_27_153137) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.text "experiment_branch"
-    t.text "result_details"
     t.integer "user_id"
     t.string "github_html_url"
     t.text "output"
