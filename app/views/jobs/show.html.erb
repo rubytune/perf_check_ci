@@ -34,11 +34,6 @@
        <% end %>
       <% end %>
   </header>
-  <% if @job.result_details.present?  %>
-    <div class="details">
-      <%== markdown(@job.result_details) %>
-    </div>
-  <% end %>
   <% if @job.measurements.present? && @job.statistics.present? %>
     <%= render @job.report_sections %>
     <hr>
